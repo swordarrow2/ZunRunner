@@ -46,7 +46,7 @@ public class zunRunner {
                         ._601(0);
             }
         });
-        Sub testSub2 = ecl.sub("testSub2", 2, false, false);
+        final Sub testSub2 = ecl.sub("testSub2", 2, false, false);
         testSub2.addIns(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +63,7 @@ public class zunRunner {
             }
         });
 
-        Sub mainLatter = ecl.sub("mainLatter");
+        final Sub mainLatter = ecl.sub("mainLatter");
         mainLatter.addIns(new Runnable() {
             @Override
             public void run() {
