@@ -8,15 +8,18 @@ public class Ins {
     private final String lineStart = "    ";
     private final String lineEnd = ";\n";
     private int dan = -1;
-    private HashMap<String, VarType> typeMap = new HashMap<>();
+    private HashMap<String, VarType> typeMap;
 
     private StringBuilder stringBuilder = new StringBuilder();
 
     Ins(Sub sub, boolean... isInt) {
         this.sub = sub;
-        for (int i = 65; i < 65 + isInt.length; ++i) {
-            typeMap.put(String.valueOf((char) i), isInt[i - 65] ? VarType.intVar : VarType.floatVar);
-        }
+		if(isInt.length>0){
+			typeMap = new HashMap<>();
+			for (int i = 65; i < 65 + isInt.length; ++i) {
+				typeMap.put(String.valueOf((char) i), isInt[i - 65] ? VarType.intVar : VarType.floatVar);
+			  }
+		}     
     }
 
     enum VarType {
@@ -51,6 +54,17 @@ public class Ins {
         throw eclException.varNotDefined();
     }
 
+	public LoopFlag loop(int flagName){
+		LoopFlag flag=new LoopFlag(sub,String.valueOf(flagName));
+		stringBuilder.append(flag.toString());
+		return flag;
+	  }
+	  
+	  public Ins gotoLoopFlag(LoopFlag loopFlag){
+		Goto g=new Goto(loopFlag);
+		stringBuilder.append(g.toString());
+		return this;
+	  }
 
     public Ins args(boolean... isInt) {
         if (isInt.length < 1) {
@@ -68,7 +82,8 @@ public class Ins {
     }
 
     public Ins _11(Sub sub, String... args) {
-        stringBuilder.append(lineStart).append("ins_11(\"").append(sub.getSubName()).append("\"");
+  
+      stringBuilder.append(lineStart).append("ins_11(\"").append(sub.getSubName()).append("\"");
         for (String s : args) {
             stringBuilder.append(", ").append(s);
         }

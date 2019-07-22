@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Sub {
 
-    private ArrayList<Ins> inses = new ArrayList<>();
+    public ArrayList<Ins> inses = new ArrayList<>();
     private String subName;
     private int argLength = 0;
     public boolean[] isInt;
