@@ -5,12 +5,8 @@ import java.util.*;
 public class Ecl {
     private ArrayList<Sub> subs = new ArrayList<>();
 
-    public Sub sub(String name) {
-        return sub(name, 0);
-    }
-
-    public Sub sub(String name, int argLength, boolean... isInt) {
-        Sub s = new Sub(name, argLength, isInt);
+    public Sub sub(String name, boolean... isInt) {
+        Sub s = new Sub(name, isInt);
         subs.add(s);
         return s;
     }

@@ -52,16 +52,16 @@ public class Ins {
     }
 
 
-    public Ins args(int count, boolean... isInt) {
-        if (count < 1) {
+    public Ins args(boolean... isInt) {
+        if (isInt.length < 1) {
             return this;
         }
         stringBuilder.append(lineStart);
         stringBuilder.append("Var");
-        for (int i = 65; i < 65 + count; ++i) {
+        for (int i = 65+sub.isInt.length; i < 65 + isInt.length+sub.isInt.length; ++i) {
             stringBuilder.append(" ");
             stringBuilder.append((char) i);
-            typeMap.put(String.valueOf((char) i), isInt[i - 65] ? VarType.intVar : VarType.floatVar);
+            typeMap.put(String.valueOf((char) i), isInt[i - 65 - sub.isInt.length] ? VarType.intVar : VarType.floatVar);
         }
         stringBuilder.append(lineEnd);
         return this;

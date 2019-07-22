@@ -7,11 +7,11 @@ public class Sub {
     private ArrayList<Ins> inses = new ArrayList<>();
     private String subName;
     private int argLength = 0;
-    private boolean[] isInt;
+    public boolean[] isInt;
 
-    Sub(String name, int argLength, boolean... isInt) {
+    Sub(String name, boolean... isInt) {
         subName = name;
-        this.argLength = argLength;
+        this.argLength = isInt.length;
         this.isInt = isInt;
     }
 
