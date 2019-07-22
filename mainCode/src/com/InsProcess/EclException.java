@@ -1,10 +1,8 @@
 package com.InsProcess;
 
-public class EclException {
-    public NullPointerException varNotDefined(){
-        return new NullPointerException("var not defined");
-    }
-    public NullPointerException varTypeUnknown(){
-        return new NullPointerException("var type unknown");
+public class EclException extends NullPointerException {
+
+    public EclException(String s) {
+        super(s);
     }
 }
