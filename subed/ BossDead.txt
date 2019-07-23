@@ -1,0 +1,36 @@
+ BossDead()
+{
+    var;
+    ins_502(156);
+    ins_516(5);
+    ins_307(1, 63);
+    ins_404([-9998.0f], 0.4f);
+    unless ([-9986] == 0) goto BossDead_284 @ 0;
+    ins_300("Ecl_EtBreak2", 0.0f, 0.0f, 9999, 0, 0);
+    goto BossDead_340 @ 0;
+BossDead_284:
+    ins_300("Ecl_EtBreak2_ni", 0.0f, 0.0f, 9999, 0, 0);
+BossDead_340:
+    ins_525();
+    unless ([-9907] < 0) goto BossDead_456 @ 0;
+    ins_547(0.5f);
+BossDead_456:
+60:
+    ins_613();
+    ins_523();
+    ins_547(1.0f);
+    ins_11("BossItemPhase", _SS 0, _SS 40, _ff 64.0f);
+    ins_517(30, 12, 0);
+    ins_307(1, 64);
+    ins_516(5);
+    ins_512(-1);
+    ins_502(32);
+    unless ([-9907] < 0) goto BossDead_820 @ 60;
+    ins_547(0.25f);
+    ins_23(30);
+    ins_547(1.0f);
+BossDead_820:
+    ins_1();
+    ins_1();
+}
+

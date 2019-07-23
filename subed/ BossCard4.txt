@@ -1,0 +1,68 @@
+ BossCard4()
+{
+    var A B C;
+    unless ([-9986] == 0) goto BossCard4_160 @ 0;
+    ins_615(640.0f);
+    goto BossCard4_180 @ 0;
+BossCard4_160:
+    ins_616(640.0f);
+BossCard4_180:
+2:
+    ins_524(65);
+4:
+    ins_569(1);
+    ins_11("BossItemCard");
+    ins_513();
+    ins_21();
+    ins_525();
+    unless ([-9986] == 0) goto BossCard4_428 @ 4;
+    ins_615(640.0f);
+    goto BossCard4_448 @ 4;
+BossCard4_428:
+    ins_616(640.0f);
+BossCard4_448:
+    ins_523();
+    ins_632(0);
+    ins_545();
+    ins_516(27);
+    ins_404(0.0f, 0.0f);
+    ins_405(0, 0, 0.0f, 0.0f);
+    ins_401(0, 0, 0.0f, 0.0f);
+    [-9949] = 0;
+    [-9948] = 0;
+    [-9947] = 1;
+    ins_514(0, 0, 3000, "Boss5");
+    ins_537(90, 3000, 500000, "ÅuêkÇ¶ìÄÇ¶ÇÈêØÅv");
+    ins_401(60, 4, 0.0f, 128.0f);
+    ins_504(0.0f, 128.0f, 240.0f, 64.0f);
+    ins_316(0, 0);
+    ins_15("Boss4_pos");
+    ins_307(1, 73);
+94:
+    ins_0();
+    [-9981.0f] = 0.5f;
+    [-9980.0f] = -0.5f;
+    ins_535($A, 30, 42, 66, 88);
+    ins_535([-9985], 56, 80, 80, 88);
+    $B = -1;
+    $C = 1000;
+    goto BossCard4_1572 @ 94;
+BossCard4_1236:
+    $B = ($B + 1);
+    ins_302(3);
+    ins_313(0);
+    ins_11("BossCard4_at", _SS $A);
+    unless ($A < [-9985]) goto BossCard4_1552 @ 94;
+    $A = ($A + 6);
+BossCard4_1552:
+    ins_23(26);
+BossCard4_1572:
+    if $C-- goto BossCard4_1236 @ 94;
+    goto BossCard4_1660 @ 94;
+BossCard4_1640:
+    ins_23(1000);
+BossCard4_1660:
+    if 1 goto BossCard4_1640 @ 94;
+    ins_10();
+}
+

@@ -1,0 +1,77 @@
+ BossCard6()
+{
+    var A B C;
+    ins_502(3);
+    unless ([-9986] == 0) goto BossCard6_180 @ 0;
+    ins_615(640.0f);
+    goto BossCard6_200 @ 0;
+BossCard6_180:
+    ins_616(640.0f);
+BossCard6_200:
+2:
+    ins_524(67);
+4:
+    ins_569(1);
+    ins_540(0);
+    ins_11("BossItemCard");
+    ins_513();
+    ins_21();
+    ins_525();
+    unless ([-9986] == 0) goto BossCard6_468 @ 4;
+    ins_615(640.0f);
+    goto BossCard6_488 @ 4;
+BossCard6_468:
+    ins_616(640.0f);
+BossCard6_488:
+    ins_523();
+    ins_632(0);
+    ins_545();
+    ins_516(27);
+    ins_404(0.0f, 0.0f);
+    ins_405(0, 0, 0.0f, 0.0f);
+    ins_401(0, 0, 0.0f, 0.0f);
+    [-9949] = 0;
+    [-9948] = 0;
+    [-9947] = 1;
+    ins_514(0, 0, 1800, "Boss7");
+!EN
+    ins_537(98, 1800, 500000, "「溢れ出る瑕穢」");
+!H
+    ins_537(98, 1800, 500000, "「溢れ出る瑕穢」");
+!L
+    ins_537(98, 1800, 500000, "「地上穢の純化」");
+!*
+    ins_542();
+    ins_401(60, 4, 0.0f, 192.0f);
+    ins_505();
+    ins_316(0, 0);
+    ins_327(0, 128);
+    ins_307(1, 79);
+    ins_307(1, 75);
+    ins_516(54);
+94:
+    ins_0();
+    $A = 120;
+    %B = _f(100);
+    [-9981.0f] = 1.0f;
+    ins_91(0, %B, 1800, 0, 120.0f, 50.0f);
+    $C = 10000;
+    goto BossCard6_1556 @ 94;
+BossCard6_1384:
+    [-9980.0f] = [-9998.0f];
+    ins_11("BossCard6_at");
+!L
+    ins_11("BossCard6_ath");
+!*
+    $A = _S(%B);
+    ins_23($A);
+BossCard6_1556:
+    if $C-- goto BossCard6_1384 @ 94;
+    goto BossCard6_1644 @ 94;
+BossCard6_1624:
+    ins_23(1000);
+BossCard6_1644:
+    if 1 goto BossCard6_1624 @ 94;
+    ins_10();
+}
+

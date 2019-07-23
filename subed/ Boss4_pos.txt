@@ -1,0 +1,12 @@
+ Boss4_pos()
+{
+    var;
+    goto Boss4_pos_104 @ 0;
+Boss4_pos_60:
+    ins_322(3, 0);
+    ins_23(1);
+Boss4_pos_104:
+    if 1 goto Boss4_pos_60 @ 0;
+    ins_10();
+}
+

@@ -86,13 +86,13 @@ public class Ins {
     }
 
     public Ins numberIns(String text) {
-        stringBuilder.append(text);
+        stringBuilder.append(text).append(":");
         return this;
     }
 
     public Ins args(boolean... isInt) {
         if (isInt.length < 1) {
-			stringBuilder.append("Var;");
+            stringBuilder.append("Var;");
             return this;
         }
         stringBuilder.append(lineStart);
@@ -107,8 +107,11 @@ public class Ins {
     }
 
     public Ins _11(Sub sub, String... args) {
+        return _11(sub.getSubName(), args);
+    }
 
-        stringBuilder.append(lineStart).append("ins_11(\"").append(sub.getSubName()).append("\"");
+    public Ins _11(String sub, String... args) {
+        stringBuilder.append(lineStart).append("ins_11(\"").append(sub).append("\"");
         for (String s : args) {
             stringBuilder.append(", ").append(s);
         }
@@ -228,216 +231,224 @@ public class Ins {
         return this;
     }
 
-	public Ins _606(String way, String ceng) {
+    public Ins _606(String way, String ceng) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_606(%d, %s, %s)", dan, way, ceng));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _607(String style) {
+    }
+
+    public Ins _607(String style) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_607(%d, %s)", dan, style));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	
-	public Ins _608(String voiceOnShoot, String voiceOnChange) {
+    }
+
+    public Ins _608(String voiceOnShoot, String voiceOnChange) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_608(%d, %s, %s)", dan, voiceOnShoot, voiceOnChange));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	
-	public Ins _609(String num, String way, String inta, String intb, String floatr,String floats) {
+    }
+
+    public Ins _609(String num, String way, String inta, String intb, String floatr, String floats) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_609(%d, %s, %s, %s, %s, %s, %s)", dan, num, way, inta, intb, floatr, floats));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _610(String num, String way, String inta, String intb, String intc, String intd, String floatr, String floats, String floatm, String floatn) {
+    }
+
+    public Ins _610(String num, String way, String inta, String intb, String intc, String intd, String floatr, String floats, String floatm, String floatn) {
         stringBuilder.append(lineStart);
-        stringBuilder.append(String.format("ins_610(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", dan, num, way, inta, intb, intc, intd , floatr, floats, floatm, floatn));
+        stringBuilder.append(String.format("ins_610(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", dan, num, way, inta, intb, intc, intd, floatr, floats, floatm, floatn));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _611(String way, String inta, String intb, String floatr,String floats) {
+    }
+
+    public Ins _611(String way, String inta, String intb, String floatr, String floats) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_609(%d, %s, %s, %s, %s, %s)", dan, way, inta, intb, floatr, floats));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _612(String way, String inta, String intb, String intc, String intd, String floatr, String floats, String floatm, String floatn) {
+    }
+
+    public Ins _612(String way, String inta, String intb, String intc, String intd, String floatr, String floats, String floatm, String floatn) {
         stringBuilder.append(lineStart);
-        stringBuilder.append(String.format("ins_610(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s)", dan, way, inta, intb, intc, intd , floatr, floats, floatm, floatn));
+        stringBuilder.append(String.format("ins_610(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s)", dan, way, inta, intb, intc, intd, floatr, floats, floatm, floatn));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _613() {
+    }
+
+    public Ins _613() {
         stringBuilder.append(lineStart);
         stringBuilder.append("ins_613()");
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _614(String danmakuA, String danmakuB) {
+    }
+
+    public Ins _614(String danmakuA, String danmakuB) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_614(%s, %s)", danmakuA, danmakuB));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _615(String floatR) {
+    }
+
+    public Ins _615(String floatR) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_615(%s)", floatR));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _616(String floatR) {
+    }
+
+    public Ins _616(String floatR) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_616(%s)", floatR));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _623(String floatVarName, String floatX, String floatY) {
+    }
+
+    public Ins _623(String floatVarName, String floatX, String floatY) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_623(%s, %s, %s)", floatVarName, floatX, floatY));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	
-	public Ins _624(String floatA, String b, String c, String d, String e, String f, String g, String h) {
+    }
+
+    public Ins _624(String floatA, String b, String c, String d, String e, String f, String g, String h) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_624(%d, %s, %s, %s, %s, %s, %s, %s, %s)", dan, floatA, b, c, d, e, f, g, h));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _625(String intA, String b, String c, String d, String e, String f, String g, String h) {
+    }
+
+    public Ins _625(String intA, String b, String c, String d, String e, String f, String g, String h) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_625(%d, %s, %s, %s, %s, %s, %s, %s, %s)", dan, intA, b, c, d, e, f, g, h));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	
-	public Ins _626(String floatAngel, String r) {
+    }
+
+    public Ins _626(String floatAngel, String r) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_626(%d, %s, %s)", dan, floatAngel, r));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _627(String r) {
+    }
+
+    public Ins _627(String r) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_627(%d, %s)", dan, r));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _628(String floatX, String y) {
+    }
+
+    public Ins _628(String floatX, String y) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_628(%d, %s, %s)", dan, floatX, y));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _629(String floatR, String intRgb) {
+    }
+
+    public Ins _629(String floatR, String intRgb) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_629(%s, %s)", floatR, intRgb));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  //int
-	public Ins _630(String a) {
+    }
+
+    //int
+    public Ins _630(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_630(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _631(String a) {
+    }
+
+    public Ins _631(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_631(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _632(String a) {
+    }
+
+    public Ins _632(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_632(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _633(String a) {
+    }
+
+    public Ins _633(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_633(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _634(String a) {
+    }
+
+    public Ins _634(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_634(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  //float
-	public Ins _635(String a) {
+    }
+
+    //float
+    public Ins _635(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_635(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _636(String a) {
+    }
+
+    public Ins _636(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_636(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  //int
-	public Ins _637(String a) {
+    }
+
+    //int
+    public Ins _637(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_637(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _638(String a) {
+    }
+
+    public Ins _638(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_638(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _639(String a) {
+    }
+
+    public Ins _639(String a) {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_639(%s)", a));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	//mode=16777216 dan=2
-	public Ins _640(String intMode, Sub sub) {
+    }
+
+    //mode=16777216 dan=2
+    public Ins _640(String intMode, Sub sub) {
+        return _640(intMode, sub.getSubName());
+    }
+
+    public Ins _640(String intMode, String sub) {
         stringBuilder.append(lineStart);
-        stringBuilder.append(String.format("ins_640(%d, %s, %s)", dan, intMode, sub.getSubName()));
+        stringBuilder.append(String.format("ins_640(%d, %s, %s)", dan, intMode, sub));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	  
-	public Ins _641() {
+    }
+
+    public Ins _641() {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_642(%d)", dan));
         stringBuilder.append(lineEnd);
         return this;
-	  }
-	    
+    }
+
     @Override
     public String toString() {
         return stringBuilder.toString();
