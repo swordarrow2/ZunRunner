@@ -1,0 +1,76 @@
+ BossCard5()
+{
+    var A B C D;
+    unless ([-9986] == 0) goto BossCard5_160 @ 0;
+    ins_615(640.0f);
+    goto BossCard5_180 @ 0;
+BossCard5_160:
+    ins_616(640.0f);
+BossCard5_180:
+2:
+    ins_524(66);
+4:
+    ins_569(1);
+    ins_11("BossItemCard");
+    ins_513();
+    ins_21();
+    ins_525();
+    unless ([-9986] == 0) goto BossCard5_428 @ 4;
+    ins_615(640.0f);
+    goto BossCard5_448 @ 4;
+BossCard5_428:
+    ins_616(640.0f);
+BossCard5_448:
+    ins_523();
+    ins_632(0);
+    ins_545();
+    ins_516(27);
+    ins_404(0.0f, 0.0f);
+    ins_405(0, 0, 0.0f, 0.0f);
+    ins_401(0, 0, 0.0f, 0.0f);
+    [-9949] = 0;
+    [-9948] = 0;
+    [-9947] = 1;
+    ins_514(0, 0, 3600, "Boss6");
+!EN
+    ins_537(94, 3600, 500000, "「純粋なる狂気」");
+!H
+    ins_537(94, 3600, 500000, "「純粋なる狂気」");
+!L
+    ins_537(94, 3600, 500000, "「純粋なる狂気」");
+!*
+    ins_401(60, 4, 0.0f, 192.0f);
+    ins_505();
+    ins_316(0, 0);
+    ins_307(1, 79);
+    ins_307(1, 75);
+    ins_516(54);
+94:
+    ins_0();
+    $A = 120;
+    [-9981.0f] = 1.0f;
+    $D = 10000;
+    goto BossCard5_1648 @ 94;
+BossCard5_1224:
+    [-9985] = 4;
+    ins_11("BossCard5_at");
+    ins_23(200);
+    ins_516(52);
+    ins_23(130);
+    [-9981.0f] = ([-9981.0f] * -1.0f);
+    [-9985] = 2;
+    ins_11("BossCard5_at");
+    ins_23(200);
+    ins_516(52);
+    ins_23(130);
+    [-9981.0f] = ([-9981.0f] * -1.0f);
+BossCard5_1648:
+    if $D-- goto BossCard5_1224 @ 94;
+    goto BossCard5_1736 @ 94;
+BossCard5_1716:
+    ins_23(1000);
+BossCard5_1736:
+    if 1 goto BossCard5_1716 @ 94;
+    ins_10();
+}
+

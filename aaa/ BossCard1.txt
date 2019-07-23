@@ -1,0 +1,97 @@
+ BossCard1()
+{
+    var A B C D E F G H;
+    unless ([-9986] == 0) goto BossCard1_160 @ 0;
+    ins_615(640.0f);
+    goto BossCard1_180 @ 0;
+BossCard1_160:
+    ins_616(640.0f);
+BossCard1_180:
+2:
+    ins_524(63);
+4:
+    ins_569(1);
+    ins_11("BossItemCard");
+    ins_513();
+    ins_21();
+    ins_525();
+    unless ([-9986] == 0) goto BossCard1_428 @ 4;
+    ins_615(640.0f);
+    goto BossCard1_448 @ 4;
+BossCard1_428:
+    ins_616(640.0f);
+BossCard1_448:
+    ins_523();
+    ins_632(0);
+    ins_545();
+    ins_516(27);
+    ins_404(0.0f, 0.0f);
+    ins_405(0, 0, 0.0f, 0.0f);
+    ins_401(0, 0, 0.0f, 0.0f);
+    [-9949] = 0;
+    [-9948] = 0;
+    [-9947] = 1;
+    ins_514(0, 0, 3300, "Boss2");
+!EN
+    ins_537(78, 3300, 500000, "「掌の純光」");
+!H
+    ins_537(78, 3300, 500000, "「掌の純光」");
+!L
+    ins_537(78, 3300, 500000, "「掌の純光」");
+!*
+    ins_401(60, 4, 0.0f, 128.0f);
+    ins_504(0.0f, 128.0f, 240.0f, 224.0f);
+    ins_307(1, 79);
+    ins_307(1, 75);
+    ins_516(54);
+94:
+    ins_0();
+    ins_23(60);
+    $A = 120;
+    $E = 3;
+    $F = 10000;
+    goto BossCard1_2136 @ 94;
+BossCard1_1224:
+    ins_302(3);
+    ins_316(0, 0);
+    $G = 3;
+    goto BossCard1_1388 @ 94;
+BossCard1_1332:
+    ins_11("BossCard1_at");
+    ins_23(100);
+BossCard1_1388:
+    if $G-- goto BossCard1_1332 @ 94;
+    ins_23(60);
+    ins_307(1, 79);
+    ins_307(1, 75);
+    ins_516(54);
+    ins_302(3);
+    ins_306(0, 0);
+    ins_23(60);
+    ins_302(3);
+    ins_316(0, 0);
+    %D = [-9998.0f];
+    $H = $E;
+    goto BossCard1_1872 @ 94;
+BossCard1_1732:
+    ins_11("BossCard1_at2", _ff %D);
+    %D = (%D + 3.883222f);
+    ins_23(10);
+BossCard1_1872:
+    if $H-- goto BossCard1_1732 @ 94;
+    unless ($E < 4) goto BossCard1_2072 @ 94;
+    $E = ($E + 1);
+BossCard1_2072:
+    ins_23(60);
+    ins_306(0, 0);
+    ins_23(70);
+BossCard1_2136:
+    if $F-- goto BossCard1_1224 @ 94;
+    goto BossCard1_2224 @ 94;
+BossCard1_2204:
+    ins_23(1000);
+BossCard1_2224:
+    if 1 goto BossCard1_2204 @ 94;
+    ins_10();
+}
+
