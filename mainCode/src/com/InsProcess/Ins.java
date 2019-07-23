@@ -7,7 +7,7 @@ public class Ins {
     private final String lineStart = "    ";
     private final String lineEnd = ";\n";
     private int dan = -1;
-    private HashMap<String, VarType> typeMap;
+    private HashMap<String, VarType> typeMap = new HashMap<>();
     private final String varNotDefine = "var not defined";
     private final String varTypeUnkonwn = "var type unknown";
 
@@ -16,7 +16,6 @@ public class Ins {
     Ins(Sub sub, boolean... isInt) {
         this.sub = sub;
         if (isInt.length > 0) {
-            typeMap = new HashMap<>();
             for (int i = 65; i < 65 + isInt.length; ++i) {
                 typeMap.put(String.valueOf((char) i), isInt[i - 65] ? VarType.intVar : VarType.floatVar);
             }
@@ -93,6 +92,7 @@ public class Ins {
 
     public Ins args(boolean... isInt) {
         if (isInt.length < 1) {
+			stringBuilder.append("Var;");
             return this;
         }
         stringBuilder.append(lineStart);
