@@ -1,9 +1,9 @@
 package com.meng.TaiHunDanmaku.baseObjects.bullets.enemy;
 
 import com.badlogic.gdx.math.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
 import com.meng.TaiHunDanmaku.helpers.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.*;
 import com.meng.TaiHunDanmaku.task.*;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 
 public class BulletShooter {
 
-    public BaseBossPlane enemyPlane;
+    public Junko enemyPlane;
 
     public static HashSet<BulletShooter> instances = new HashSet<BulletShooter>();
     public static LinkedBlockingQueue<BulletShooter> toDelete = new LinkedBlockingQueue<BulletShooter>();
@@ -44,8 +44,6 @@ public class BulletShooter {
     public int shooterShootAfterFrames = 0;
     public float bulletRandomDegreeRange = 0;
     public boolean bulletHighLight = false;
-    public int bulletLife = 7200;
-    public int bulletLiveOutOfScreen = 0;
     public ArrayList<Task> bulletTasks = new ArrayList<Task>();
 
 
@@ -59,7 +57,7 @@ public class BulletShooter {
         return this;
     }
 
-    public BulletShooter setEnemyPlane(BaseBossPlane enemyPlane) {
+    public BulletShooter setEnemyPlane(Junko enemyPlane) {
         this.enemyPlane = enemyPlane;
         return this;
     }
@@ -173,16 +171,6 @@ public class BulletShooter {
         return this;
     }
 
-    public BulletShooter setBulletLiveOutOfScreen(int bulletLiveOutOfScreen) {
-        this.bulletLiveOutOfScreen = bulletLiveOutOfScreen;
-        return this;
-    }
-
-    public BulletShooter setBulletLife(int bulletLife) {
-        this.bulletLife = bulletLife;
-        return this;
-    }
-
     public void update() {
         ++shooterExistTime;
         if (enemyPlane.judgeCircle == null) {
@@ -219,10 +207,12 @@ public class BulletShooter {
             case normal:
                 break;
             case snipe:
-                bulletVelocity = BaseMyPlane.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
+                bulletVelocity = MyPlaneReimu.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
                 break;
             case round:
                 bulletWaysDegree = 360f / bulletWays;
+                break;
+            default:
                 break;
         }
 
@@ -246,7 +236,7 @@ public class BulletShooter {
                 float tmpangle = -angle / 2;
                 tmpv.rotate(tmpangle);
                 for (int i = 0; i < bulletWays; i++) {
-                    EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()).setAngle(tmpv.angle()), bulletForm, bulletColor, bulletLife, bulletLiveOutOfScreen, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
+                    EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()).setAngle(tmpv.angle()), bulletForm, bulletColor, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
                     tmpv.rotate(bulletWaysDegree);
                 }
                 cengJianBeiLv += bulletCengDanSuCha;
@@ -254,7 +244,7 @@ public class BulletShooter {
         } else if (bulletCengShu > 1) {
             for (int ceng = 0; ceng < bulletCengShu; ++ceng) {
                 tmpv = bulletVelocity.cpy().scl(cengJianBeiLv);
-                EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()).setAngle(tmpv.angle()), bulletForm, bulletColor, bulletLife, bulletLiveOutOfScreen, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
+                EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()).setAngle(tmpv.angle()), bulletForm, bulletColor, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
                 cengJianBeiLv += bulletCengDanSuCha;
             }
         } else if (bulletWays > 1) {
@@ -263,11 +253,11 @@ public class BulletShooter {
             float tmpangle = -angle / 2;
             tmpv.rotate(tmpangle);
             for (int i = 0; i < bulletWays; i++) {
-                EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()), bulletForm, bulletColor, bulletLife, bulletLiveOutOfScreen, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
+                EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), tmpv, bulletAcceleration.cpy().setAngle(tmpv.angle()), bulletForm, bulletColor, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
                 tmpv.rotate(bulletWaysDegree);
             }
         } else {
-            EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), bulletVelocity, bulletAcceleration, bulletForm, bulletColor, bulletLife, bulletLiveOutOfScreen, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
+            EnemyBullet.create(new Vector2(nowCenterX, nowCenterY), bulletVelocity, bulletAcceleration, bulletForm, bulletColor, bulletHighLight, reflexCount, reflexTopCount, reflexBottomCount, reflexLeftCount, reflexRightCount, throughCount, throughTopCount, throughBottomCount, throughLeftCount, throughRightCount, bulletTasks);
         }
     }
 }

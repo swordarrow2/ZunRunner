@@ -1,32 +1,28 @@
-package com.meng.TaiHunDanmaku.baseObjects.planes.myPlane;
+package com.meng.TaiHunDanmaku.baseObjects.planes;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.BaseGameObject;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseEnemyBullet;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet;
 import com.meng.TaiHunDanmaku.helpers.Data;
-import com.meng.TaiHunDanmaku.baseObjects.planes.AnimationManager;
-import com.meng.TaiHunDanmaku.baseObjects.planes.JudgeCircleAnimation;
-import com.meng.TaiHunDanmaku.baseObjects.planes.JudgeCircleAnimation2;
-import com.meng.TaiHunDanmaku.baseObjects.planes.MoveStatus;
-import com.meng.TaiHunDanmaku.baseObjects.planes.subPlane.BaseSubPlane;
+import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
 
-public abstract class BaseMyPlane extends BaseGameObject {
+public class MyPlaneReimu extends BaseGameObject {
 
-    public static BaseMyPlane instance;
+    public static MyPlaneReimu instance;
 
-    public JudgeCircleAnimation animation = null;
-    public JudgeCircleAnimation2 animation2 = null;
+    private JudgeCircleAnimation animation = null;
+    private JudgeCircleAnimation2 animation2 = null;
 
     private float playerLastX = 270;
     public boolean slow = false;
-    public AnimationManager animationManager;
-    public BaseSubPlane subPlane1, subPlane2, subPlane3, subPlane4;
+    private AnimationManager animationManager;
+    private SubPlaneReimu subPlane1, subPlane2, subPlane3, subPlane4;
 
-    public GameMain gameMain;
+    private GameMain gameMain;
 
     public void init(GameMain gameMain) {
         super.init();
@@ -39,15 +35,23 @@ public abstract class BaseMyPlane extends BaseGameObject {
         existTime = 0;
         objectCenter.set(gameMain.width / 2, 80);
         image.setSize(30, 46);
-        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);      
+        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexMyPlane);
+        animationManager = new AnimationManager(this, 5);
+        subPlane4 = new SubPlaneReimu().init(this, 4);
+        subPlane3 = new SubPlaneReimu().init(this, 3);
+        subPlane2 = new SubPlaneReimu().init(this, 2);
+        subPlane1 = new SubPlaneReimu().init(this, 1);
     }
 
+    @Override
     public void kill() {
         super.kill();
+        ++gameMain.miss;
     }
 
+    @Override
     public void update() {
         super.update();
         animFlag++;
@@ -58,7 +62,6 @@ public abstract class BaseMyPlane extends BaseGameObject {
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         shoot();
         judge();
-
         if (objectCenter.x > playerLastX) {
             playerLastX = objectCenter.x;
             animationManager.setStatus(MoveStatus.moveRight);
@@ -72,18 +75,27 @@ public abstract class BaseMyPlane extends BaseGameObject {
         image.toBack();
         animation2.update();
         animation.update();
+        subPlane4.update();
+        subPlane3.update();
+        subPlane2.update();
+        subPlane1.update();
     }
 
-    public void judge() {
-        for (BaseEnemyBullet baseBullet : BaseEnemyBullet.instances) {
-            if (baseBullet.getCollisionArea().contains(objectCenter)) {
-                baseBullet.killByJudge();
+    private void judge() {
+        for (EnemyBullet enemyBullet : EnemyBullet.instances) {
+            if (enemyBullet.getCollisionArea().contains(objectCenter)) {
+                enemyBullet.kill();
                 kill();
             }
         }
     }
 
-
-    public abstract void shoot();
+    private void shoot() {
+        if (existTime % 3 == 1) {
+            Vector2 vel = new Vector2(0, 47);
+            ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x + 8, objectCenter.y + 32), vel);
+            ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x - 8, objectCenter.y + 32), vel);
+        }
+    }
 
 }

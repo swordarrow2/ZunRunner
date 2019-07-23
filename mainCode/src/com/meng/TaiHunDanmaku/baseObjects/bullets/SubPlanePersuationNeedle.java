@@ -1,17 +1,18 @@
-package com.meng.TaiHunDanmaku.baseObjects.bullets.subPlane;
+package com.meng.TaiHunDanmaku.baseObjects.bullets;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseMyBullet;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
+import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
 import com.meng.TaiHunDanmaku.helpers.TextureNameManager;
 
 
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.*;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
-public class ReimuSubPlaneBulletStraight extends BaseMyBullet {
+public class SubPlanePersuationNeedle extends BaseMyBullet {
 
     @Override
     public Drawable getDrawable() {
@@ -22,29 +23,29 @@ public class ReimuSubPlaneBulletStraight extends BaseMyBullet {
     }
 
     @Override
+    public void init(Vector2 center, Vector2 velocity) {
+        super.init(center, velocity);
+    }
+
+    @Override
     public Vector2 getSize() {
         return new Vector2(64, 16);
-	  }
-	  
+    }
+
+    @Override
     public void judge() {
-        try {
-            for (int i = 0; i < 32; i++) {
-                if (FightScreen.instence.boss!= null) {
-                    if (((Circle) getCollisionArea()).overlaps(((Circle) FightScreen.instence.boss.getJudgeCircle()))) {
-                        FightScreen.instence.boss.hit(BaseMyPlane.instance.slow ? 13.5f : 10.5f);
-                        killByOutOfScreen();
-                    }
-                }
+        if (FightScreen.instence.boss != null) {
+            if (((Circle) getCollisionArea()).overlaps(((Circle) FightScreen.instence.boss.getJudgeCircle()))) {
+                FightScreen.instence.boss.hit(MyPlaneReimu.instance.slow ? 13.5f : 10.5f);
+                kill();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     @Override
-    public void killByOutOfScreen() {
-        super.killByOutOfScreen();
-        //   ObjectPools.reimuSubPlaneBulletStraightPool.free(this);
+    public void kill() {
+        super.kill();
+        ObjectPools.reimuSubPlaneBulletStraightPool.free(this);
     }
 
     @Override

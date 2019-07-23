@@ -1,15 +1,16 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku.taizhang;
+package com.meng.TaiHunDanmaku.bossDanmaku.Junko;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.taizhang.danmaku.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.bossDanmaku.BaseNormalDanmaku;
 import com.meng.TaiHunDanmaku.task.*;
 
-public class test1 extends BaseNormalDanmaku{
-    TaskManagerEnemyPlane tm;
+public class test1 extends BaseNormalDanmaku {
+    private TaskManagerEnemyPlane tm;
 
-    public void init(BaseBossPlane b){
+    @Override
+    public void init(Junko b){
         boss=b;
         tm=new TaskManagerEnemyPlane(b,TaskRepeatMode.repeatAll) ;
         shooters=new BulletShooter[]{

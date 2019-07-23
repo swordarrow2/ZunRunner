@@ -2,36 +2,34 @@ package com.meng.TaiHunDanmaku.helpers;
 
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.*;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.ReimuShoot;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.SubPlanePersuationNeedle;
 
-public final class ObjectPools{
-  
-  public static RandomXS128 randomPool=new RandomXS128(9961);
-  
-    public static Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet> enemyBulletPool=new Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet>(8192){
+public final class ObjectPools {
+
+    public static RandomXS128 randomPool = new RandomXS128(9961);
+
+    public static Pool<EnemyBullet> enemyBulletPool = new Pool<EnemyBullet>(8192) {
         @Override
-        protected com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet newObject(){
-            return new com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet();
-        }
-    };
-    public static Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuSpell> reimuBombPool=new Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuSpell>(64){
-        @Override
-        protected com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuSpell newObject(){
-            return new com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuSpell();
-        }
-    };
-    public static Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuShoot> reimuShootPool=new Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuShoot>(64){
-        @Override
-        protected com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuShoot newObject(){
-            return new com.meng.TaiHunDanmaku.baseObjects.bullets.myPlane.ReimuShoot();
+        protected EnemyBullet newObject() {
+            return new EnemyBullet();
         }
     };
 
-    public static Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.subPlane.ReimuSubPlaneBulletStraight> reimuSubPlaneBulletStraightPool=new Pool<com.meng.TaiHunDanmaku.baseObjects.bullets.subPlane.ReimuSubPlaneBulletStraight>(64){
+    public static Pool<ReimuShoot> reimuShootPool = new Pool<ReimuShoot>(64) {
         @Override
-        protected com.meng.TaiHunDanmaku.baseObjects.bullets.subPlane.ReimuSubPlaneBulletStraight newObject(){
-            return new com.meng.TaiHunDanmaku.baseObjects.bullets.subPlane.ReimuSubPlaneBulletStraight();
+        protected ReimuShoot newObject() {
+            return new ReimuShoot();
         }
     };
 
-    
+    public static Pool<SubPlanePersuationNeedle> reimuSubPlaneBulletStraightPool = new Pool<SubPlanePersuationNeedle>(64) {
+        @Override
+        protected SubPlanePersuationNeedle newObject() {
+            return new SubPlanePersuationNeedle();
+        }
+    };
+
+
 }

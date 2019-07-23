@@ -1,10 +1,9 @@
 package com.meng.TaiHunDanmaku.baseObjects.planes;
 
 import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.BaseMyPlane;
 
 public class AnimationManager{
-    private BaseMyPlane myPlane;
+    private MyPlaneReimu myPlane;
     private int animFrom=0;
     private int animTo=7;
     private int everyAnimFrameTime=0;
@@ -12,7 +11,7 @@ public class AnimationManager{
     private int curFrameNumber=0;
     private MoveStatus status=MoveStatus.stay;
 
-    public AnimationManager(BaseMyPlane obj,int everyAnimFrameTime){
+    public AnimationManager(MyPlaneReimu obj, int everyAnimFrameTime){
         this.everyAnimFrameTime=everyAnimFrameTime;
         myPlane=obj;
     }

@@ -1,11 +1,11 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku.taizhang;
+package com.meng.TaiHunDanmaku.bossDanmaku.Junko;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.taizhang.danmaku.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.bossDanmaku.BaseSpellCard;
 import com.meng.TaiHunDanmaku.task.*;
 import com.meng.TaiHunDanmaku.ui.*;
 
@@ -13,7 +13,7 @@ public class spell1 extends BaseSpellCard {
 
     private float ro = 0;
 
-    public void init(final BaseBossPlane b) {
+    public void init(final Junko b) {
         spellName = "台符「495次的真香」";
         boss = b;
         taskManagerEnemyPlane = new TaskManagerEnemyPlane(b, TaskRepeatMode.repeatAll);

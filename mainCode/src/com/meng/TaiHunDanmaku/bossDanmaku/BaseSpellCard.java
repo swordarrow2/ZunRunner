@@ -1,12 +1,12 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku;
+package com.meng.TaiHunDanmaku.bossDanmaku;
 
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
 import com.meng.TaiHunDanmaku.task.*;
 
 public abstract class BaseSpellCard{
 
-    public BaseBossPlane boss;
+    public Junko boss;
     public int spellTime=1000;
     public String spellName="";
     public BulletShooter[] shooters;
@@ -15,7 +15,7 @@ public abstract class BaseSpellCard{
 
     public int waitFrameSpell=60;
 
-    public abstract void init(BaseBossPlane b);
+    public abstract void init(Junko b);
 
     public void update(){
         if(waitFrameSpell-->0)

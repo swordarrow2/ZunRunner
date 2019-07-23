@@ -1,26 +1,23 @@
 package com.meng.TaiHunDanmaku.task;
 
 
-import com.badlogic.gdx.math.Vector2;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
 import com.meng.TaiHunDanmaku.helpers.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.BaseMyPlane;
 
 import java.util.*;
 
 public class TaskManagerEnemyPlane {
     private TaskRepeatMode repeatMode;
-    private BaseBossPlane enemy = null;
+    private Junko junko;
     private int holdingTime = 0;
     private int addTaskFlag = 0;
     private int getTaskFlag = 0;
     private HashMap<Integer, Task> tasks;
 
-    public TaskManagerEnemyPlane(BaseBossPlane enemy, TaskRepeatMode repeatMode) {
+    public TaskManagerEnemyPlane(Junko junko, TaskRepeatMode repeatMode) {
         this.repeatMode = repeatMode;
-        this.enemy = enemy;
-        tasks = new HashMap<Integer, Task>();
+        this.junko = junko;
+        tasks = new HashMap<>();
 	  }
 
     public void addTask(Task t) {
@@ -73,9 +70,9 @@ public class TaskManagerEnemyPlane {
 
         if (task instanceof TaskMoveTo) {
             if (task.tmpVector2.x == 10000 && task.tmpVector2.y == 10000) {
-                enemy.moveTo(ObjectPools.randomPool.nextInt(250) + 136, ObjectPools.randomPool.nextInt(250) + 150);
+                junko.moveTo(ObjectPools.randomPool.nextInt(250) + 136, ObjectPools.randomPool.nextInt(250) + 150);
 			  } else {
-                enemy.moveTo(task.tmpVector2.x, task.tmpVector2.y);
+                junko.moveTo(task.tmpVector2.x, task.tmpVector2.y);
 			  }
 		  } else if (task instanceof TaskShoot) {
             for (int i = 0; i < task.bulletShooter.length; ++i) {

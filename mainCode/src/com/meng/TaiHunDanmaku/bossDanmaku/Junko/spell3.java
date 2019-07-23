@@ -1,17 +1,18 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku.taizhang;
+package com.meng.TaiHunDanmaku.bossDanmaku.Junko;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.bossDanmaku.BaseSpellCard;
 import com.meng.TaiHunDanmaku.helpers.*;
-import com.meng.TaiHunDanmaku.taizhang.danmaku.*;
 import com.meng.TaiHunDanmaku.task.*;
 
-public class spell3 extends BaseSpellCard{
+public class spell3 extends BaseSpellCard {
 
     private float ro = 0;
 
-    public void init(BaseBossPlane b){
+    @Override
+	public void init(Junko b){
         spellName="台符「无双风神」";
         boss=b;
         taskManagerEnemyPlane=new TaskManagerEnemyPlane(b,TaskRepeatMode.repeatLast);

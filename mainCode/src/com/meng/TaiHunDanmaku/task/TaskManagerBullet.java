@@ -1,20 +1,20 @@
 package com.meng.TaiHunDanmaku.task;
 
 import com.badlogic.gdx.math.Vector2;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseEnemyBullet;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.BaseMyPlane;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
 
 import java.util.HashMap;
 
 public class TaskManagerBullet {
     private TaskRepeatMode repeatMode;
-    private BaseEnemyBullet bullet = null;
+    private EnemyBullet bullet = null;
     private int holdingTime = 0;
     private int addTaskFlag = 0;
     private int getTaskFlag = 0;
     private HashMap<Integer, Task> tasks;
 
-    public TaskManagerBullet(BaseEnemyBullet bullet, TaskRepeatMode repeatMode) {
+    public TaskManagerBullet(EnemyBullet bullet, TaskRepeatMode repeatMode) {
         this.repeatMode = repeatMode;
         this.bullet = bullet;
         tasks = new HashMap<Integer, Task>();
@@ -71,7 +71,7 @@ public class TaskManagerBullet {
     public void doTask(Task task) {
         if (task instanceof TaskMoveTo) {
             if (task.tmpVector2.x == 10000f && task.tmpVector2.y == 10000f) {
-                Vector2 vector2 = new Vector2(BaseMyPlane.instance.objectCenter.x - bullet.objectCenter.x, BaseMyPlane.instance.objectCenter.y - bullet.objectCenter.y).nor();
+                Vector2 vector2 = new Vector2(MyPlaneReimu.instance.objectCenter.x - bullet.objectCenter.x, MyPlaneReimu.instance.objectCenter.y - bullet.objectCenter.y).nor();
                 vector2.scl(bullet.velocity.len());
                 bullet.velocity.set(vector2);
             } else if (task.tmpVector2.x == 10001f && task.tmpVector2.y == 10001f) {

@@ -1,16 +1,17 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku.taizhang;
+package com.meng.TaiHunDanmaku.bossDanmaku.Junko;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.taizhang.danmaku.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.bossDanmaku.BaseNormalDanmaku;
 import com.meng.TaiHunDanmaku.task.*;
 import java.util.*;
 
 public class normal2 extends BaseNormalDanmaku {
     private TaskManagerEnemyPlane taskManager;
 
-    public void init(BaseBossPlane baseBossPlane) {
+    @Override
+    public void init(Junko baseBossPlane) {
         boss = baseBossPlane;
         ArrayList<Task> arrayList = new ArrayList<Task>();
         arrayList.add(new TaskWait(100));
@@ -28,7 +29,6 @@ public class normal2 extends BaseNormalDanmaku {
                         .setBulletVelocity(new Vector2(0, -1))
                         .setBulletStyle(BulletStyle.round)
                         .setBulletHighLight(true)
-                        .setBulletLiveOutOfScreen(500)
                         .setBulletAcceleration(new Vector2(0, -0.05f))
                         .setBulletTasks(arrayList)
         };

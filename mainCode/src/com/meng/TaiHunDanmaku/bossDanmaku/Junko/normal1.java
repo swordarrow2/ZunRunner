@@ -1,18 +1,24 @@
-package com.meng.TaiHunDanmaku.taizhang.danmaku.taizhang;
+package com.meng.TaiHunDanmaku.bossDanmaku.Junko;
 
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.enemyPlane.*;
-import com.meng.TaiHunDanmaku.taizhang.danmaku.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.bossDanmaku.BaseNormalDanmaku;
 import com.meng.TaiHunDanmaku.task.*;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class normal1 extends BaseNormalDanmaku {
     private TaskManagerEnemyPlane taskManager;
-
-    public void init(BaseBossPlane baseBossPlane) {
+    private Laser laser;
+    @Override
+    public void init(Junko baseBossPlane) {
         boss = baseBossPlane;
-        /*Laser laser = new Laser(new Sprite(new Texture(Gdx.files.internal("textures/beamstart1.png"))),
+        laser = new Laser(new Sprite(new Texture(Gdx.files.internal("textures/beamstart1.png"))),
                 new Sprite(new Texture(Gdx.files.internal("textures/beamstart2.png"))),
                 new Sprite(new Texture(Gdx.files.internal("textures/beammid1.png"))),
                 new Sprite(new Texture(Gdx.files.internal("textures/beammid2.png"))),
@@ -22,7 +28,6 @@ public class normal1 extends BaseNormalDanmaku {
         laser.position.set(boss.objectCenter);
         laser.degrees = 180;
         laser.distance = 190;
-        FightScreen.instence.laserManager.addLaser(laser);
 
         Laser laser2 = new Laser(new Sprite(new Texture(Gdx.files.internal("textures/beamstart1.png"))),
                 new Sprite(new Texture(Gdx.files.internal("textures/beamstart2.png"))),
@@ -34,8 +39,7 @@ public class normal1 extends BaseNormalDanmaku {
         laser2.position.set(boss.objectCenter.x - 10, boss.objectCenter.y - 10);
         laser2.degrees = 160;
         laser2.distance = 190;
-        FightScreen.instence.laserManager.addLaser(laser2);
-*/
+
         ArrayList<Task> arrayList = new ArrayList<Task>();
         shooters = new BulletShooter[]{
                 new BulletShooter().init()
@@ -62,7 +66,7 @@ public class normal1 extends BaseNormalDanmaku {
         super.update();
         taskManager.update();
         frame++;
-        //   laser.degrees = frame * 0.3f;
+          laser.degrees = frame * 0.3f;
     }
 
 }

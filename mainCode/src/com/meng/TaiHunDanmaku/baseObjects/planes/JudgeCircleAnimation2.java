@@ -3,7 +3,6 @@ package com.meng.TaiHunDanmaku.baseObjects.planes;
 import com.badlogic.gdx.utils.*;
 import com.meng.TaiHunDanmaku.*;
 import com.meng.TaiHunDanmaku.helpers.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.*;
 import com.meng.TaiHunDanmaku.ui.*;
 
 public class JudgeCircleAnimation2 extends BaseGameObject{
@@ -22,10 +21,11 @@ public class JudgeCircleAnimation2 extends BaseGameObject{
 		image.setZIndex(Data.zIndexJudgePoint);
 	  }
 
+    @Override
     public void update(){
-		objectCenter=BaseMyPlane.instance.objectCenter;
+		objectCenter= MyPlaneReimu.instance.objectCenter;
         image.setRotation(stat);
-		if(BaseMyPlane.instance.slow){
+		if(MyPlaneReimu.instance.slow){
 			image.setSize(48,48);
 		  }else{
 			image.setSize(0,0);

@@ -8,6 +8,7 @@ import com.meng.TaiHunDanmaku.BaseGameObject;
 
 public abstract class BaseBullet extends BaseGameObject {
 
+    @Override
     public void init() {
         super.init();
         size = getSize();
@@ -17,10 +18,7 @@ public abstract class BaseBullet extends BaseGameObject {
         existTime = 0;
     }
 
-    public void killByOutOfScreen() {
-        super.kill();
-    }
-
+    @Override
     public void update() {
         super.update();
         image.setRotation(getRotationDegree());
@@ -28,7 +26,7 @@ public abstract class BaseBullet extends BaseGameObject {
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         judgeCircle.setPosition(objectCenter);
         if (judgeCircle.x < -5 || judgeCircle.x > 390 || judgeCircle.y < -5 || judgeCircle.y > 460) {
-            killByOutOfScreen();
+            kill();
         } else {
             judge();
         }

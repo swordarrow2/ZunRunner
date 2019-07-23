@@ -37,7 +37,9 @@ public class Sub {
                 String[] a = argStr.split(",");
                 switch (Integer.parseInt(insNum)) {
                     case 11:
-                        ins._11()
+                        String[] tmp = new String[a.length - 1];
+                        System.arraycopy(a, 1, tmp, 0, a.length);
+                        ins._11(a[0], tmp);
                     case 600:
                         ins._600();
                         break;
@@ -147,7 +149,7 @@ public class Sub {
                         ins._641();
                         break;
                     default:
-                        throw new IllegalStateException("Unexpected value: " + Integer.parseInt(insNum));
+                        break;
                 }
             } else {
                 if (strIns.contains("Var")) {

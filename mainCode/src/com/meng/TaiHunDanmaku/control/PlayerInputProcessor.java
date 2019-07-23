@@ -2,10 +2,10 @@ package com.meng.TaiHunDanmaku.control;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.BaseMyPlane;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
-import static com.meng.TaiHunDanmaku.baseObjects.planes.myPlane.BaseMyPlane.instance;
+import static com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu.instance;
 
 public class PlayerInputProcessor extends InputAdapter {
     private Vector2 vct2_downPosPlayer = new Vector2();
@@ -20,7 +20,7 @@ public class PlayerInputProcessor extends InputAdapter {
             vct2_downPosPlayer.set(instance.objectCenter);
         }
         if (pointer == 1) {
-            BaseMyPlane.instance.slow = true;
+            MyPlaneReimu.instance.slow = true;
         }      
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -28,7 +28,7 @@ public class PlayerInputProcessor extends InputAdapter {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (pointer == 1) {
-            BaseMyPlane.instance.slow = false;
+            MyPlaneReimu.instance.slow = false;
         }
         return super.touchUp(screenX, screenY, pointer, button);
     }

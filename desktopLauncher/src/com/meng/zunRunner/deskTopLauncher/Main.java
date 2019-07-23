@@ -16,11 +16,12 @@ public class Main {
         config.title = "SJF";
         config.width = 386;
         config.height = 450;
+        config.vSyncEnabled=false;
         config.resizable = true;
         config.foregroundFPS = 60;
         config.addIcon("textures/beammid1.png", Files.FileType.Internal);
-     //   new LwjglApplication(new GameMain(), config);
+        new LwjglApplication(new GameMain(), config);
 
-        System.out.println(new UnpackedEclParser(new File("F:\\project\\ZunRunner\\st06bs.txt")).read());
+    //    System.out.println(new UnpackedEclParser(new File("F:\\project\\ZunRunner\\st06bs.txt")).read());
     }
 }

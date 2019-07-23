@@ -1,6 +1,7 @@
 package com.meng.TaiHunDanmaku.baseObjects.bullets;
 
 import com.badlogic.gdx.math.*;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet;
 
 public class ReflexAndThrough {
     private Rectangle rectangle;
@@ -25,7 +26,7 @@ public class ReflexAndThrough {
     }
 
     public void update() {
-        for (BaseEnemyBullet baseBullet : BaseEnemyBullet.instances) {
+        for (EnemyBullet baseBullet : EnemyBullet.instances) {
             if (rectangle.contains(baseBullet.objectCenter)) {
                 switch (position) {
                     case Top:
