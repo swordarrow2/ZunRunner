@@ -1,13 +1,10 @@
 package com.meng.zunRunner;
 
-import android.os.Bundle;
-
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.meng.TaiHunDanmaku.ui.*;
-import com.badlogic.gdx.*;
-import com.InsProcess.*;
+import android.os.*;
 import android.widget.*;
+import com.InsProcess.*;
+import com.badlogic.gdx.backends.android.*;
+import java.io.*;
 
 public class MainActivity extends AndroidApplication {
 
@@ -17,7 +14,7 @@ public class MainActivity extends AndroidApplication {
         setContentView(initializeForView(new MyGame(), new AndroidApplicationConfiguration()));
 		ScrollView s=new ScrollView(this);
 		TextView t=new TextView(this);
-		t.setText(new zunRunner().toString());
+		t.setText(new UnpackedEclParser(new File(Environment.getExternalStorageDirectory()+"/tencent/QQfile_recv/st06bs.txt")).parse());
 		s.addView(t);
 		setContentView(s);
 	  }
