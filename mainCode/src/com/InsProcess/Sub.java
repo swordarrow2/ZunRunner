@@ -40,6 +40,12 @@ public class Sub {
                         String[] tmp = new String[a.length - 1];
                         System.arraycopy(a, 1, tmp, 0, a.length);
                         ins._11(a[0], tmp);
+						break;
+					case 15:
+					  String[] tmp2 = new String[a.length - 1];
+					  System.arraycopy(a, 1, tmp2, 0, a.length);
+					  ins._11(a[0], tmp2);
+					  break;
                     case 600:
                         ins._600();
                         break;

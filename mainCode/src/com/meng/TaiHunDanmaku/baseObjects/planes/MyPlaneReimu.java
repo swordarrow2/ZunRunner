@@ -55,7 +55,7 @@ public class MyPlaneReimu extends BaseGameObject {
     public void update() {
         super.update();
         animFlag++;
-        objectCenter = new Vector2(MathUtils.clamp(objectCenter.x, 10, 376), MathUtils.clamp(objectCenter.y, 10, 440));
+        objectCenter = new Vector2(MathUtils.clamp(objectCenter.x, 10, gameMain.width-10), MathUtils.clamp(objectCenter.y, 10, gameMain.height-10));
         if (image.getRotation() != 0) {
             image.setRotation(0);
         }

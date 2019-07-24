@@ -14,6 +14,8 @@ import com.meng.TaiHunDanmaku.control.*;
 import com.meng.TaiHunDanmaku.task.*;
 
 import java.util.*;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
@@ -53,6 +55,14 @@ public class FightScreen extends ScreenAdapter {
         groupNormal = new Group();
         groupHighLight = new Group();
        // groupHighLight.addActor(laserManager);
+	   Pixmap p=new Pixmap(1,1,Pixmap.Format.RGB565);
+	
+	   
+		p.setColor(Color.DARK_GRAY);
+		p.fill();
+		Image bg = new Image(new Texture(p));
+		bg.setBounds(0,0,gameMain.width,gameMain.height);
+		stage.addActor(bg);
         stage.addActor(groupNormal);
         stage.addActor(changeBlend1);
         stage.addActor(groupHighLight);

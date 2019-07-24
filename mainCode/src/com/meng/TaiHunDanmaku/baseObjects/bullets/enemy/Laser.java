@@ -11,59 +11,34 @@ public class Laser extends Actor {
 
     public Vector2 position = new Vector2();
     public float distance;
-    public Color color = new Color(Color.RED);
+    public Color color = new Color(Color.WHITE);
     public Color rayColor = new Color(Color.WHITE);
     public float degrees;
-    public Sprite begin1, begin2, mid1, mid2, end1, end2;
+    public Sprite begin1,mid1;
     public Vector2 p1 = new Vector2();
     public Vector2 p2 = new Vector2();
 
-    public Laser(Sprite s1, Sprite s2, Sprite m1, Sprite m2, Sprite e1, Sprite e2) {
-        begin1 = s1;
-        begin2 = s2;
-        mid1 = m1;
-        mid2 = m2;
-        end1 = e1;
-        end2 = e2;
-        FightScreen.instence.groupHighLight.addActor(this);
+    public Laser(Sprite s2, Sprite m2) {
+        begin1 = s2;
+        mid1 = m2;
+        FightScreen.instence.groupNormal.addActor(this);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         begin1.setColor(color);
-        begin2.setColor(rayColor);
         mid1.setColor(color);
-        mid2.setColor(rayColor);
-        end1.setColor(color);
-        end2.setColor(rayColor);
         begin1.setOrigin(begin1.getWidth() / 2, begin1.getHeight() / 2);
-        begin2.setOrigin(begin1.getWidth() / 2, begin1.getHeight() / 2);
         mid1.setOrigin(mid1.getWidth() / 2, begin1.getHeight() / 2 - begin1.getHeight());
-        mid2.setOrigin(mid2.getWidth() / 2, begin1.getHeight() / 2 - begin1.getHeight());
-        end1.setOrigin(mid1.getWidth() / 2, begin1.getHeight() / 2 - begin1.getHeight() - mid1.getHeight());
-        end2.setOrigin(mid2.getWidth() / 2, begin1.getHeight() / 2 - begin1.getHeight() - mid2.getHeight());
         mid1.setSize(mid1.getWidth(), distance);
-        mid2.setSize(mid1.getWidth(), distance);
         begin1.setPosition(position.x - begin1.getHeight() / 2, position.y - begin1.getHeight() / 2);
-        begin2.setPosition(position.x - begin1.getHeight() / 2, position.y - begin1.getHeight() / 2);
         mid1.setPosition(begin1.getX(), begin1.getY() + begin1.getHeight());
-        mid2.setPosition(begin1.getX(), begin1.getY() + begin1.getHeight());
-        end1.setPosition(begin1.getX(), begin1.getY() + begin1.getHeight() + mid1.getHeight());
-        end2.setPosition(begin1.getX(), begin1.getY() + begin1.getHeight() + mid1.getHeight());
         begin1.setRotation(degrees);
-        begin2.setRotation(degrees);
         mid1.setRotation(degrees);
-        mid2.setRotation(degrees);
-        end1.setRotation(degrees);
-        end2.setRotation(degrees);
         begin1.draw(FightScreen.instence.gameMain.spriteBatch);
-        begin2.draw(FightScreen.instence.gameMain.spriteBatch);
         mid1.draw(FightScreen.instence.gameMain.spriteBatch);
-        mid2.draw(FightScreen.instence.gameMain.spriteBatch);
-        end1.draw(FightScreen.instence.gameMain.spriteBatch);
-        end2.draw(FightScreen.instence.gameMain.spriteBatch);
-        p1 = new Vector2(begin1.getX() + begin1.getOriginX(), begin1.getY() + begin1.getOriginY());
+		p1 = new Vector2(begin1.getX() + begin1.getOriginX(), begin1.getY() + begin1.getOriginY());
         p2 = new Vector2((float) (begin1.getX() + begin1.getOriginX() + distance * Math.cos(Math.toRadians(degrees + 90))), (float) (begin1.getY() + begin1.getOriginY() + distance * Math.sin(Math.toRadians(degrees + 90))));
         Vector2 v3 = new Vector2(p2.x - p1.x, p2.y - p1.y).nor();
         v3.scl(distance + begin1.getHeight());
@@ -71,7 +46,9 @@ public class Laser extends Actor {
         p2.set(v3);
         if (pointToLine(p1.x, p1.y, p2.x, p2.y, MyPlaneReimu.instance.objectCenter.x, MyPlaneReimu.instance.objectCenter.y) < 5) {
             ++FightScreen.instence.gameMain.miss;
+			this.remove();
         }
+		position.y-=5;
     }
 
     // 点到直线的最短距离的判断 点（x0,y0） 到由两点组成的线段（x1,y1） ,( x2,y2 )

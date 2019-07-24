@@ -9,8 +9,8 @@ public class GameMain extends Game {
     public SpriteBatch spriteBatch;
     public BitmapFont bitmapFont;
 
-    public int width = 386;//540;//386;
-    public int height = 450;//720;//450;
+    public int width = 480;// 386;//540;//386;
+    public int height = 560;//450;//720;//450;
 
     public int miss;
 

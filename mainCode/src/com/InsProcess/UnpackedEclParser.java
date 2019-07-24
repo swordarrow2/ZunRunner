@@ -44,7 +44,8 @@ public class UnpackedEclParser {
 
     private void save(String unpackedEcl) {
         try {
-            FileOutputStream fos = new FileOutputStream(new File(eclFile.getParent() + "/subed/" + unpackedEcl.substring(0, unpackedEcl.indexOf("(")) + ".txt"));
+			String tmp=unpackedEcl.replaceAll("\\s","");
+            FileOutputStream fos = new FileOutputStream(new File(eclFile.getParent() + "/subed/" + tmp.substring(0, tmp.indexOf("(")) + ".txt"));
             OutputStreamWriter writer = new OutputStreamWriter(fos, "Shift_JIS");
             writer.write(unpackedEcl);
             writer.flush();

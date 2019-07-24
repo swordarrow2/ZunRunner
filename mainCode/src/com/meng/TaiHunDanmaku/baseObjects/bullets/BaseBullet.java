@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.BaseGameObject;
+import com.meng.TaiHunDanmaku.ui.*;
 
 public abstract class BaseBullet extends BaseGameObject {
 
@@ -25,7 +26,7 @@ public abstract class BaseBullet extends BaseGameObject {
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         judgeCircle.setPosition(objectCenter);
-        if (judgeCircle.x < -5 || judgeCircle.x > 390 || judgeCircle.y < -5 || judgeCircle.y > 460) {
+        if (judgeCircle.x < -5 || judgeCircle.x > FightScreen.instence.gameMain.width+5 || judgeCircle.y < -5 || judgeCircle.y > FightScreen.instence.gameMain.height+5) {
             kill();
         } else {
             judge();

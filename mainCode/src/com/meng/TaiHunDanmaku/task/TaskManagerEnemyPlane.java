@@ -1,9 +1,9 @@
 package com.meng.TaiHunDanmaku.task;
 
 
-import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.baseObjects.planes.*;
 import com.meng.TaiHunDanmaku.helpers.*;
-
+import com.meng.TaiHunDanmaku.ui.*;
 import java.util.*;
 
 public class TaskManagerEnemyPlane {
@@ -70,7 +70,7 @@ public class TaskManagerEnemyPlane {
 
         if (task instanceof TaskMoveTo) {
             if (task.tmpVector2.x == 10000 && task.tmpVector2.y == 10000) {
-                junko.moveTo(ObjectPools.randomPool.nextInt(250) + 136, ObjectPools.randomPool.nextInt(250) + 150);
+                junko.moveTo(ObjectPools.randomPool.nextInt(FightScreen.instence.gameMain.width/2) + 200, ObjectPools.randomPool.nextInt(FightScreen.instence.gameMain.height/2) + 200);
 			  } else {
                 junko.moveTo(task.tmpVector2.x, task.tmpVector2.y);
 			  }
