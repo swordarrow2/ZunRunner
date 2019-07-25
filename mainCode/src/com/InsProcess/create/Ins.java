@@ -1,10 +1,14 @@
-package com.InsProcess;
+package com.InsProcess.create;
+
+import com.InsProcess.helper.EclException;
+import com.badlogic.gdx.math.Vector2;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletColor;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletForm;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletShooter;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletStyle;
+import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.HashMap;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.InsProcess.helper.*;
-import com.meng.TaiHunDanmaku.ui.*;
-import com.badlogic.gdx.math.*;
 
 public class Ins {
     private Sub sub;
@@ -14,7 +18,7 @@ public class Ins {
     private HashMap<String, VarType> typeMap = new HashMap<>();
     private final String varNotDefine = "var not defined";
     private final String varTypeUnkonwn = "var type unknown";
-	
+
     private StringBuilder stringBuilder = new StringBuilder();
 
     Ins(Sub sub, boolean... isInt) {
@@ -123,8 +127,8 @@ public class Ins {
 		this.sub.ecl.getSub(sub).invoke(args);
         return this;
     }
-	
-	public Ins _15(Sub sub,String... args){
+
+	public Ins _15(Sub sub, String... args){
 	  return _15(sub.getSubName(),args);
 	}
 
@@ -495,7 +499,7 @@ public class Ins {
 
     public Ins _641() {
         stringBuilder.append(lineStart);
-        stringBuilder.append(String.format("ins_642(%d)", dan));
+        stringBuilder.append(String.format("ins_641(%d)", dan));
         stringBuilder.append(lineEnd);
         return this;
     }

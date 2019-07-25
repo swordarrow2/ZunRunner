@@ -1,4 +1,4 @@
-package com.InsProcess;
+package com.InsProcess.helper;
 
 public class EclException extends NullPointerException {
 

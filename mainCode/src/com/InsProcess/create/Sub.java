@@ -1,8 +1,10 @@
-package com.InsProcess;
+package com.InsProcess.create;
 
-import com.InsProcess.helper.*;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import java.util.*;
+import com.InsProcess.helper.EclFloatStack;
+import com.InsProcess.helper.EclIntStack;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletShooter;
+
+import java.util.ArrayList;
 
 public class Sub {
 
@@ -14,15 +16,15 @@ public class Sub {
 	public EclIntStack intStack=new EclIntStack();
 	public EclFloatStack floatStack=new EclFloatStack();
 	public Ecl ecl;
-	
-    Sub(Ecl ecl,String name, boolean... isInt) {
+
+    Sub(Ecl ecl, String name, boolean... isInt) {
         subName = name;
 		this.ecl=ecl;
         this.argLength = isInt.length;
         this.isInt = isInt;
     }
 
-    Sub(Ecl ecl,String name, String unpackedEcl) {
+    Sub(Ecl ecl, String name, String unpackedEcl) {
         subName = name;
 		this.ecl=ecl;
         parse(unpackedEcl);

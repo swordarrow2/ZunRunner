@@ -9,7 +9,7 @@ import com.meng.TaiHunDanmaku.task.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class BulletShooter implements Cloneable{
+public class BulletShooter implements Cloneable {
 
     public Junko enemyPlane;
 
@@ -22,9 +22,9 @@ public class BulletShooter implements Cloneable{
     public Vector2 bulletAcceleration = new Vector2(0, 0);
     public Vector2 shootCenterOffset = new Vector2(0, 0);
     public Vector2 shooterCenterRandomRange = new Vector2(0, 0);
-    public BulletForm bulletForm = BulletForm.lindan;
-    public BulletColor bulletColor = BulletColor.white;
-    public BulletStyle bulletStyle = BulletStyle.normal;
+    public int bulletForm = 0;
+    public int bulletColor = 0;
+    public int bulletStyle = 0;
     public int bulletWays = 1;
     public float bulletWaysDegree = 0;
     public int bulletCengShu = 1;
@@ -53,22 +53,23 @@ public class BulletShooter implements Cloneable{
     private float cengJianBeiLv = 1;
     private Vector2 tmpv = new Vector2(0, 0);
 
-	public BulletShooter clone() {
-		BulletShooter bs;
-		try {
-			bs=(BulletShooter) super.clone();
-		  } catch (CloneNotSupportedException e) {
-			return null;
-		  }
-		bs.shooterCenter = shooterCenter.cpy();	
-		bs.bulletVelocity = bulletVelocity.cpy();
-		bs.bulletAcceleration = bulletAcceleration.cpy();
-		bs.shootCenterOffset = shootCenterOffset.cpy();
-		bs.shooterCenterRandomRange = shooterCenterRandomRange.cpy();	
-		bs.tmpv=tmpv.cpy();
-		bs.bulletTasks=(ArrayList<Task>) bulletTasks.clone();
-		return bs;
-	  }
+    @Override
+    public BulletShooter clone() {
+        BulletShooter bs;
+        try {
+            bs = (BulletShooter) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+        bs.shooterCenter = shooterCenter.cpy();
+        bs.bulletVelocity = bulletVelocity.cpy();
+        bs.bulletAcceleration = bulletAcceleration.cpy();
+        bs.shootCenterOffset = shootCenterOffset.cpy();
+        bs.shooterCenterRandomRange = shooterCenterRandomRange.cpy();
+        bs.tmpv = tmpv.cpy();
+        bs.bulletTasks = (ArrayList<Task>) bulletTasks.clone();
+        return bs;
+    }
 
     public BulletShooter init() {
         return this;
@@ -110,17 +111,17 @@ public class BulletShooter implements Cloneable{
         return this;
     }
 
-    public BulletShooter setBulletForm(BulletForm bulletForm) {
+    public BulletShooter setBulletForm(int bulletForm) {
         this.bulletForm = bulletForm;
         return this;
     }
 
-    public BulletShooter setBulletColor(BulletColor bulletColor) {
+    public BulletShooter setBulletColor(int bulletColor) {
         this.bulletColor = bulletColor;
         return this;
     }
 
-    public BulletShooter setBulletStyle(BulletStyle bulletStyle) {
+    public BulletShooter setBulletStyle(int bulletStyle) {
         this.bulletStyle = bulletStyle;
         return this;
     }
@@ -221,12 +222,12 @@ public class BulletShooter implements Cloneable{
             bulletVelocity.rotate(bulletVelocity.angle() + ObjectPools.randomPool.nextFloat() * bulletRandomDegreeRange * (ObjectPools.randomPool.nextBoolean() ? 1 : -1));
         }
         switch (bulletStyle) {
-            case normal:
+            case 0:
                 break;
-            case snipe:
+            case 1:
                 bulletVelocity = MyPlaneReimu.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
                 break;
-            case round:
+            case 2:
                 bulletWaysDegree = 360f / bulletWays;
                 break;
             default:

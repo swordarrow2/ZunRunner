@@ -1,4 +1,4 @@
-package com.InsProcess;
+package com.InsProcess.create;
 
 public class LoopFlag extends Ins {
 	private String name;
