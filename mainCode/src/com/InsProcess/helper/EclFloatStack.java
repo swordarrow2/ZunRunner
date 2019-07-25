@@ -5,7 +5,7 @@ public class EclFloatStack {
     private int depth = 0;
     private float[] stack = new float[maxDepth];
 
-    public void push(int n) {
+    public void push(float n) {
         if (depth == maxDepth - 1) {
             throw new RuntimeException("stack full");
         }

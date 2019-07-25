@@ -27,6 +27,7 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
+	public String difficulty="easy";
     public BitmapFont bitmapFont = new BitmapFont();
     private final Actor changeBlend1 = new Actor() {
         @Override

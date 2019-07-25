@@ -9,7 +9,7 @@ import com.meng.TaiHunDanmaku.task.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class BulletShooter {
+public class BulletShooter implements Cloneable{
 
     public Junko enemyPlane;
 
@@ -52,6 +52,23 @@ public class BulletShooter {
     private float angle = 0;
     private float cengJianBeiLv = 1;
     private Vector2 tmpv = new Vector2(0, 0);
+
+	public BulletShooter clone() {
+		BulletShooter bs;
+		try {
+			bs=(BulletShooter) super.clone();
+		  } catch (CloneNotSupportedException e) {
+			return null;
+		  }
+		bs.shooterCenter = shooterCenter.cpy();	
+		bs.bulletVelocity = bulletVelocity.cpy();
+		bs.bulletAcceleration = bulletAcceleration.cpy();
+		bs.shootCenterOffset = shootCenterOffset.cpy();
+		bs.shooterCenterRandomRange = shooterCenterRandomRange.cpy();	
+		bs.tmpv=tmpv.cpy();
+		bs.bulletTasks=(ArrayList<Task>) bulletTasks.clone();
+		return bs;
+	  }
 
     public BulletShooter init() {
         return this;

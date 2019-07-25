@@ -73,9 +73,7 @@ public class normal1 extends BaseNormalDanmaku {
         taskManager.update();
         frame++;
          // laser.degrees = frame * 0.3f;
-		// laser.position.y+=5;
-		 
-		 
+		// laser.position.y+=5; 
     }
 
 }

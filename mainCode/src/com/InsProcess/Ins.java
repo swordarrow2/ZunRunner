@@ -1,6 +1,10 @@
 package com.InsProcess;
 
 import java.util.HashMap;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
+import com.InsProcess.helper.*;
+import com.meng.TaiHunDanmaku.ui.*;
+import com.badlogic.gdx.math.*;
 
 public class Ins {
     private Sub sub;
@@ -10,7 +14,7 @@ public class Ins {
     private HashMap<String, VarType> typeMap = new HashMap<>();
     private final String varNotDefine = "var not defined";
     private final String varTypeUnkonwn = "var type unknown";
-
+	
     private StringBuilder stringBuilder = new StringBuilder();
 
     Ins(Sub sub, boolean... isInt) {
@@ -116,15 +120,27 @@ public class Ins {
             stringBuilder.append(", ").append(s);
         }
         stringBuilder.append(")").append(lineEnd);
+		this.sub.ecl.getSub(sub).invoke(args);
         return this;
     }
+	
+	public Ins _15(Sub sub,String... args){
+	  return _15(sub.getSubName(),args);
+	}
 
-    public Ins _15(Sub sub, String... args) {
-        stringBuilder.append(lineStart).append("ins_15(\"").append(sub.getSubName()).append("\"");
+    public Ins _15(final String sub, final String... args) {
+        stringBuilder.append(lineStart).append("ins_15(\"").append(sub).append("\"");
         for (String s : args) {
             stringBuilder.append(", ").append(s);
         }
         stringBuilder.append(")").append(lineEnd);
+		new Thread(new Runnable(){
+
+			  @Override
+			  public void run() {
+				  Ins.this.sub.ecl.getSub(sub).invoke(args);
+				}
+			}).start();
         return this;
     }
 
@@ -135,20 +151,40 @@ public class Ins {
                 .append("\n  ").append(h).append(";\n!L")
                 .append("\n  ").append(l).append(";\n!O")
                 .append("\n  ").append(o).append(";\n!*\n");
+		switch(FightScreen.instence.difficulty){
+		  case "easy" :
+			sub.intStack.push(e);
+			break;
+			case "normal" :
+			  sub.intStack.push(n);
+			  break;
+			case "hard" :
+			  sub.intStack.push(h);
+			  break;
+			case "lunatic" :
+			  sub.intStack.push(l);
+			  break;
+			case "overdrive" :
+			  sub.intStack.push(o);
+			  break;
+		}
         return this;
     }
 
     public Ins push(int i) {
+	  sub.intStack.push(i);
         stringBuilder.append(i).append(";\n");
         return this;
     }
 
     public Ins push(float f) {
+	  sub.floatStack.push(f);
         stringBuilder.append(f).append("f;\n");
         return this;
     }
 
     public Ins push(double d) {
+	  sub.floatStack.push((float)d);
         stringBuilder.append(d).append("f;\n");
         return this;
     }
@@ -156,7 +192,12 @@ public class Ins {
     public String pop() {
         return pop(1);
     }
-
+	public int popInt(){
+	  return sub.intStack.pop();
+	}
+	public float popFloat(){
+	  return sub.floatStack.pop();
+	}
     public String pop(int i) {
         return "[-" + Math.abs(i) + "]";
     }
@@ -186,6 +227,8 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_600(%d)", dan));
         stringBuilder.append(lineEnd);
+		BulletShooter bShooter=new BulletShooter();
+		sub.bulletShooters.add(bShooter);
         return this;
     }
 
@@ -193,6 +236,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_601(%d)", dan));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).shoot();
         return this;
     }
 
@@ -200,6 +244,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_601(%d)", i));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(i).shoot();
         return this;
     }
 
@@ -207,6 +252,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_602(%d, %s, %s)", dan, form, color));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).setBulletColor(BulletColor.valueOf(color)).setBulletForm(BulletForm.valueOf(form));
         return this;
     }
 
@@ -214,6 +260,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_603(%d, %s, %s)", dan, offsetX, offsetY));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).setShootCenterOffset(new Vector2(Float.parseFloat(offsetX),Float.parseFloat(offsetY)));
         return this;
     }
 
@@ -221,6 +268,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_604(%d, %s, %s)", dan, direct, r));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).setBulletWaysDegree((float)Math.toDegrees(Float.parseFloat(direct)));
         return this;
     }
 
@@ -235,6 +283,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_606(%d, %s, %s)", dan, way, ceng));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).setBulletWays(Integer.parseInt(way)).setBulletCengShu(Integer.parseInt(ceng));
         return this;
     }
 
@@ -242,6 +291,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_607(%d, %s)", dan, style));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.get(dan).setBulletStyle(BulletStyle.valueOf(style));
         return this;
     }
 
@@ -291,6 +341,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_614(%s, %s)", danmakuA, danmakuB));
         stringBuilder.append(lineEnd);
+		sub.bulletShooters.add(sub.bulletShooters.get(dan).clone());
         return this;
     }
 

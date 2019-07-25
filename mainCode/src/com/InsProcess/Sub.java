@@ -1,5 +1,7 @@
 package com.InsProcess;
 
+import com.InsProcess.helper.*;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import java.util.*;
 
 public class Sub {
@@ -7,16 +9,22 @@ public class Sub {
     public ArrayList<Ins> inses = new ArrayList<>();
     private String subName;
     private int argLength = 0;
-    public boolean[] isInt;
-
-    Sub(String name, boolean... isInt) {
+    public boolean[] isInt=new boolean[1];
+	public ArrayList<BulletShooter> bulletShooters=new ArrayList<>();
+	public EclIntStack intStack=new EclIntStack();
+	public EclFloatStack floatStack=new EclFloatStack();
+	public Ecl ecl;
+	
+    Sub(Ecl ecl,String name, boolean... isInt) {
         subName = name;
+		this.ecl=ecl;
         this.argLength = isInt.length;
         this.isInt = isInt;
     }
 
-    Sub(String name, String unpackedEcl) {
+    Sub(Ecl ecl,String name, String unpackedEcl) {
         subName = name;
+		this.ecl=ecl;
         parse(unpackedEcl);
     }
 
@@ -166,6 +174,10 @@ public class Sub {
             }
         }
     }
+	
+	public void invoke(String... args){
+	  
+	}
 
     private int getArgCount(String s) {
         int count = 0;
