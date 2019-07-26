@@ -26,7 +26,7 @@ public abstract class BaseBullet extends BaseGameObject {
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         judgeCircle.setPosition(objectCenter);
-        if (judgeCircle.x < -5 || judgeCircle.x > FightScreen.instence.gameMain.width+5 || judgeCircle.y < -5 || judgeCircle.y > FightScreen.instence.gameMain.height+5) {
+        if (judgeCircle.x < -5 || judgeCircle.x > GameMain.width +5 || judgeCircle.y < -5 || judgeCircle.y > GameMain.height +5) {
             kill();
         } else {
             judge();

@@ -6,25 +6,25 @@ public class EclVar {
     public static final int typeString = 2;
 
     public int type;
-    public int intValve;
-    public float floatValue;
-    public String stringValue;
+    public int i;
+    public float f;
+    public String s;
 
     public EclVar(int value) {
         type = typeInt;
-        intValve = value;
+        i = value;
     }
 
     public EclVar(float value) {
         type = typeFloat;
-        floatValue = value;
-		intValve=(int)value;
+        f = value;
+        i = (int) value;
     }
 
     public EclVar(String value) {
         type = typeString;
-        stringValue = value;
-		floatValue=Float.parseFloat(value);
-		intValve=(int)floatValue;
+        s = value;
+        f = Float.parseFloat(value);
+        i = (int) f;
     }
 }

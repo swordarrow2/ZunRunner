@@ -14,6 +14,7 @@ import com.meng.TaiHunDanmaku.control.*;
 import com.meng.TaiHunDanmaku.task.*;
 
 import java.util.*;
+
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.InsProcess.parse.*;
@@ -28,8 +29,7 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
-	public String difficulty="easy";
-    public BitmapFont bitmapFont = new BitmapFont();
+    public String difficulty = "easy";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -52,19 +52,19 @@ public class FightScreen extends ScreenAdapter {
     public void show() {
         instence = this;
         reflexAndThroughs = new HashSet<>();
-        fitViewport = new FitViewport(gameMain.width, gameMain.height);
+        fitViewport = new FitViewport(GameMain.width, GameMain.height);
         stage = new Stage(fitViewport, gameMain.spriteBatch);
         groupNormal = new Group();
         groupHighLight = new Group();
-       // groupHighLight.addActor(laserManager);
-	   Pixmap p=new Pixmap(1,1,Pixmap.Format.RGB565);
-	
-	   
-		p.setColor(Color.DARK_GRAY);
-		p.fill();
-		Image bg = new Image(new Texture(p));
-		bg.setBounds(0,0,gameMain.width,gameMain.height);
-		stage.addActor(bg);
+        // groupHighLight.addActor(laserManager);
+        Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGB565);
+
+
+        p.setColor(Color.DARK_GRAY);
+        p.fill();
+        Image bg = new Image(new Texture(p));
+        bg.setBounds(0, 0, GameMain.width, GameMain.height);
+        stage.addActor(bg);
         stage.addActor(groupNormal);
         stage.addActor(changeBlend1);
         stage.addActor(groupHighLight);
@@ -92,7 +92,7 @@ public class FightScreen extends ScreenAdapter {
         ++gameTimeFlag;
         stage.draw();
         gameMain.spriteBatch.begin();
-        bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 20, 20);
+        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
         if (boss == null) {
             new Junko().init(new Vector2(275, 450), 10, 21000, new Task[]{new TaskMoveTo(193, 250)});
         } else {
@@ -102,12 +102,11 @@ public class FightScreen extends ScreenAdapter {
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
         MyPlaneReimu.instance.update();
-		Ecl.update();
         gameMain.spriteBatch.end();
+        Ecl.update();
         for (ReflexAndThrough reflexAndThrough : reflexAndThroughs) {
             reflexAndThrough.update();
         }
-
         super.render(delta);
     }
 

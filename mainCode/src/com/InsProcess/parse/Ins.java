@@ -12,5 +12,4 @@ public class Ins {
         this.insNum = insNum;
         this.args = args;
     }
-
 }

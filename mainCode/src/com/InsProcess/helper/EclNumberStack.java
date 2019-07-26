@@ -48,7 +48,7 @@ public class EclNumberStack {
         switch (eclVar.type) {
             case EclVar.typeInt:
                 --depth;
-                return eclVar.intValve;
+                return eclVar.i;
             case EclVar.typeFloat:
                 throw new RuntimeException("not int value");
             case EclVar.typeString:
@@ -68,7 +68,7 @@ public class EclNumberStack {
                 throw new RuntimeException("not float value");
             case EclVar.typeFloat:
                 --depth;
-                return eclVar.floatValue;
+                return eclVar.f;
             case EclVar.typeString:
             default:
                 throw new RuntimeException("not float value");

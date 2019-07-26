@@ -5,54 +5,29 @@ public class zunRunner {
 
     public zunRunner() {
         ecl = new Ecl();
-        final Sub testSub = ecl.sub("TestSub", true, false);
-        testSub.addIns(new Runnable() {
+          Sub testSub = ecl.sub(" BossCard7_at4(A B)\n" +
+                "{\n" +
+                "    var C D;\n" +
+                "    $C = 5;\n" +
+                "    ins_600($C);\n" +
+                "    ins_607($C, 5);\n" +
+                "    ins_602($C, $A, $B);\n" +
+                "    ins_606($C, 24, 1);\n" +
+                "    ins_604($C, 1.5707964f, 0.0f);\n" +
+                "    ins_605($C, 4.0f, 0.2f);\n" +
+                "    ins_611($C, 0, 2, 1, -999999, -999999.0f, -999999.0f);\n" +
+                "    ins_627($C, 64.0f);\n" +
+                "    $D = 10000;\n" +
+                "    goto BossCard7_at4_404 @ 0;\n" +
+                "BossCard7_at4_364:\n" +
+                "    ins_601($C);\n" +
+                "    ins_23(10);\n" +
+                "BossCard7_at4_404:\n" +
+                "    if $D-- goto BossCard7_at4_364 @ 0;\n" +
+                "    ins_10();\n" +
+                "}\n" +
+                "\n");
 
-            @Override
-            public void run() {
-                Ins ins = testSub.ins();
-                ins._600();
-                ins._602(toStr(2), toStr(5));
-                ins.assign(A, 43).assign(B, 64);
-                ins._603(ins.use(A), ins.use(B));
-                ins._601();
-                LoopFlag loop1 = ins.loop(9961);
-                ins._600()
-				  ._602(toStr(4), toStr(2))
-				  ._603(toStr(85), toStr(12))
-                        ._601()
-                        .gotoLoopFlag(loop1)
-                        ._601(0);
-            }
-        });
-
-        final Sub mainFront = ecl.sub("MainFront", false, false);
-        mainFront.addIns(new Runnable() {
-
-            @Override
-            public void run() {
-                Ins ins = mainFront.ins();
-                ins.args(true, true, false, false)
-                        ._600()
-                        ._602(toStr(64), toStr(64))
-				        ._603(toStr(5), toStr(2))
-                        ._601()
-                        ._600()
-                        .assign(A, 64).assign(B, 54)
-                        .assign(C, 3).assign(D, 7)
-                        .assign(E, 99).assign(F, 61)
-                        .diffSwitch(3, 6, 9, 12, 15);
-                LoopFlag flag1 = ins.loop(9961);
-                ins._11(testSub, ins.transfer(A), ins.transfer(B))
-                        .push(4).push(5.0)
-                        ._602(ins.pop(), ins.pop())
-                        ._601()
-                        ._603(ins.use(E), ins.use(F))
-                        .ifxGoto(ins.use(A) + "--", flag1)
-						._606(ins.use(C), ins.use(D))
-                        ._601(0);
-            }
-        });
     }
 	private String toStr(int i){
 	  return String.valueOf(i);

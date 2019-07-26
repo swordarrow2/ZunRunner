@@ -4,8 +4,8 @@ public class LoopFlag extends Ins {
     private String name;
 
     public LoopFlag(Sub sub, String flagName) {
-        super(sub);
-        name = sub.getSubName() + "_" + flagName;
+        super(0);
+        name = sub.subName + "_" + flagName;
     }
 
     public String getName() {

@@ -136,7 +136,7 @@ public class Junko extends BaseGameObject {
         anim();
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         judgeCircle.setPosition(objectCenter.x, objectCenter.y);
-        if (judgeCircle.x < -5 || judgeCircle.x > 390 || judgeCircle.y < -5 || judgeCircle.y > 460) {
+        if (judgeCircle.x < -5 || judgeCircle.x > GameMain.width + 5 || judgeCircle.y < -5 || judgeCircle.y > GameMain.height + 5) {
             kill();
         } else {
             judge();
@@ -145,7 +145,7 @@ public class Junko extends BaseGameObject {
             objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
         }
         normalDanmaku.update();
-       // spellCard.update();
+        // spellCard.update();
     }
 
     private void anim() {

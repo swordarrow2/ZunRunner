@@ -2,10 +2,7 @@ package com.InsProcess.create;
 
 import com.InsProcess.helper.EclException;
 import com.badlogic.gdx.math.Vector2;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletColor;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletForm;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletShooter;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.BulletStyle;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.HashMap;
@@ -256,7 +253,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_602(%d, %s, %s)", dan, form, color));
         stringBuilder.append(lineEnd);
-		sub.bulletShooters.get(dan).setBulletColor(BulletColor.valueOf(color)).setBulletForm(BulletForm.valueOf(form));
+		sub.bulletShooters.get(dan).setBulletColor(Integer.parseInt(color)).setBulletForm(Integer.parseInt(form));
         return this;
     }
 
@@ -295,7 +292,7 @@ public class Ins {
         stringBuilder.append(lineStart);
         stringBuilder.append(String.format("ins_607(%d, %s)", dan, style));
         stringBuilder.append(lineEnd);
-		sub.bulletShooters.get(dan).setBulletStyle(BulletStyle.valueOf(style));
+		sub.bulletShooters.get(dan).setBulletStyle(Integer.parseInt(style));
         return this;
     }
 

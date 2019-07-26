@@ -19,8 +19,8 @@ public class spell5 extends BaseSpellCard {
                 new BulletShooter().init()
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
-                        .setBulletColor(BulletColor.red)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(1)
+                        .setBulletForm(3)
                         .setBulletWays(28)
                         .setBulletWaysDegree(12.8571429f)
                         .setBulletVelocity(new Vector2(0, -2))
@@ -29,8 +29,8 @@ public class spell5 extends BaseSpellCard {
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(-120, -30))
-                        .setBulletColor(BulletColor.purple)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(4)
+                        .setBulletForm(3)
                         .setBulletWays(10)
                         .setBulletWaysDegree(36)
                         .setBulletRandomDegreeRange(360)
@@ -40,8 +40,8 @@ public class spell5 extends BaseSpellCard {
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(120, -30))
-                        .setBulletColor(BulletColor.purple)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(4)
+                        .setBulletForm(3)
                         .setBulletWays(10)
                         .setBulletWaysDegree(36)
                         .setBulletRandomDegreeRange(360)
@@ -51,8 +51,8 @@ public class spell5 extends BaseSpellCard {
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(-160, 0))
-                        .setBulletColor(BulletColor.blue)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(6)
+                        .setBulletForm(3)
                         .setBulletWays(52)
                         .setBulletWaysDegree(6.92307692f)
                         .setBulletRandomDegreeRange(360)
@@ -62,8 +62,8 @@ public class spell5 extends BaseSpellCard {
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(160, 0))
-                        .setBulletColor(BulletColor.blue)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(6)
+                        .setBulletForm(3)
                         .setBulletWays(52)
                         .setBulletWaysDegree(6.92307692f)
                         .setBulletRandomDegreeRange(360)
@@ -72,8 +72,8 @@ public class spell5 extends BaseSpellCard {
                 new BulletShooter().init()
                         .setEnemyPlane(boss)
                         .setShooterCenter(boss.objectCenter)
-                        .setBulletColor(BulletColor.yellow_dark)
-                        .setBulletForm(BulletForm.xiaoyu)
+                        .setBulletColor(13)
+                        .setBulletForm(3)
                         .setBulletWays(24)
                         .setBulletWaysDegree(15)
                         .setBulletVelocity(new Vector2(0, -4))
@@ -85,7 +85,7 @@ public class spell5 extends BaseSpellCard {
         super.update();
         boss.moveTo(193, 350);
         if (waitFrameSpell-- > 0) return;
-        
+
         if (boss.existTime % 20 == 0) {
             shooters[0].shoot();
         }

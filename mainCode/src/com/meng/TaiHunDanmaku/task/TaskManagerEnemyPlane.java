@@ -70,7 +70,7 @@ public class TaskManagerEnemyPlane {
 
         if (task instanceof TaskMoveTo) {
             if (task.tmpVector2.x == 10000 && task.tmpVector2.y == 10000) {
-                junko.moveTo(ObjectPools.randomPool.nextInt(FightScreen.instence.gameMain.width/2) + 200, ObjectPools.randomPool.nextInt(FightScreen.instence.gameMain.height/2) + 200);
+                junko.moveTo(ObjectPools.randomPool.nextInt(GameMain.width /2) + 200, ObjectPools.randomPool.nextInt(GameMain.height /2) + 200);
 			  } else {
                 junko.moveTo(task.tmpVector2.x, task.tmpVector2.y);
 			  }
