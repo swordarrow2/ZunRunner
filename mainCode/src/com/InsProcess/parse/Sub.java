@@ -6,25 +6,18 @@ import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.*;
+import com.badlogic.gdx.math.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.*;
 
 public class Sub {
 
     public ArrayList<Ins> inses = new ArrayList<>();
     public HashMap<String, EclVar> varsHashMap = new HashMap<>(8);
     private String subName;
-    private int argLength = 0;
-    public boolean[] isInt = new boolean[1];
     public ArrayList<BulletShooter> bulletShooters = new ArrayList<>();
     public EclNumberStack numberStack = new EclNumberStack();
     public Ecl ecl;
     public int nowIns = 0;
-
-    Sub(Ecl ecl, String name, boolean... isInt) {
-        subName = name;
-        this.ecl = ecl;
-        this.argLength = isInt.length;
-        this.isInt = isInt;
-    }
 
     Sub(Ecl ecl, String name, String unpackedEcl) {
         subName = name;
@@ -46,315 +39,177 @@ public class Sub {
 
     private void parse(String unpackedEcl) {
         String[] strInses = unpackedEcl.split("\\n");
-        Ins ins = ins();
         for (int i = 0, strInsesLength = strInses.length; i < strInsesLength; i++) {
             String s = strInses[i];//now ins
             String strIns = s.replace("\\s", "");
-            if (strtrim().equals("")) {
+            if (strIns.trim().equals("")) {
                 continue;
             }
-            int index = strindexOf("ins_");
+            int index = strIns.indexOf("ins_");
             if (index != -1) {
-                String insNum = strsubstring(index + 4, strindexOf("("));
-                int argCount = getArgCount(strIns);
-                String argStr = strsubstring(strindexOf("(") + 1, strindexOf(")"));
+                String insNum = strIns.substring(index + 4, strIns.indexOf("("));
+                String argStr = strIns.substring(strIns.indexOf("(") + 1, strIns.indexOf(")"));
                 String[] a = argStr.split(",");
-                switch (Integer.parseInt(insNum)) {
-                    case 11:
-                        String[] tmp = new String[a.length - 1];
-                        System.arraycopy(a, 1, tmp, 0, a.length);
-                        _11(a[0], tmp);
-                        break;
-                    case 15:
-                        String[] tmp2 = new String[a.length - 1];
-                        System.arraycopy(a, 1, tmp2, 0, a.length);
-                        _11(a[0], tmp2);
-                        break;
-                    case 600:
-                        _600();
-                        break;
-                    case 601:
-                        _601(Integer.parseInt(a[0]));
-                        break;
-                    case 602:
-                        _602(a[0], a[1]);
-                        break;
-                    case 603:
-                        _603(a[0], a[1]);
-                        break;
-                    case 604:
-                        _604(a[0], a[1]);
-                        break;
-                    case 605:
-                        _605(a[0], a[1]);
-                        break;
-                    case 606:
-                        _606(a[0], a[1]);
-                        break;
-                    case 607:
-                        _607(a[0]);
-                        break;
-                    case 608:
-                        _608(a[0], a[1]);
-                        break;
-                    case 609:
-                        _609(a[0], a[1], a[2], a[3], a[4], a[5]);
-                        break;
-                    case 610:
-                        _610(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
-                        break;
-                    case 611:
-                        _611(a[0], a[1], a[2], a[3], a[4]);
-                        break;
-                    case 612:
-                        _612(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
-                        break;
-                    case 613:
-                        _613();
-                        break;
-                    case 614:
-                        _614(a[0], a[1]);
-                        break;
-                    case 615:
-                        _615(a[0]);
-                        break;
-                    case 616:
-                        _616(a[0]);
-                        break;
-                    case 623:
-                        _623(a[0], a[1], a[2]);
-                        break;
-                    case 624:
-                        _624(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
-                        break;
-                    case 625:
-                        _625(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
-                        break;
-                    case 626:
-                        _626(a[0], a[1]);
-                        break;
-                    case 627:
-                        _627(a[0]);
-                        break;
-                    case 628:
-                        _628(a[0], a[1]);
-                        break;
-                    case 629:
-                        _629(a[0], a[1]);
-                        break;
-                    case 630:
-                        _630(a[0]);
-                        break;
-                    case 631:
-                        _631(a[0]);
-                        break;
-                    case 632:
-                        _632(a[0]);
-                        break;
-                    case 633:
-                        _633(a[0]);
-                        break;
-                    case 634:
-                        _634(a[0]);
-                        break;
-                    case 635:
-                        _635(a[0]);
-                        break;
-                    case 636:
-                        _636(a[0]);
-                        break;
-                    case 637:
-                        _637(a[0]);
-                        break;
-                    case 638:
-                        _638(a[0]);
-                        break;
-                    case 639:
-                        _639(a[0]);
-                        break;
-                    case 640:
-                        _640(a[0], a[1]);
-                        break;
-                    case 641:
-                        _641();
-                        break;
-                    default:
-                        break;
-                }
+                 EclVar[] eclvars=new EclVar[a.length];
+		         for(int argfl=0;argfl<eclvars.length;++argfl){
+			         eclvars[argfl]=new EclVar(a[argfl]);
+			       }
+		    	 inses.add(new Ins(Integer.parseInt(insNum),eclvars));   
             } else {
-                if (strcontains("Var")) {
+                if (strIns.contains("Var")) {
 
-                } else if (strcontains(":")) {
+                } else if (strIns.contains(":")) {
 
                 }
             }
         }
     }
+	
+	public void update(){
+	  if(nowIns<inses.size()-1){
+		Ins ins=inses.get(nowIns);
+	  if(ins.insNum==23&&ins.args[0].intValve>0){
+		--ins.insNum;
+	  }else{
+		invoke(ins);
+		++nowIns;
+		update();
+	  }}
+	}
 
-    public void invoke(EclVar... args) {
+    public void invoke(Ins ins) {
+	  EclVar[] a=ins.args;
+		  switch (ins.insNum) {
+			  case 11:
+				_11(a);
+				break;
+			  case 15:
+				_11(a);
+				break;
+			  case 600:
+				_600();
+				break;
+			  case 601:
+				_601(Integer.parseInt(a[0]));
+				break;
+			  case 602:
+				_602(a[0], a[1]);
+				break;
+			  case 603:
+				_603(a[0], a[1]);
+				break;
+			  case 604:
+				_604(a[0], a[1]);
+				break;
+			  case 605:
+				_605(a[0], a[1]);
+				break;
+			  case 606:
+				_606(a[0], a[1]);
+				break;
+			  case 607:
+				_607(a[0]);
+				break;
+			  case 608:
+				_608(a[0], a[1]);
+				break;
+			  case 609:
+				_609(a[0], a[1], a[2], a[3], a[4], a[5]);
+				break;
+			  case 610:
+				_610(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
+				break;
+			  case 611:
+				_611(a[0], a[1], a[2], a[3], a[4]);
+				break;
+			  case 612:
+				_612(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+				break;
+			  case 613:
+				_613();
+				break;
+			  case 614:
+				_614(a[0], a[1]);
+				break;
+			  case 615:
+				_615(a[0]);
+				break;
+			  case 616:
+				_616(a[0]);
+				break;
+			  case 623:
+				_623(a[0], a[1], a[2]);
+				break;
+			  case 624:
+				_624(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+				break;
+			  case 625:
+				_625(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+				break;
+			  case 626:
+				_626(a[0], a[1]);
+				break;
+			  case 627:
+				_627(a[0]);
+				break;
+			  case 628:
+				_628(a[0], a[1]);
+				break;
+			  case 629:
+				_629(a[0], a[1]);
+				break;
+			  case 630:
+				_630(a[0]);
+				break;
+			  case 631:
+				_631(a[0]);
+				break;
+			  case 632:
+				_632(a[0]);
+				break;
+			  case 633:
+				_633(a[0]);
+				break;
+			  case 634:
+				_634(a[0]);
+				break;
+			  case 635:
+				_635(a[0]);
+				break;
+			  case 636:
+				_636(a[0]);
+				break;
+			  case 637:
+				_637(a[0]);
+				break;
+			  case 638:
+				_638(a[0]);
+				break;
+			  case 639:
+				_639(a[0]);
+				break;
+			  case 640:
+				_640(a[0], a[1]);
+				break;
+			  case 641:
+				_641();
+				break;
+			  default:
+				
+				break;
+			}
 
-        String[] strInses = unpackedEcl.split("\\n");
-        Ins ins = ins();
-        for (int i = 0, strInsesLength = strInses.length; i < strInsesLength; i++) {
-            String s = strInses[i];//now ins
-            String strIns = s.replace("\\s", "");
-            if (strtrim().equals("")) {
-                continue;
-            }
-            int index = strindexOf("ins_");
-            if (index != -1) {
-                String insNum = strsubstring(index + 4, strindexOf("("));
-                int argCount = getArgCount(strIns);
-                String argStr = strsubstring(strindexOf("(") + 1, strindexOf(")"));
-                String[] a = argStr.split(",");
-                switch (Integer.parseInt(insNum)) {
-                    case 11:
-                        String[] tmp = new String[a.length - 1];
-                        System.arraycopy(a, 1, tmp, 0, a.length);
-                        _11(a[0], tmp);
-                        break;
-                    case 15:
-                        String[] tmp2 = new String[a.length - 1];
-                        System.arraycopy(a, 1, tmp2, 0, a.length);
-                        _11(a[0], tmp2);
-                        break;
-                    case 600:
-                        _600();
-                        break;
-                    case 601:
-                        _601(Integer.parseInt(a[0]));
-                        break;
-                    case 602:
-                        _602(a[0], a[1]);
-                        break;
-                    case 603:
-                        _603(a[0], a[1]);
-                        break;
-                    case 604:
-                        _604(a[0], a[1]);
-                        break;
-                    case 605:
-                        _605(a[0], a[1]);
-                        break;
-                    case 606:
-                        _606(a[0], a[1]);
-                        break;
-                    case 607:
-                        _607(a[0]);
-                        break;
-                    case 608:
-                        _608(a[0], a[1]);
-                        break;
-                    case 609:
-                        _609(a[0], a[1], a[2], a[3], a[4], a[5]);
-                        break;
-                    case 610:
-                        _610(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
-                        break;
-                    case 611:
-                        _611(a[0], a[1], a[2], a[3], a[4]);
-                        break;
-                    case 612:
-                        _612(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
-                        break;
-                    case 613:
-                        _613();
-                        break;
-                    case 614:
-                        _614(a[0], a[1]);
-                        break;
-                    case 615:
-                        _615(a[0]);
-                        break;
-                    case 616:
-                        _616(a[0]);
-                        break;
-                    case 623:
-                        _623(a[0], a[1], a[2]);
-                        break;
-                    case 624:
-                        _624(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
-                        break;
-                    case 625:
-                        _625(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
-                        break;
-                    case 626:
-                        _626(a[0], a[1]);
-                        break;
-                    case 627:
-                        _627(a[0]);
-                        break;
-                    case 628:
-                        _628(a[0], a[1]);
-                        break;
-                    case 629:
-                        _629(a[0], a[1]);
-                        break;
-                    case 630:
-                        _630(a[0]);
-                        break;
-                    case 631:
-                        _631(a[0]);
-                        break;
-                    case 632:
-                        _632(a[0]);
-                        break;
-                    case 633:
-                        _633(a[0]);
-                        break;
-                    case 634:
-                        _634(a[0]);
-                        break;
-                    case 635:
-                        _635(a[0]);
-                        break;
-                    case 636:
-                        _636(a[0]);
-                        break;
-                    case 637:
-                        _637(a[0]);
-                        break;
-                    case 638:
-                        _638(a[0]);
-                        break;
-                    case 639:
-                        _639(a[0]);
-                        break;
-                    case 640:
-                        _640(a[0], a[1]);
-                        break;
-                    case 641:
-                        _641();
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                if (strcontains("Var")) {
+         }
 
-                } else if (strcontains(":")) {
-
-                }
-            }
-        }
-
-    }
-
-    private int getArgCount(String s) {
-        int count = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == ',') {
-                ++count;
-            }
-        }
-        ++count;
-        return count;
-    }
-
-    public void ins(int number,Object... args) {
-        Ins ins  = new Ins(number, args);
-        inses.add(ins);
-        return ins;
+	public Sub insertArgs(EclVar... args){
+	  for(EclVar e:args){
+		varsHashMap.put(e.stringValue,e);
+	  }
+	  return this;
+	}
+	
+    public void ins(int number,EclVar... args) {
+        inses.add(new Ins(number, args));
     }
 
     public String getSubName() {
@@ -363,20 +218,6 @@ public class Sub {
 
     public void addIns(Runnable runnable) {
         runnable.run();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb1 = new StringBuilder();
-        for (Ins i : inses) {
-            sb1.append(i.toString());
-        }
-        StringBuilder sb2 = new StringBuilder();
-        for (int i = 65; i < 65 + argLength; ++i) {
-            sb2.append(" ");
-            sb2.append((char) i);
-        }
-        return String.format("sub %s(%s) {\n%s}\n\n", subName, sb2.toString(), sb1.toString());
     }
 
     public void assign(String varName, int value) {
@@ -441,22 +282,12 @@ public class Sub {
             varsHashMap.put(String.valueOf((char) i), null);
         }
     }
-    public void _11(Sub sub, String... args) {
-        return _11(getSubName(), args);
+    public void _11(Sub sub, EclVar... args) {
+        ecl.getSub(sub.getSubName()).insertArgs(args).update();
     }
 
-    public void _11(String sub, String... args) {
-        this.ecl.getSub(sub).invoke(args);
-    }
-
-    public void _15(final String sub, final String... args) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                this.ecl.getSub(sub).invoke(args);
-            }
-        }).start();
+    public void _15(final Sub sub, EclVar... args) {
+        ecl.runningSubs.add(ecl.getSub(sub.getSubName()).insertArgs(args));
     }
 
 
@@ -505,6 +336,38 @@ public class Sub {
                 break;
         }
     }
+	
+	public void putSpecialValue(int valueCase,EclVar value){
+	  if(valueCase<0){
+		valueCase=-valueCase;
+	  }
+	  if(valueCase==1){
+	    numberStack.push(value);	
+	  }else{
+	    varsHashMap.put(String.valueOf(valueCase),value);
+	  }
+	}
+	
+	public EclVar getSpecialValue(int i){
+	  if(i<0){
+		i=-i;
+	  }
+	  switch (i){
+		case 1:
+		  return numberStack.pop();
+		case 9964:
+		  return new EclVar(MyPlaneReimu.instance.objectCenter.x);
+		case 9965:
+			return new EclVar(MyPlaneReimu.instance.objectCenter.y);		
+		case 9978:
+		case 9979:
+		  return varsHashMap.get(String.valueOf(i));
+		 case 10000:
+			return new EclVar(new RandomXS128().nextInt());
+		default :
+			return null;
+	  }
+	}
 
     public void push(int i) {
         numberStack.push(i);

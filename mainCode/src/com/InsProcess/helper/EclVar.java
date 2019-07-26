@@ -18,10 +18,13 @@ public class EclVar {
     public EclVar(float value) {
         type = typeFloat;
         floatValue = value;
+		intValve=(int)value;
     }
 
     public EclVar(String value) {
         type = typeString;
         stringValue = value;
+		floatValue=Float.parseFloat(value);
+		intValve=(int)floatValue;
     }
 }

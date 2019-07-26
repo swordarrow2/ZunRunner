@@ -3,26 +3,22 @@ package com.InsProcess.parse;
 import java.util.*;
 
 public class Ecl {
+  public static HashSet<Sub> runningSubs=new HashSet<>();
     private ArrayList<Sub> subs = new ArrayList<>();
 
-    public Sub sub(String name, boolean... isInt) {
-        Sub s = new Sub(this,name, isInt);
-        subs.add(s);
-        return s;
-    }
 	public Sub sub(String name, String unpackedEcl) {
         Sub s = new Sub(this,name, unpackedEcl);
         subs.add(s);
         return s;
 		}
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Sub s : subs) {
-            stringBuilder.append(s.toString());
-        }
-        return stringBuilder.toString();
-    }
+		
+    public static void update(){
+	  for(Sub sub:runningSubs){
+		sub.update();
+	  }
+	}
+		
+		
 	public Sub getSub(String subName){
 	  for(Sub s:subs){
 		if(s.getSubName().equals(subName)){

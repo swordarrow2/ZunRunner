@@ -16,6 +16,7 @@ import com.meng.TaiHunDanmaku.task.*;
 import java.util.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.InsProcess.parse.*;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
@@ -101,6 +102,7 @@ public class FightScreen extends ScreenAdapter {
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
         MyPlaneReimu.instance.update();
+		Ecl.update();
         gameMain.spriteBatch.end();
         for (ReflexAndThrough reflexAndThrough : reflexAndThroughs) {
             reflexAndThrough.update();
