@@ -53,9 +53,9 @@ public class Sub {
                 String insNum = strInsLine.substring(index + 4, strInsLine.indexOf("("));
                 String[] strArgs = strInsLine.substring(strInsLine.indexOf("(") + 1, strInsLine.indexOf(")")).split(",");
                 EclVar[] eclVarArgs = new EclVar[strArgs.length];
-                System.out.println("eclVarArgs.length:"+eclVarArgs.length);
+                System.out.println("eclVarArgs.length:" + eclVarArgs.length);
                 for (int argLoopFlag = 0; argLoopFlag < eclVarArgs.length; ++argLoopFlag) {
-                    if(strInsLine.contains("()")){
+                    if (strInsLine.contains("()")) {
                         break;
                     }
                     String argStr = strArgs[argLoopFlag];
@@ -69,14 +69,14 @@ public class Sub {
                         eclVarArgs[argLoopFlag] = new EclVar(strInsLine.contains("f") ? Float.parseFloat(argStr) : Integer.parseInt(argStr));
                     }
                 }
-                if(strInsLine.contains("()")){
-                   System.out.print("no arg");
-               }else {
-                   for (int i = 0; i < eclVarArgs.length; i++) {
-                       EclVar eclVar = eclVarArgs[i];
-                       System.out.print("var[" + i + "]:" + eclVar.toString() + "  ");
-                   }
-               }
+                if (strInsLine.contains("()")) {
+                    System.out.print("no arg");
+                } else {
+                    for (int i = 0; i < eclVarArgs.length; i++) {
+                        EclVar eclVar = eclVarArgs[i];
+                        System.out.print("var[" + i + "]:" + eclVar.toString() + "  ");
+                    }
+                }
                 System.out.print("\n");
                 inses.add(new Ins(Integer.parseInt(insNum), eclVarArgs));
             } else {
@@ -85,7 +85,6 @@ public class Sub {
                     int bound = argsStr.length() - 1;
                     for (int i = 0; i < bound; ++i) {
                         String strvar = String.valueOf(argsStr.charAt(i));
-                        System.out.println("strvar:" + strvar);
                         varsHashMap.put(String.valueOf(argsStr.charAt(i)), null);
                     }
                 } else if (strInsLine.startsWith("$")) {
@@ -104,11 +103,11 @@ public class Sub {
                         varsHashMap.put(strvar, eclVar);
                     }
                 } else if (strInsLine.startsWith(subName)) {
-                    System.out.println("loop:" + strInsLine.substring(0, strInsLine.length() - 1));
                     inses.add(new LoopFlag(strInsLine.substring(0, strInsLine.length() - 1)));
                 } else if (strInsLine.startsWith("goto")) {
-                    System.out.println("goto:" + strInsLine.substring(4, strInsLine.indexOf("@")));
                     inses.add(new Ins(12, new EclVar(strInsLine.substring(4, strInsLine.indexOf("@")))));
+                } else if (strInsLine.startsWith("if")) {
+                    inses.add(new Ins(13, new EclVar(strInsLine.substring(0, strInsLine.indexOf("@")))));
                 } else if (strInsLine.endsWith(":")) {
                     //unknown
                     String num = strInsLine.substring(0, strInsLine.length() - 1);
