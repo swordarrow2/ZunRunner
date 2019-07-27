@@ -3,9 +3,9 @@ package com.InsProcess.parse;
 public class LoopFlag extends Ins {
     private String name;
 
-    public LoopFlag(Sub sub, String flagName) {
+    public LoopFlag(String flagName) {
         super(0);
-        name = sub.subName + "_" + flagName;
+        name = flagName;
     }
 
     public String getName() {

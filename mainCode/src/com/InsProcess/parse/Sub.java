@@ -6,7 +6,6 @@ import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.*;
@@ -40,6 +39,7 @@ public class Sub {
     }
 
     private void parse(String unpackedEcl) {
+	  unpackedEcl =parseDiffSwitch(unpackedEcl);
         String[] strInses = unpackedEcl.split("\\n");
         subName = unpackedEcl.substring(0, unpackedEcl.indexOf("(")).replace("\\s", "");
         for (String s : strInses) {
@@ -73,6 +73,8 @@ public class Sub {
                     }
                 } else if (strInsLine.endsWith(":")) {
                     //unknown
+					String num = strInsLine.substring(0, strInsLine.length() - 1);
+					inses.add(new Ins(-1,new EclVar(Integer.parseInt(num))));
                 } else if (strInsLine.endsWith(";")) {
                     String num = strInsLine.substring(0, strInsLine.length() - 1);
                     if (strInsLine.contains("f")) {
@@ -80,17 +82,50 @@ public class Sub {
                     } else {
                         numberStack.push(Integer.parseInt(num));
                     }
-                }
+                } else if(strInsLine.startsWith(subName)){
+					inses.add(new LoopFlag(strInsLine.substring(0,strInsLine.length()-1)));
+				}
             }
         }
     }
 
+	private String parseDiffSwitch(String unpackedEcl){
+	  StringBuilder stringBuilder=new StringBuilder(unpackedEcl);
+	  
+	  int s1start=unpackedEcl.indexOf("!E");
+	  int s1end=unpackedEcl.indexOf("!*")+2;
+	  
+	  while(s1start!=-1){
+		String switchStr=unpackedEcl.substring(s1start,s1end);
+		
+		switch(FightScreen.instence.difficulty){
+		  case "easy":
+			int indexe=switchStr.indexOf("\n",switchStr.indexOf("E")+1);
+			int indexeend=switchStr.indexOf(";",indexe);
+			String s=switchStr.substring(indexe,indexeend);
+			stringBuilder.replace(s1start,s1end,s);
+			break;
+		  case "normal":
+			  
+			break;
+		}
+		s1start=unpackedEcl.indexOf("!E",s1end);
+		s1end=unpackedEcl.indexOf("!*")+2;
+		
+	  }
+	 
+	  return null;
+	}
+	
+	
     public void update() {
         if (nowIns < inses.size() - 1) {
             Ins ins = inses.get(nowIns);
             if (ins.insNum == 23 && ins.args[0].i > 0) {
                 --ins.insNum;
-            } else {
+            } else if(ins.insNum==-1&&FightScreen.instence.gameTimeFlag-ins.args[0].i>0){
+			  
+			} else {
                 invoke(ins);
                 ++nowIns;
                 update();
@@ -227,12 +262,6 @@ public class Sub {
             varsHashMap.put(String.valueOf((char) i + 64), args[i]);
         }
         return this;
-    }
-
-    public LoopFlag loop(int flagName) {
-        LoopFlag flag = new LoopFlag(this, String.valueOf(flagName));
-        inses.add(flag);
-        return flag;
     }
 
     public void gotoLoopFlag(String flagName) {

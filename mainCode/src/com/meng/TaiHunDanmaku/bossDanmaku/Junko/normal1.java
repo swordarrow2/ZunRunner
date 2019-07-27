@@ -45,7 +45,7 @@ public class normal1 extends BaseNormalDanmaku {
                         .setBulletVelocity(new Vector2(0, -1))
                         .setBulletStyle(2)
                         .setBulletHighLight(true)
-                        .setBulletAcceleration(new Vector2(0, -0.05f))
+                        .setBulletAcceleration(new Vector2(0, -0.075f))
                         .setBulletTasks(arrayList)
         };
         taskManager = new TaskManagerEnemyPlane(baseBossPlane, TaskRepeatMode.repeatAll);
