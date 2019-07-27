@@ -13,10 +13,10 @@ public class MainActivity extends AndroidApplication {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
-	//	ScrollView s=new ScrollView(this);
-		//TextView t=new TextView(this);
-		//t.setText(new UnpackedEclParser(new File(Environment.getExternalStorageDirectory()+"/AppProjects/ZunRunner/subed/BossCard7_at4.txt")).read());
-		//s.addView(t);
-	//	setContentView(s);
+		/*ScrollView s=new ScrollView(this);
+		TextView t=new TextView(this);
+		t.setText(new UnpackedEclParser(new File(Environment.getExternalStorageDirectory()+"/AppProjects/ZunRunner/subed/BossCard7_at4.txt")).read());
+		s.addView(t);
+		setContentView(s);*/
 	  }
   }

@@ -227,7 +227,7 @@ public class BulletShooter implements Cloneable {
             case 1:
                 bulletVelocity = MyPlaneReimu.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
                 break;
-            case 2:
+            case 5:
                 bulletWaysDegree = 360f / bulletWays;
                 break;
             default:

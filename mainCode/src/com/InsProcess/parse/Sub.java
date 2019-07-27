@@ -15,7 +15,7 @@ public class Sub {
     public ArrayList<Ins> inses = new ArrayList<>();
     public HashMap<String, EclVar> varsHashMap = new HashMap<>(8);
     public String subName;
-    public ArrayList<BulletShooter> bulletShooters = new ArrayList<>();
+    public HashMap<Integer,BulletShooter> bulletShooters = new HashMap<>();
     public EclNumberStack numberStack = new EclNumberStack();
     public Ecl ecl;
     public int nowIns = 0;
@@ -23,7 +23,7 @@ public class Sub {
     Sub(Ecl ecl, String unpackedEcl) {
         this.ecl = ecl;
         //   parse(unpackedEcl);
-        Ecl.runningSubs.add(this.insertArgs(new EclVar(20), new EclVar(3)));
+    //    Ecl.runningSubs.add(this.insertArgs(new EclVar(20), new EclVar(3)));
     }
 
     public int getLoopPoint(String name) {
@@ -69,7 +69,7 @@ public class Sub {
                         eclVarArgs[argLoopFlag] = new EclVar(strInsLine.contains("f") ? Float.parseFloat(argStr) : Integer.parseInt(argStr));
                     }
                 }
-                if (strInsLine.contains("()")) {
+           /*     if (strInsLine.contains("()")) {
                     System.out.print("no arg");
                 } else {
                     for (int i = 0; i < eclVarArgs.length; i++) {
@@ -77,14 +77,16 @@ public class Sub {
                         System.out.print("var[" + i + "]:" + eclVar.toString() + "  ");
                     }
                 }
-                System.out.print("\n");
+                System.out.print("\n");*/
+				if(Integer.parseInt(insNum)==23){
+				  eclVarArgs[0].f=eclVarArgs[0].i;
+				}
                 inses.add(new Ins(Integer.parseInt(insNum), eclVarArgs));
             } else {
                 if (strInsLine.startsWith("var")) {
                     String argsStr = strInsLine.substring(3);
                     int bound = argsStr.length() - 1;
                     for (int i = 0; i < bound; ++i) {
-                        String strvar = String.valueOf(argsStr.charAt(i));
                         varsHashMap.put(String.valueOf(argsStr.charAt(i)), null);
                     }
                 } else if (strInsLine.startsWith("$")) {
@@ -117,7 +119,8 @@ public class Sub {
                     numberStack.push(strInsLine.contains("f") ? Float.parseFloat(num) : Integer.parseInt(num));
                 }
             }
-        }
+		  }
+		  Ecl.runningSubs.add(this.insertArgs(new EclVar(20), new EclVar(3)));	
     }
 
     private String parseDiffSwitch(String unpackedEcl) {
@@ -137,18 +140,21 @@ public class Sub {
 
 
     public void update() {
-        if (nowIns < inses.size() - 1) {
+        if (nowIns < inses.size()) {
             Ins ins = inses.get(nowIns);
             if (ins.insNum == -1 && FightScreen.instence.gameTimeFlag - ins.args[0].i == 0) {
                 return;
             }
-            if (ins.insNum == 23 && ins.args[0].i > 0) {
-                --ins.insNum;
-            } else {
+            if (ins.insNum == 23){		  
+				if(ins.args[0].i > 0) {
+				   --ins.args[0].i;
+					return;
+				  }
+					ins.args[0].i=(int) ins.args[0].f;
+              } 
                 invoke(ins);
                 ++nowIns;
                 update();
-            }
         }
     }
 
@@ -158,6 +164,9 @@ public class Sub {
             case 11:
                 _11(a);
                 break;
+			case 12:
+			  nowIns=getLoopPoint(a[0].s);
+			  break;
             case 15:
                 _15(a);
                 break;
@@ -168,7 +177,7 @@ public class Sub {
                 _601(a[0].i);
                 break;
             case 602:
-                _602(a[0].i, a[1].i, a[2].i);
+                _602(a[0].i, 6, 6);
                 break;
             case 603:
                 _603(a[0].i, a[1].f, a[2].f);
@@ -364,8 +373,9 @@ public class Sub {
     }
 
     public void _600(int danmakuNum) {
-        BulletShooter bShooter = new BulletShooter();
-        bulletShooters.set(danmakuNum, bShooter);
+        BulletShooter bShooter = new BulletShooter().init();
+		bShooter.shooterCenter=FightScreen.instence.boss.objectCenter;
+        bulletShooters.put(danmakuNum, bShooter);
     }
 
     public void _601(int danmakuNum) {
@@ -381,10 +391,15 @@ public class Sub {
     }
 
     public void _604(int danmakuNum, float direct, float r) {
+	  BulletShooter bs=bulletShooters.get(danmakuNum);
+	  if(bs==null){
+		throw new NullPointerException("is null:"+danmakuNum);
+	  }
         bulletShooters.get(danmakuNum).setBulletWaysDegree((float) Math.toDegrees(direct));
     }
 
     public void _605(int danmakuNum, float speed, float slowlestSpeed) {
+	  
     }
 
     public void _606(int danmakuNum, int way, int ceng) {
@@ -414,7 +429,7 @@ public class Sub {
     }
 
     public void _614(int danmakuA, int danmakuB) {
-        bulletShooters.set(danmakuB, bulletShooters.get(danmakuA).clone());
+        bulletShooters.put(danmakuB, bulletShooters.get(danmakuA).clone());
     }
 
     public void _615(float floatR) {
