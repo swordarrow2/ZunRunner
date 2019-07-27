@@ -29,7 +29,7 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
-    public String difficulty = "easy";
+    public String difficulty = "E";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {

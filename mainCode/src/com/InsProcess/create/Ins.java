@@ -153,19 +153,19 @@ public class Ins {
                 .append("\n  ").append(l).append(";\n!O")
                 .append("\n  ").append(o).append(";\n!*\n");
 		switch(FightScreen.instence.difficulty){
-		  case "easy" :
+		  case "E" :
 			sub.intStack.push(e);
 			break;
-			case "normal" :
+			case "N" :
 			  sub.intStack.push(n);
 			  break;
-			case "hard" :
+			case "H" :
 			  sub.intStack.push(h);
 			  break;
-			case "lunatic" :
+			case "L" :
 			  sub.intStack.push(l);
 			  break;
-			case "overdrive" :
+			case "O" :
 			  sub.intStack.push(o);
 			  break;
 		}

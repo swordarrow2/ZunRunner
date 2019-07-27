@@ -1,5 +1,6 @@
 package com.meng.zunRunner.deskTopLauncher;
 
+import com.InsProcess.parse.zunRunner;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -16,8 +17,8 @@ public class Main {
         config.resizable = true;
         config.foregroundFPS = 60;
         config.addIcon("textures/beammid2.png", Files.FileType.Internal);
-        new LwjglApplication(new GameMain(), config);
+      //  new LwjglApplication(new GameMain(), config);
 
-    //    System.out.println(new UnpackedEclParser(new File("F:\\project\\ZunRunner\\st06bs.txt")).read());
+       new zunRunner() ;
     }
 }

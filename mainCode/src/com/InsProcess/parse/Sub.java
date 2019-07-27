@@ -22,7 +22,7 @@ public class Sub {
 
     Sub(Ecl ecl, String unpackedEcl) {
         this.ecl = ecl;
-        parse(unpackedEcl);
+        //   parse(unpackedEcl);
         Ecl.runningSubs.add(this.insertArgs(new EclVar(20), new EclVar(3)));
     }
 
@@ -38,13 +38,14 @@ public class Sub {
         return -1;
     }
 
-    private void parse(String unpackedEcl) {
-	  unpackedEcl =parseDiffSwitch(unpackedEcl);
+    public void parse(String unpackedEcl) {
+        unpackedEcl = parseDiffSwitch(unpackedEcl);
         String[] strInses = unpackedEcl.split("\\n");
-        subName = unpackedEcl.substring(0, unpackedEcl.indexOf("(")).replace("\\s", "");
+        subName = unpackedEcl.substring(0, unpackedEcl.indexOf("(")).replaceAll("\\s", "");
         for (String s : strInses) {
-            String strInsLine = s.replace("\\s", "");
-            if (strInsLine.trim().equals("")) {
+            String strInsLine = s.replaceAll("\\s", "");
+            System.out.println("strInsLine:" + strInsLine);
+            if (strInsLine.equals("")) {
                 continue;
             }
             int index = strInsLine.indexOf("ins_");
@@ -52,80 +53,99 @@ public class Sub {
                 String insNum = strInsLine.substring(index + 4, strInsLine.indexOf("("));
                 String[] strArgs = strInsLine.substring(strInsLine.indexOf("(") + 1, strInsLine.indexOf(")")).split(",");
                 EclVar[] eclVarArgs = new EclVar[strArgs.length];
+                System.out.println("eclVarArgs.length:"+eclVarArgs.length);
                 for (int argLoopFlag = 0; argLoopFlag < eclVarArgs.length; ++argLoopFlag) {
+                    if(strInsLine.contains("()")){
+                        break;
+                    }
                     String argStr = strArgs[argLoopFlag];
                     if (argStr.startsWith("$")) {
-                        eclVarArgs[argLoopFlag] = new EclVar(varsHashMap.get(argStr.substring(1)).i);
+                        eclVarArgs[argLoopFlag] = varsHashMap.get(argStr.substring(1));
                     } else if (argStr.startsWith("%")) {
-                        eclVarArgs[argLoopFlag] = new EclVar(varsHashMap.get(argStr.substring(1)).f);
+                        eclVarArgs[argLoopFlag] = varsHashMap.get(argStr.substring(1));
                     } else if (argStr.startsWith("[") && argStr.endsWith("]")) {
-                        float num = Float.parseFloat(argStr.substring(1, argStr.length() - 1));
-                        eclVarArgs[argLoopFlag] = getSpecialValue((int) num);
+                        eclVarArgs[argLoopFlag] = getSpecialValue((int) Float.parseFloat(argStr.substring(1, argStr.length() - 1)));
+                    } else {
+                        eclVarArgs[argLoopFlag] = new EclVar(strInsLine.contains("f") ? Float.parseFloat(argStr) : Integer.parseInt(argStr));
                     }
                 }
+                if(strInsLine.contains("()")){
+                   System.out.print("no arg");
+               }else {
+                   for (int i = 0; i < eclVarArgs.length; i++) {
+                       EclVar eclVar = eclVarArgs[i];
+                       System.out.print("var[" + i + "]:" + eclVar.toString() + "  ");
+                   }
+               }
+                System.out.print("\n");
                 inses.add(new Ins(Integer.parseInt(insNum), eclVarArgs));
             } else {
-                if (strInsLine.contains("Var")) {
+                if (strInsLine.startsWith("var")) {
                     String argsStr = strInsLine.substring(3);
-                    int bound = argsStr.length();
-                    for (int i = 0; i < bound; i++) {
+                    int bound = argsStr.length() - 1;
+                    for (int i = 0; i < bound; ++i) {
+                        String strvar = String.valueOf(argsStr.charAt(i));
+                        System.out.println("strvar:" + strvar);
                         varsHashMap.put(String.valueOf(argsStr.charAt(i)), null);
                     }
+                } else if (strInsLine.startsWith("$")) {
+                    String strvar = strInsLine.substring(1, 2);
+                    //computeIfAbsent
+                    EclVar eclVar = varsHashMap.get(strvar);
+                    if (eclVar == null) {
+                        eclVar = new EclVar(Integer.parseInt(strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";"))));
+                        varsHashMap.put(strvar, eclVar);
+                    }
+                } else if (strInsLine.startsWith("%")) {
+                    String strvar = strInsLine.substring(1, 2);
+                    EclVar eclVar = varsHashMap.get(strvar);
+                    if (eclVar == null) {
+                        eclVar = new EclVar(Float.parseFloat(strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";"))));
+                        varsHashMap.put(strvar, eclVar);
+                    }
+                } else if (strInsLine.startsWith(subName)) {
+                    System.out.println("loop:" + strInsLine.substring(0, strInsLine.length() - 1));
+                    inses.add(new LoopFlag(strInsLine.substring(0, strInsLine.length() - 1)));
+                } else if (strInsLine.startsWith("goto")) {
+                    System.out.println("goto:" + strInsLine.substring(4, strInsLine.indexOf("@")));
+                    inses.add(new Ins(12, new EclVar(strInsLine.substring(4, strInsLine.indexOf("@")))));
                 } else if (strInsLine.endsWith(":")) {
                     //unknown
-					String num = strInsLine.substring(0, strInsLine.length() - 1);
-					inses.add(new Ins(-1,new EclVar(Integer.parseInt(num))));
+                    String num = strInsLine.substring(0, strInsLine.length() - 1);
+                    inses.add(new Ins(-1, new EclVar(Integer.parseInt(num))));
                 } else if (strInsLine.endsWith(";")) {
                     String num = strInsLine.substring(0, strInsLine.length() - 1);
-                    if (strInsLine.contains("f")) {
-                        numberStack.push(Float.parseFloat(num));
-                    } else {
-                        numberStack.push(Integer.parseInt(num));
-                    }
-                } else if(strInsLine.startsWith(subName)){
-					inses.add(new LoopFlag(strInsLine.substring(0,strInsLine.length()-1)));
-				}
+                    numberStack.push(strInsLine.contains("f") ? Float.parseFloat(num) : Integer.parseInt(num));
+                }
             }
         }
     }
 
-	private String parseDiffSwitch(String unpackedEcl){
-	  StringBuilder stringBuilder=new StringBuilder(unpackedEcl);
-	  
-	  int s1start=unpackedEcl.indexOf("!E");
-	  int s1end=unpackedEcl.indexOf("!*")+2;
-	  
-	  while(s1start!=-1){
-		String switchStr=unpackedEcl.substring(s1start,s1end);
-		
-		switch(FightScreen.instence.difficulty){
-		  case "easy":
-			int indexe=switchStr.indexOf("\n",switchStr.indexOf("E")+1);
-			int indexeend=switchStr.indexOf(";",indexe);
-			String s=switchStr.substring(indexe,indexeend);
-			stringBuilder.replace(s1start,s1end,s);
-			break;
-		  case "normal":
-			  
-			break;
-		}
-		s1start=unpackedEcl.indexOf("!E",s1end);
-		s1end=unpackedEcl.indexOf("!*")+2;
-		
-	  }
-	 
-	  return null;
-	}
-	
-	
+    private String parseDiffSwitch(String unpackedEcl) {
+        StringBuilder stringBuilder = new StringBuilder(unpackedEcl);
+        int start = unpackedEcl.indexOf("!E");
+        int end = unpackedEcl.indexOf("!*") + 2;
+        while (start != -1) {
+            String switchStr = unpackedEcl.substring(start, end);
+            int indexe = switchStr.indexOf("\n", switchStr.indexOf(FightScreen.instence.difficulty));
+            int indexeend = switchStr.indexOf(";", indexe);
+            stringBuilder.replace(start, end, switchStr.substring(indexe, indexeend));
+            start = unpackedEcl.indexOf("!E", end);
+            end = unpackedEcl.indexOf("!*") + 2;
+        }
+        return stringBuilder.toString();
+    }
+
+
     public void update() {
         if (nowIns < inses.size() - 1) {
             Ins ins = inses.get(nowIns);
+            if (ins.insNum == -1 && FightScreen.instence.gameTimeFlag - ins.args[0].i == 0) {
+                return;
+            }
             if (ins.insNum == 23 && ins.args[0].i > 0) {
                 --ins.insNum;
-            } else if(ins.insNum==-1&&FightScreen.instence.gameTimeFlag-ins.args[0].i>0){
-			  
-			} else {
+            } else {
                 invoke(ins);
                 ++nowIns;
                 update();
@@ -258,8 +278,8 @@ public class Sub {
     }
 
     public Sub insertArgs(EclVar... args) {
-        for (int i = 1; i < args.length; i++) {
-            varsHashMap.put(String.valueOf((char) i + 64), args[i]);
+        for (int i = 0; i < args.length; i++) {
+            varsHashMap.put(String.valueOf((char) (i + 65)), args[i]);
         }
         return this;
     }
@@ -294,53 +314,6 @@ public class Sub {
 
     public void _15(EclVar... args) {
         Ecl.runningSubs.add(ecl.getSub(args[0].s).insertArgs(args));
-    }
-
-
-    public void diffSwitch(int e, int n, int h, int l, int o) {
-        switch (FightScreen.instence.difficulty) {
-            case "easy":
-                numberStack.push(e);
-                break;
-            case "normal":
-                numberStack.push(n);
-                break;
-            case "hard":
-                numberStack.push(h);
-                break;
-            case "lunatic":
-                numberStack.push(l);
-                break;
-            case "overdrive":
-                numberStack.push(o);
-                break;
-            default:
-                numberStack.push(n);
-                break;
-        }
-    }
-
-    public void diffSwitch(float e, float n, float h, float l, float o) {
-        switch (FightScreen.instence.difficulty) {
-            case "easy":
-                numberStack.push(e);
-                break;
-            case "normal":
-                numberStack.push(n);
-                break;
-            case "hard":
-                numberStack.push(h);
-                break;
-            case "lunatic":
-                numberStack.push(l);
-                break;
-            case "overdrive":
-                numberStack.push(o);
-                break;
-            default:
-                numberStack.push(n);
-                break;
-        }
     }
 
     public void putSpecialValue(int valueCase, EclVar value) {

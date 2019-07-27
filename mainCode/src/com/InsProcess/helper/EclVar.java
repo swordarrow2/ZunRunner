@@ -24,7 +24,19 @@ public class EclVar {
     public EclVar(String value) {
         type = typeString;
         s = value;
-        f = Float.parseFloat(value);
-        i = (int) f;
+    }
+
+    @Override
+    public String toString() {
+        switch (type) {
+            case typeInt:
+                return String.valueOf(i);
+            case typeFloat:
+                return String.valueOf(f);
+            case typeString:
+                return s;
+            default:
+                return null;
+        }
     }
 }
