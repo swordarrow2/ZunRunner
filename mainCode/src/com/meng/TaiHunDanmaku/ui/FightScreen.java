@@ -92,7 +92,7 @@ public class FightScreen extends ScreenAdapter {
         ++gameTimeFlag;
         stage.draw();
         gameMain.spriteBatch.begin();
-        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
+        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond()+"\nBullets:"+EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
         if (boss == null) {
             new Junko().init(new Vector2(275, 450), 10, 21000, new Task[]{new TaskMoveTo(193, 250)});
         } else {
