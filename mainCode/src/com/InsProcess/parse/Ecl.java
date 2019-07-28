@@ -6,8 +6,8 @@ public class Ecl {
     public static HashSet<Sub> runningSubs = new HashSet<>();
     private ArrayList<Sub> subs = new ArrayList<>();
 
-    public Sub sub(String unpackedEcl) {
-        Sub s = new Sub(this, unpackedEcl);
+    public Sub sub() {
+        Sub s = new Sub(this);
         subs.add(s);
         return s;
     }
