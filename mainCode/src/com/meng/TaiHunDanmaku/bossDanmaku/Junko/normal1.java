@@ -52,7 +52,8 @@ public class normal1 extends BaseNormalDanmaku {
                         .setBulletTasks(arrayList)
         };*/
         Ecl ecl = new Ecl();
-        Sub testSub = ecl.sub().parse(" BossCard7_at4(A B)\n" +
+        Sub testSub = ecl.sub();
+                testSub.parse(" BossCard7_at4(A B)\n" +
                 "{\n" +
                 "    var C D;\n" +
                 "    $C = 5;\n" +
@@ -64,18 +65,19 @@ public class normal1 extends BaseNormalDanmaku {
                 "    ins_605($C, 4.0f, 0.2f);\n" +
                 "    ins_611($C, 0, 2, 1, -999999, -999999.0f, -999999.0f);\n" +
                 "    ins_627($C, 64.0f);\n" +
-                "    $D = 10000;\n" +
+                "    $D = 30;\n" +
                 "    goto BossCard7_at4_404 @ 0;\n" +
                 "BossCard7_at4_364:\n" +
                 "    ins_601($C);\n" +
                 "    ins_23(10);\n" +
                 "BossCard7_at4_404:\n" +
-                "     goto BossCard7_at4_364 @ 0;\n" +
+                " if ([-9988] <= (30 * 60)) goto BossCard7_at4_364 @ 0;\n" +
                 "    ins_10();\n" +
                 "}\n" +
                 "\n");
 
-        Sub card7 = ecl.sub().parse(" BossCard7()\n" +
+     /*   Sub card7 = ecl.sub();
+        card7.parse(" BossCard7()\n" +
                 "{\n" +
                 "    var A B C D;\n" +
                 "    ins_616(640.0f);\n" +
@@ -110,10 +112,10 @@ public class normal1 extends BaseNormalDanmaku {
                 "94:\n" +
                 "    ins_0();\n" +
                 "    $A = 120;\n" +
-                "    ins_23(300);\n" +
+                "    ins_23(30);\n" +
                 "    ins_516(27);\n" +
                 "    ins_15(\"BossCard7_at4\", _SS 20, _SS 3);\n" +
-                "    $D = 10000;\n" +
+                "    $D = 20;\n" +
                 "    goto BossCard7_2480 @ 94;\n" +
                 "BossCard7_2460:\n" +
                 "    ins_23(330);\n" +
@@ -126,11 +128,11 @@ public class normal1 extends BaseNormalDanmaku {
                 "    ins_10();\n" +
                 "}\n" +
                 "\n");
-
+*/
         shooters = testSub.bulletShooters;
         taskManager = new TaskManagerEnemyPlane(baseBossPlane, TaskRepeatMode.repeatAll);
         //   taskManager.addTask(new TaskShoot(shooters));
-        card7.start();
+        testSub.start();
         taskManager.addTask(new TaskRunnable(new Runnable() {
 
             @Override

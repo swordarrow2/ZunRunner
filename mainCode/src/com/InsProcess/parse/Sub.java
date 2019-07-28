@@ -13,7 +13,8 @@ import com.meng.TaiHunDanmaku.baseObjects.planes.*;
 public class Sub {
 
     public ArrayList<Ins> inses = new ArrayList<>();
-    public HashMap<String, EclVar> varsHashMap = new HashMap<>(8);
+    public HashMap<String, EclVar> varsHashMap = new HashMap<>(16);
+    public static HashMap<String, EclVar> globleVarHashMap = new HashMap<>(16);
     public String subName;
     public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
     public EclNumberStack numberStack = new EclNumberStack();
@@ -24,7 +25,7 @@ public class Sub {
         this.ecl = ecl;
     }
 
-    public int getLoopPoint(String name) {
+    public int getLable(String name) {
         for (int i = 0, insesSize = inses.size(); i < insesSize; i++) {
             Ins ins = inses.get(i);
             if (ins instanceof LoopFlag) {
@@ -51,25 +52,29 @@ public class Sub {
                 String[] strArgs = strInsLine.substring(strInsLine.indexOf("(") + 1, strInsLine.indexOf(")")).split(",");
                 EclVar[] eclVarArgs = new EclVar[strArgs.length];
                 if (!strInsLine.contains("()")) {
-                    for (int argLoopFlag = 0; argLoopFlag < eclVarArgs.length; ++argLoopFlag) {
-                        String argStr = strArgs[argLoopFlag];
+                    for (int argFlag = 0; argFlag < eclVarArgs.length; ++argFlag) {
+                        String argStr = strArgs[argFlag];
                         if (argStr.startsWith("$")) {
-                            eclVarArgs[argLoopFlag] = varsHashMap.get(argStr.substring(1));
+                            eclVarArgs[argFlag] = varsHashMap.get(argStr.substring(1));
                         } else if (argStr.startsWith("%")) {
-                            eclVarArgs[argLoopFlag] = varsHashMap.get(argStr.substring(1));
+                            eclVarArgs[argFlag] = varsHashMap.get(argStr.substring(1));
                         } else if (argStr.startsWith("[") && argStr.endsWith("]")) {
-                            eclVarArgs[argLoopFlag] = getSpecialValue((int) Float.parseFloat(argStr.substring(1, argStr.length() - 1)));
+                            eclVarArgs[argFlag] = getSpecialValue((int) Float.parseFloat(argStr.substring(1, argStr.length() - 1)));
                         } else if (argStr.startsWith("\"") && argStr.endsWith("\"")) {
-                            eclVarArgs[argLoopFlag] = new EclVar(argStr.substring(1, argStr.length() - 1));
+                            eclVarArgs[argFlag] = new EclVar(argStr.substring(1, argStr.length() - 1));
                         } else if (argStr.startsWith("_SS")) {
-                            eclVarArgs[argLoopFlag] = new EclVar(Integer.parseInt(argStr.substring(3)));
+                            eclVarArgs[argFlag] = new EclVar(Integer.parseInt(argStr.substring(3)));
                         } else if (argStr.startsWith("_ff")) {
-                            eclVarArgs[argLoopFlag] = new EclVar(Float.parseFloat(argStr.substring(3)));
+                            eclVarArgs[argFlag] = new EclVar(Float.parseFloat(argStr.substring(3)));
+                        } else if (argStr.startsWith("_fS")) {
+                            eclVarArgs[argFlag] = new EclVar(Float.parseFloat(argStr.substring(3)));
+                        } else if (argStr.startsWith("_Sf")) {
+                            eclVarArgs[argFlag] = new EclVar((int) Float.parseFloat(argStr.substring(3)));
                         } else {
                             if (argStr.contains("f")) {
-                                eclVarArgs[argLoopFlag] = new EclVar(Float.parseFloat(argStr));
+                                eclVarArgs[argFlag] = new EclVar(Float.parseFloat(argStr));
                             } else {
-                                eclVarArgs[argLoopFlag] = new EclVar(Integer.parseInt(argStr));
+                                eclVarArgs[argFlag] = new EclVar(Integer.parseInt(argStr));
                             }
                         }
                     }
@@ -83,16 +88,14 @@ public class Sub {
                     String argsStr = strInsLine.substring(3);
                     int bound = argsStr.length() - 1;
                     for (int i = 0; i < bound; ++i) {
-                        varsHashMap.put(String.valueOf(argsStr.charAt(i)), null);
+                        varsHashMap.put(String.valueOf(argsStr.charAt(i)), new EclVar());
                     }
                 } else if (strInsLine.startsWith("$")) {
                     String strvar = strInsLine.substring(1, 2);
-                    //computeIfAbsent
-                    EclVar eclVar = varsHashMap.get(strvar);
-                    if (eclVar == null) {
-                        eclVar = new EclVar(Integer.parseInt(strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";"))));
-                        varsHashMap.put(strvar, eclVar);
+                    if (varsHashMap.get(strvar) == null) {
+                        throw new RuntimeException("value null");
                     }
+                    varsHashMap.put(strvar, new EclVar(Integer.parseInt(strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";")))));
                 } else if (strInsLine.startsWith("%")) {
                     String strvar = strInsLine.substring(1, 2);
                     EclVar eclVar = varsHashMap.get(strvar);
@@ -104,8 +107,10 @@ public class Sub {
                     inses.add(new LoopFlag(strInsLine.substring(0, strInsLine.length() - 1)));
                 } else if (strInsLine.startsWith("goto")) {
                     inses.add(new Ins(12, new EclVar(strInsLine.substring(4, strInsLine.indexOf("@")))));
-                } else if (strInsLine.startsWith("if")) {
+                } else if (strInsLine.startsWith("unless")) {
                     inses.add(new Ins(13, new EclVar(strInsLine.substring(0, strInsLine.indexOf("@")))));
+                } else if (strInsLine.startsWith("if")) {
+                    inses.add(new Ins(14, new EclVar(strInsLine.substring(0, strInsLine.indexOf("@")))));
                 } else if (strInsLine.endsWith(":")) {
                     //unknown
                     String num = strInsLine.substring(0, strInsLine.length() - 1);
@@ -120,7 +125,11 @@ public class Sub {
                     }
                 } else if (strInsLine.endsWith(";")) {
                     String num = strInsLine.substring(0, strInsLine.length() - 1);
-                    numberStack.push(strInsLine.contains("f") ? Float.parseFloat(num) : Integer.parseInt(num));
+                    if (strInsLine.contains("f")) {
+                        numberStack.push(new EclVar(Float.parseFloat(num)));
+                    } else {
+                        numberStack.push(new EclVar(Integer.parseInt(num)));
+                    }
                 }
             }
         }
@@ -169,11 +178,30 @@ public class Sub {
     public void invoke(Ins ins) {
         EclVar[] a = ins.args;
         switch (ins.insNum) {
+            case 10:
+                System.out.println("sub exit");
+                break;
             case 11:
                 _11(a);
                 break;
             case 12:
-                nowIns = getLoopPoint(a[0].s);
+                nowIns = getLable(a[0].s);
+                break;
+            case 13:
+                EclVar eclVar13 = a[0];
+                String gotoFlag13 = eclVar13.s.substring(eclVar13.s.indexOf("goto") + 4);
+                String expression13 = eclVar13.s.substring(eclVar13.s.indexOf("if") + 2, eclVar13.s.indexOf("goto"));
+                if (!invokeExpression(expression13)) {
+                    nowIns = getLable(gotoFlag13);
+                }
+                break;
+            case 14:
+                EclVar eclVar14 = a[0];
+                String gotoFlag14 = eclVar14.s.substring(eclVar14.s.indexOf("goto") + 4);
+                String expression14 = eclVar14.s.substring(eclVar14.s.indexOf("unless") + 6, eclVar14.s.indexOf("goto"));
+                if (invokeExpression(expression14)) {
+                    nowIns = getLable(gotoFlag14);
+                }
                 break;
             case 15:
                 _15(a);
@@ -182,7 +210,6 @@ public class Sub {
                 _600(a[0].i);
                 break;
             case 601:
-                System.out.println(getSpecialValue(9947).i);
                 _601(a[0].i);
                 break;
             case 602:
@@ -291,38 +318,87 @@ public class Sub {
 
                 break;
         }
+    }
 
+    //0:false else true
+    private boolean invokeExpression(String expression) {
+        if (expression.equals("1")) {
+            return true;
+        }
+        if (expression.startsWith("$")) {
+            String varName = expression.substring(1, 2);
+            EclVar eclVar = varsHashMap.get(varName);
+            --eclVar.i;
+            return eclVar.i != 0;
+        } else if (expression.startsWith("([-") && !expression.contains("&&")) {
+            //([-9986] == (60*60))
+            String sim;
+            switch (expression.substring(expression.indexOf("]") + 1, expression.indexOf("]") + 3)) {
+                case ">=":
+                    sim = ">=";
+                    break;
+                case "<=":
+                    sim = "<=";
+                    break;
+                case "==":
+                    sim = "==";
+                    break;
+                default:
+                    sim = expression.substring(expression.indexOf("]") + 1, 1);
+                    break;
+            }
+            float numLeft = Float.parseFloat(expression.substring(expression.indexOf("[-") + 2, expression.indexOf("]")));
+            String numberRightStr = expression.replace(")", "").replace("(", "");
+            numberRightStr = numberRightStr.substring(numberRightStr.indexOf(sim) + sim.length());
+            float numRight = 1;
+            if (numberRightStr.contains("*")) {
+                String[] nums = numberRightStr.split("\\*");
+                for (String nu : nums) {
+                    numRight *= Float.parseFloat(nu);
+                }
+            }
+            boolean b;
+            switch (sim) {
+                case ">=":
+                    b = getSpecialValue((int) numLeft).i >= numRight;
+                    break;
+                case "<=":
+                    EclVar eclVar = getSpecialValue((int) numLeft);
+                    b = eclVar.i <= numRight;
+                    break;
+                case "==":
+                    b = getSpecialValue((int) numLeft).i == numRight;
+                    break;
+                case ">":
+                    b = getSpecialValue((int) numLeft).i > numRight;
+                    break;
+                case "<":
+                    b = getSpecialValue((int) numLeft).i < numRight;
+                    break;
+                default:
+                    throw new RuntimeException("unkonwn expression");
+            }
+            return b;
+        } else if (expression.contains("&&")) {
+            expression = expression.replace(")", "").replace("(", "");
+            String[] exps = expression.split("&&");
+            for (String exp : exps) {
+                if (!invokeExpression(exp)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            throw new RuntimeException("unknown expression");
+        }
     }
 
     public Sub insertArgs(EclVar... args) {
         for (int i = 0; i < args.length; i++) {
+            System.out.println("key:" + String.valueOf((char) (i + 65)) + "  value" + args[i]);
             varsHashMap.put(String.valueOf((char) (i + 65)), args[i]);
         }
         return this;
-    }
-
-    public void gotoLoopFlag(String flagName) {
-        nowIns = getLoopPoint(flagName);
-    }
-
-    public void ifxGoto(String judge, LoopFlag loopFlag) {
-
-    }
-
-    public void ifxGotoAt(String judge, LoopFlag loopFlag, int at) {
-
-    }
-
-    public void unlessxGoto(String judge, LoopFlag loopFlag) {
-
-    }
-
-    public void unlessxGotoAt(String judge, LoopFlag loopFlag, int at) {
-
-    }
-
-    public void numberIns(String text) {
-
     }
 
     public void _11(EclVar... args) {
@@ -337,11 +413,33 @@ public class Sub {
         if (valueCase < 0) {
             valueCase = -valueCase;
         }
-        if (valueCase == 1) {
-            numberStack.push(value);
-        } else {
-            System.out.println("put value:" + valueCase + "  " + value);
-            varsHashMap.put(String.valueOf(valueCase), value);
+        switch (valueCase) {
+            case 1:
+                numberStack.push(value);
+                break;
+            case 9915:
+            case 9916:
+            case 9917:
+            case 9918:
+            case 9919:
+            case 9920:
+            case 9921:
+            case 9922:
+            case 9923:
+            case 9924:
+            case 9925:
+            case 9926:
+            case 9947:
+            case 9948:
+            case 9949:
+                globleVarHashMap.put(String.valueOf(valueCase), value);
+                break;
+            case 9978:
+            case 9979:
+                varsHashMap.put(String.valueOf(valueCase), value);
+                break;
+            default:
+                throw new RuntimeException("illegal var");
         }
     }
 
@@ -353,7 +451,11 @@ public class Sub {
             case 1:
                 return numberStack.pop();
             case 9947:
-                return varsHashMap.get(String.valueOf(i));
+            case 9948:
+            case 9949:
+                return globleVarHashMap.get(String.valueOf(i));
+            case 9954:
+                return new EclVar(FightScreen.instence.boss.hp);
             case 9964:
                 return new EclVar(MyPlaneReimu.instance.objectCenter.x);
             case 9965:
@@ -361,27 +463,13 @@ public class Sub {
             case 9978:
             case 9979:
                 return varsHashMap.get(String.valueOf(i));
+            case 9988:
+                return new EclVar(FightScreen.instence.gameTimeFlag);
             case 10000:
                 return new EclVar(new RandomXS128().nextInt());
             default:
                 return null;
         }
-    }
-
-    public void push(int i) {
-        putSpecialValue(1, new EclVar(i));
-    }
-
-    public void push(float f) {
-        putSpecialValue(1, new EclVar(f));
-    }
-
-    public int popInt() {
-        return getSpecialValue(1).i;
-    }
-
-    public float popFloat() {
-        return getSpecialValue(1).f;
     }
 
     public void _600(int danmakuNum) {

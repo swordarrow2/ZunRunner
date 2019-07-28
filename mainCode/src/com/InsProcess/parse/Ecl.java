@@ -1,5 +1,7 @@
 package com.InsProcess.parse;
 
+import com.InsProcess.helper.EclVar;
+
 import java.util.*;
 
 public class Ecl {

@@ -10,6 +10,10 @@ public class EclVar {
     public float f;
     public String s;
 
+    public EclVar(){
+
+    }
+
     public EclVar(int value) {
         type = typeInt;
         i = value;
