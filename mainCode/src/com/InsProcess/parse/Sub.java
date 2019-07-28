@@ -190,7 +190,7 @@ public class Sub {
             case 13:
                 EclVar eclVar13 = a[0];
                 String gotoFlag13 = eclVar13.s.substring(eclVar13.s.indexOf("goto") + 4);
-                String expression13 = eclVar13.s.substring(eclVar13.s.indexOf("if") + 2, eclVar13.s.indexOf("goto"));
+                String expression13 = eclVar13.s.substring(eclVar13.s.indexOf("unless") + 2, eclVar13.s.indexOf("goto"));
                 if (!invokeExpression(expression13)) {
                     nowIns = getLable(gotoFlag13);
                 }
@@ -198,7 +198,7 @@ public class Sub {
             case 14:
                 EclVar eclVar14 = a[0];
                 String gotoFlag14 = eclVar14.s.substring(eclVar14.s.indexOf("goto") + 4);
-                String expression14 = eclVar14.s.substring(eclVar14.s.indexOf("unless") + 6, eclVar14.s.indexOf("goto"));
+                String expression14 = eclVar14.s.substring(eclVar14.s.indexOf("if") + 6, eclVar14.s.indexOf("goto"));
                 if (invokeExpression(expression14)) {
                     nowIns = getLable(gotoFlag14);
                 }
