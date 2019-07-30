@@ -1,23 +1,20 @@
 package com.meng.TaiHunDanmaku.ui;
 
+import com.InsProcess.parse.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
-import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
+import com.meng.TaiHunDanmaku.baseObjects.planes.*;
 import com.meng.TaiHunDanmaku.control.*;
 import com.meng.TaiHunDanmaku.task.*;
-
+import java.io.*;
 import java.util.*;
-
-import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.InsProcess.parse.*;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
@@ -74,6 +71,24 @@ public class FightScreen extends ScreenAdapter {
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
+		
+		Ecl ecl = new Ecl();
+		Sub card7 = ecl.sub();	
+        card7.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7.txt"));
+		Sub sub1   =ecl.sub();
+		sub1.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at.txt"));
+		Sub  sub2  =ecl.sub();
+		sub2.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2.txt"));	
+		Sub sub2b   =ecl.sub();
+		sub2b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2b.txt"));		
+		Sub  sub3  =ecl.sub();
+		sub3.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3.txt"));
+		Sub sub3b   =ecl.sub();
+	    sub3b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3b.txt"));		
+        Sub sub4 = ecl.sub();
+		sub4.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at4.txt"));
+		card7.start();
+			
         super.show();
     }
 
@@ -95,7 +110,7 @@ public class FightScreen extends ScreenAdapter {
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond()+"\nBullets:"+EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
         Ecl.update();
 		if (boss == null) {
-            new Junko().init(new Vector2(275, 450), 10, 21000, new Task[]{new TaskMoveTo(193, 250)});
+            new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
         } else {
             boss.update();
         }
@@ -114,4 +129,24 @@ public class FightScreen extends ScreenAdapter {
     public void hide() {
         super.hide();
     }
+	
+	public String read(String path) {
+        String s = "";
+		File eclFile=new File(path);
+        try {
+            if (!eclFile.exists()) {
+                throw new NullPointerException("file not found:"+eclFile.getAbsolutePath());
+			  }
+            long filelength = eclFile.length();
+            byte[] filecontent = new byte[(int) filelength];
+            FileInputStream in = new FileInputStream(eclFile);
+            in.read(filecontent);
+            in.close();
+            s = new String(filecontent, "Shift_JIS");
+		  } catch (Exception e) {
+            e.printStackTrace();
+		  }
+        return s;
+	  }
+	
 }

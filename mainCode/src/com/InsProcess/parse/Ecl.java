@@ -11,7 +11,9 @@ public class Ecl {
 	public static HashSet<Sub> toDeleteSubs=new HashSet<>();
 	
     private ArrayList<Sub> subs = new ArrayList<>();
-
+	public String  nextPartName;
+	
+	
     public Sub sub() {
         Sub s = new Sub(this);
         subs.add(s);
@@ -31,6 +33,10 @@ public class Ecl {
 		toAddSubs.clear();
 		toDeleteSubs.clear();
     }
+	
+	public void next(){
+	  toAddSubs.add(getSub(nextPartName));
+	}
 
     public Sub getSub(String subName) {
         for (Sub s : subs) {

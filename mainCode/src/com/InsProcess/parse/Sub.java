@@ -9,6 +9,7 @@ import java.util.*;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.*;
+import com.meng.TaiHunDanmaku.ui.*;
 
 public class Sub {
 
@@ -216,6 +217,9 @@ public class Sub {
             case 15:
                 _15(a);
                 break;
+			case 401:
+			    _401(a[0].i,a[1].i,a[2].f,a[3].f);
+				break;
             case 600:
                 _600(a[0].i);
                 break;
@@ -223,11 +227,8 @@ public class Sub {
                 _601(a[0].i);
                 break;
             case 602:
-			  try{
                 _602(a[0].i, a[1].i, a[2].i);
-       }catch(Exception e){
-		   throw new RuntimeException(subName+" "+a[0]+" "+a[1]+" "+a[2]);
-	   }        break;
+                 break;
             case 603:
                 _603(a[0].i, a[1].f, a[2].f);
                 break;
@@ -510,6 +511,11 @@ public class Sub {
         }
     }
 
+	public void _401(int frame,int mode,float x,float y) {
+        FightScreen.instence.boss.objectCenter.x=x+GameMain.width/2;
+		FightScreen.instence.boss.objectCenter.y=GameMain.height-y;
+	  }
+	
     public void _600(int danmakuNum) {
         BulletShooter bShooter = new BulletShooter().init();
         bShooter.shooterCenter = FightScreen.instence.boss.objectCenter;
@@ -537,7 +543,7 @@ public class Sub {
     }
 
     public void _605(int danmakuNum, float speed, float slowlestSpeed) {
-
+bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0,-speed));
     }
 
     public void _606(int danmakuNum, int way, int ceng) {
@@ -586,12 +592,14 @@ public class Sub {
     }
 
     public void _626(int danmakuNum, float floatAngel, float r) {
+	  bulletShooters.get(danmakuNum).setBulletRandomDegreeRange((float)Math.toDegrees(floatAngel)).shooterCenterRandomRange=new Vector2(r,r);
     }
 
     public void _627(int danmakuNum, float r) {
     }
 
     public void _628(int danmakuNum, float floatX, float y) {
+	  bulletShooters.get(danmakuNum).setShooterCenter(new Vector2(floatX+GameMain.width/2f,GameMain.height-y));
     }
 
     public void _629(float floatR, int intRgb) {

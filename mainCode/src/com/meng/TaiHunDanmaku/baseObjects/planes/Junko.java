@@ -36,8 +36,8 @@ public class Junko extends BaseGameObject {
     public Vector2 targetPosition = new Vector2();
 
     public TaskManagerEnemyPlane taskManager;
-    public BaseNormalDanmaku normalDanmaku;
-    public BaseSpellCard spellCard;
+//    public BaseNormalDanmaku normalDanmaku;
+ //   public BaseSpellCard spellCard;
 
     public void init(Vector2 center, int everyAnimFrameTime, int hp, Task[] task) {
         super.init();
@@ -61,10 +61,10 @@ public class Junko extends BaseGameObject {
         targetPosition = center.cpy();
         this.everyAnimFrameTime = everyAnimFrameTime;
         animNum = junkoAnim;
-        normalDanmaku = new normal1();
+   /*     normalDanmaku = new normal1();
         normalDanmaku.init(this);
         spellCard = new spell5();
-        spellCard.init(this);
+        spellCard.init(this);*/
     }
 
     public Vector2 getSize() {
@@ -75,7 +75,7 @@ public class Junko extends BaseGameObject {
         if (hp < 1) {
             kill();
         } else {
-            hp -= bulletDamage;
+            hp -= bulletDamage/7;
         }
     }
 
@@ -141,10 +141,10 @@ public class Junko extends BaseGameObject {
         } else {
             judge();
         }
-        if (objectCenter.cpy().sub(targetPosition).len2() > 10) {
-            objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
-        }
-        normalDanmaku.update();
+   //     if (objectCenter.cpy().sub(targetPosition).len2() > 10) {
+    //        objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
+  //      }
+    //    normalDanmaku.update();
         // spellCard.update();
     }
 

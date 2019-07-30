@@ -18,7 +18,7 @@ import java.io.*;
 import android.os.*;
 
 public class normal1 extends BaseNormalDanmaku {
-    private TaskManagerEnemyPlane taskManager;
+   // private TaskManagerEnemyPlane taskManager;
     private Laser laser;
 
     @Override
@@ -52,37 +52,11 @@ public class normal1 extends BaseNormalDanmaku {
                         .setBulletHighLight(true)
                         .setBulletAcceleration(new Vector2(0, -0.075f))
                         .setBulletTasks(arrayList)
-        };*/
-        Ecl ecl = new Ecl();
-		Sub card7 = ecl.sub();
-		
-        card7.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7.txt"));
-		
-		Sub sub1   =ecl.sub();
-		sub1.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at.txt"));
-		
-		Sub  sub2  =ecl.sub();
-		sub2.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2.txt"));
-		
-		Sub sub2b   =ecl.sub();
-		sub2b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2b.txt"));
-		
-		Sub  sub3  =ecl.sub();
-		sub3.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3.txt"));
-		
-		Sub sub3b   =ecl.sub();
-	    sub3b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3b.txt"));
-		
-			
-        Sub sub4 = ecl.sub();
-		sub4.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at4.txt"));
-
-		
-      
+        };*/	  
     //    shooters = testSub.bulletShooters;
-        taskManager = new TaskManagerEnemyPlane(baseBossPlane, TaskRepeatMode.repeatAll);
+     /*   taskManager = new TaskManagerEnemyPlane(baseBossPlane, TaskRepeatMode.repeatAll);
         //   taskManager.addTask(new TaskShoot(shooters));
-        card7.start();
+        
         taskManager.addTask(new TaskRunnable(new Runnable() {
 
             @Override
@@ -97,33 +71,15 @@ public class normal1 extends BaseNormalDanmaku {
         }));
         taskManager.addTask(new TaskWait(60));
         taskManager.addTask(new TaskMoveTo(10000, 10000));
-        taskManager.addTask(new TaskWait(60));
+        taskManager.addTask(new TaskWait(60));*/
     }
 	
-	public String read(String path) {
-        String s = "";
-		File eclFile=new File(path);
-        try {
-            if (!eclFile.exists()) {
-                throw new NullPointerException("file not found:"+eclFile.getAbsolutePath());
-			  }
-            long filelength = eclFile.length();
-            byte[] filecontent = new byte[(int) filelength];
-            FileInputStream in = new FileInputStream(eclFile);
-            in.read(filecontent);
-            in.close();
-            s = new String(filecontent, "Shift_JIS");
-		  } catch (Exception e) {
-            e.printStackTrace();
-		  }
-        return s;
-	  }
 	
 
     @Override
     public void update() {
         super.update();
-        taskManager.update();
+   //     taskManager.update();
         frame++;
         // laser.degrees = frame * 0.3f;
         // laser.position.y+=5;
