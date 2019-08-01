@@ -26,7 +26,7 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
-    public String difficulty = "E";
+    public String difficulty = "L";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -67,6 +67,8 @@ public class FightScreen extends ScreenAdapter {
         stage.addActor(groupHighLight);
         stage.addActor(changeBlend2);
         //      boss = new BossTaiZhang1();
+		new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
+		
         new MyPlaneReimu().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
@@ -74,20 +76,20 @@ public class FightScreen extends ScreenAdapter {
 		
 		Ecl ecl = new Ecl();
 		Sub card7 = ecl.sub();	
-        card7.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7.txt"));
-		Sub sub1   =ecl.sub();
-		sub1.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at.txt"));
-		Sub  sub2  =ecl.sub();
-		sub2.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2.txt"));	
-		Sub sub2b   =ecl.sub();
+        card7.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard4.txt"));
+		Sub sub1 = ecl.sub();
+		sub1.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard4_at.txt"));
+		Sub  sub2 = ecl.sub();
+		sub2.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/Boss4_pos.txt"));	
+	/*	Sub sub2b = ecl.sub();
 		sub2b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2b.txt"));		
-		Sub  sub3  =ecl.sub();
+		Sub  sub3 = ecl.sub();
 		sub3.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3.txt"));
-		Sub sub3b   =ecl.sub();
+		Sub sub3b = ecl.sub();
 	    sub3b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3b.txt"));		
         Sub sub4 = ecl.sub();
 		sub4.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at4.txt"));
-		card7.start();
+	*/	card7.start();
 			
         super.show();
     }
@@ -110,8 +112,7 @@ public class FightScreen extends ScreenAdapter {
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond()+"\nBullets:"+EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
         Ecl.update();
 		if (boss == null) {
-            new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
-        } else {
+                 } else {
             boss.update();
         }
         BulletShooter.updateAll();

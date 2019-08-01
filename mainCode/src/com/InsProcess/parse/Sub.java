@@ -25,7 +25,7 @@ public class Sub {
     Sub(Ecl ecl) {
         this.ecl = ecl;
 		for (int i = 0; i < 26; i++) {
-              varsHashMap.put(String.valueOf((char) (i + 65)), new EclVar());
+              varsHashMap.put(String.valueOf((char) (i + 65)), new EclVar(0f));
 		  }
     }
 
@@ -60,16 +60,15 @@ public class Sub {
                         String argStr = strArgs[argFlag];
                         if (argStr.startsWith("$")) {
                             eclVarArgs[argFlag] = varsHashMap.get(argStr.substring(1));
-					//			 if(!argStr.substring(1).equals("C")){
-						//throw new RuntimeException(argStr.substring(1));
-				//		}
                         } else if (argStr.startsWith("%")) {
                             eclVarArgs[argFlag] = varsHashMap.get(argStr.substring(1));
                         } else if (argStr.startsWith("[") && argStr.endsWith("]")) {
                           eclVarArgs[argFlag] = getSpecialValue((int) Float.parseFloat(argStr.substring(1, argStr.length() - 1)));
 		                } else if (argStr.startsWith("\"") && argStr.endsWith("\"")) {
                             eclVarArgs[argFlag] = new EclVar(argStr.substring(1, argStr.length() - 1));
-                        } else if (argStr.startsWith("_SS")) {
+                        } else if(argStr.startsWith("_SS$")){
+							eclVarArgs[argFlag] = varsHashMap.get(argStr.substring(3));
+					    } else if (argStr.startsWith("_SS")) {				  
                             eclVarArgs[argFlag] = new EclVar(Integer.parseInt(argStr.substring(3)));
                         } else if (argStr.startsWith("_ff")) {
                             eclVarArgs[argFlag] = new EclVar(Float.parseFloat(argStr.substring(3)));
@@ -102,7 +101,16 @@ public class Sub {
                     if (varsHashMap.get(strvar) == null) {
                         throw new RuntimeException("value null");
                     }
+				    String rightNum=strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";"));
+		
+					if(rightNum.startsWith("($")){
+					  EclVar varRight=varsHashMap.get(rightNum.substring(2,3));		
+					  varRight.s=rightNum.substring(5,rightNum.length()-1);
+							 varsHashMap.get(strvar).s=rightNum.substring(3,4);
+						     inses.add(new Ins(50,varsHashMap.get(strvar),varRight));				  
+					}else{
                     varsHashMap.put(strvar, new EclVar(Integer.parseInt(strInsLine.substring(strInsLine.indexOf("=") + 1, strInsLine.indexOf(";")))));
+					}
                 } else if (strInsLine.startsWith("%")) {
                     String strvar = strInsLine.substring(1, 2);
                     EclVar eclVar = varsHashMap.get(strvar);
@@ -470,6 +478,7 @@ public class Sub {
                 break;
             case 9978:
             case 9979:
+			case 9980:
 			case 9981:
                 varsHashMap.put(String.valueOf(valueCase), value);
                 break;
@@ -497,6 +506,7 @@ public class Sub {
                 return new EclVar(MyPlaneReimu.instance.objectCenter.y);
             case 9978:
             case 9979:
+			case 9980:
                 return varsHashMap.get(String.valueOf(i));
 			case 9986:
 			  return new EclVar(0);
@@ -512,8 +522,8 @@ public class Sub {
     }
 
 	public void _401(int frame,int mode,float x,float y) {
-        FightScreen.instence.boss.objectCenter.x=x+GameMain.width/2;
-		FightScreen.instence.boss.objectCenter.y=GameMain.height-y;
+        FightScreen.instence.boss.targetPosition.x=x+GameMain.width/2;
+		FightScreen.instence.boss.targetPosition.y=GameMain.height-y;
 	  }
 	
     public void _600(int danmakuNum) {
@@ -535,15 +545,11 @@ public class Sub {
     }
 
     public void _604(int danmakuNum, float direct, float r) {
-        BulletShooter bs = bulletShooters.get(danmakuNum);
-        if (bs == null) {
-            throw new NullPointerException("is null:" + danmakuNum);
-        }
         bulletShooters.get(danmakuNum).setBulletWaysDegree((float) Math.toDegrees(direct));
     }
 
     public void _605(int danmakuNum, float speed, float slowlestSpeed) {
-bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0,-speed));
+        bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0,-speed));
     }
 
     public void _606(int danmakuNum, int way, int ceng) {

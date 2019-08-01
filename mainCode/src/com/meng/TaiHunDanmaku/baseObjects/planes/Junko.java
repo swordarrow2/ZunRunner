@@ -1,16 +1,12 @@
 package com.meng.TaiHunDanmaku.baseObjects.planes;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.*;
 import com.meng.TaiHunDanmaku.*;
-import com.meng.TaiHunDanmaku.bossDanmaku.BaseNormalDanmaku;
-import com.meng.TaiHunDanmaku.bossDanmaku.BaseSpellCard;
 import com.meng.TaiHunDanmaku.helpers.*;
-import com.meng.TaiHunDanmaku.bossDanmaku.Junko.normal1;
-import com.meng.TaiHunDanmaku.bossDanmaku.Junko.spell5;
 import com.meng.TaiHunDanmaku.task.*;
 import com.meng.TaiHunDanmaku.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
 
 public class Junko extends BaseGameObject {
 
@@ -46,7 +42,6 @@ public class Junko extends BaseGameObject {
             taskManager.addTask(t);
         }
         this.everyAnimFrameTime = everyAnimFrameTime;
-        objectName = "zayu";
         isKilled = false;
         objectCenter = center;
         this.hp = hp;
@@ -141,9 +136,9 @@ public class Junko extends BaseGameObject {
         } else {
             judge();
         }
-   //     if (objectCenter.cpy().sub(targetPosition).len2() > 10) {
-    //        objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
-  //      }
+        if (objectCenter.cpy().sub(targetPosition).len2() > 10) {
+           objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
+       }
     //    normalDanmaku.update();
         // spellCard.update();
     }

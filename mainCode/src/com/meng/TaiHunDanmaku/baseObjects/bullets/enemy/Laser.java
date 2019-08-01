@@ -3,8 +3,10 @@ package com.meng.TaiHunDanmaku.baseObjects.bullets.enemy;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.*;
+import com.meng.TaiHunDanmaku.helpers.*;
 import com.meng.TaiHunDanmaku.ui.*;
 
 public class Laser extends Actor {
@@ -18,12 +20,23 @@ public class Laser extends Actor {
     public Vector2 p1 = new Vector2();
     public Vector2 p2 = new Vector2();
 
-    public Laser(Sprite s2, Sprite m2) {
+    private Laser(Sprite s2, Sprite m2) {
         begin1 = s2;
         mid1 = m2;
-        FightScreen.instence.groupNormal.addActor(this);
+        FightScreen.instence.groupHighLight.addActor(this);
     }
 
+	public static Laser create(float x,float y,float degree,float length){
+		Laser laser = new Laser(
+		  new Sprite(((TextureRegionDrawable) ResourcesManager.textures.get("bullet" + (0 * 16 + 8))).getRegion()),
+		  new Sprite(((TextureRegionDrawable) ResourcesManager.textures.get("bullet" + (0 * 16 + 8))).getRegion()));
+        //  laser.color = Color.RED;
+        laser.position.set(new Vector2(x, y));
+        laser.degrees = degree;
+        laser.distance = length;
+		return laser;
+	}
+	
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
