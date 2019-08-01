@@ -10,8 +10,15 @@ public class EclVar {
     public float f;
     public String s;
 
-    public EclVar(){
+    public EclVar() {
 
+    }
+
+    public EclVar(EclVar eclVar) {
+        this.type = eclVar.type;
+        this.i = eclVar.i;
+        this.f = eclVar.f;
+        this.s = eclVar.s;
     }
 
     public EclVar(int value) {
