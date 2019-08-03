@@ -18,6 +18,7 @@ import java.util.*;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
+	public static String baseEclPath=null;
     public GameMain gameMain;
     public int gameTimeFlag = 0;
     public Stage stage;
@@ -76,20 +77,20 @@ public class FightScreen extends ScreenAdapter {
 		
 		Ecl ecl = new Ecl();
 		Sub card7 = ecl.sub();	
-        card7.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard4.txt"));
+        card7.parse(read("BossCard7.txt"));
 		Sub sub1 = ecl.sub();
-		sub1.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard4_at.txt"));
+		sub1.parse(read("BossCard7_at.txt"));
 		Sub  sub2 = ecl.sub();
-		sub2.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/Boss4_pos.txt"));	
-	/*	Sub sub2b = ecl.sub();
-		sub2b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at2b.txt"));		
+		sub2.parse(read("BossCard7_at2.txt"));	
+		Sub sub2b = ecl.sub();
+		sub2b.parse(read("BossCard7_at2b.txt"));		
 		Sub  sub3 = ecl.sub();
-		sub3.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3.txt"));
+		sub3.parse(read("BossCard7_at3.txt"));
 		Sub sub3b = ecl.sub();
-	    sub3b.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at3b.txt"));		
+	    sub3b.parse(read("BossCard7_at3b.txt"));		
         Sub sub4 = ecl.sub();
-		sub4.parse(read("/storage/emulated/0/AppProjects/ZunRunner/subed/BossCard7_at4.txt"));
-	*/	card7.start();
+		sub4.parse(read("BossCard7_at4.txt"));
+		card7.start();
 			
         super.show();
     }
@@ -133,7 +134,7 @@ public class FightScreen extends ScreenAdapter {
 	
 	public String read(String path) {
         String s = "";
-		File eclFile=new File(path);
+		File eclFile=new File(baseEclPath + path);
         try {
             if (!eclFile.exists()) {
                 throw new NullPointerException("file not found:"+eclFile.getAbsolutePath());
