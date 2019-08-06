@@ -18,7 +18,6 @@ import java.util.*;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
-	public static String baseEclPath=null;
     public GameMain gameMain;
     public int gameTimeFlag = 0;
     public Stage stage;
@@ -134,7 +133,7 @@ public class FightScreen extends ScreenAdapter {
 	
 	public String read(String path) {
         String s = "";
-		File eclFile=new File(baseEclPath + path);
+		File eclFile=new File(GameMain.baseEclPath + path);
         try {
             if (!eclFile.exists()) {
                 throw new NullPointerException("file not found:"+eclFile.getAbsolutePath());

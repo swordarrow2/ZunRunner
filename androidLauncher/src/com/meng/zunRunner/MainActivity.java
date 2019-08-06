@@ -12,7 +12,7 @@ public class MainActivity extends AndroidApplication {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		FightScreen.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/subed/";
+		GameMain.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/subed/";
         setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
 		/*ScrollView s=new ScrollView(this);
 		TextView t=new TextView(this);

@@ -8,6 +8,7 @@ import com.meng.TaiHunDanmaku.helpers.*;
 public class GameMain extends Game {
     public SpriteBatch spriteBatch;
     public BitmapFont bitmapFont;
+    public static String baseEclPath=null;
 
     public static final int width = 386;
     public static final int height = 450;
