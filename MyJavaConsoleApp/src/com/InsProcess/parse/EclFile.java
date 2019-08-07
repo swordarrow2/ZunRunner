@@ -4,19 +4,19 @@ import java.io.*;
 
 import com.InsProcess.parse.beans.EclHeader;
 import com.InsProcess.parse.beans.EclList;
-import com.meng.TaiHunDanmaku.ui.*;
 import com.InsProcess.parse.beans.*;
 
 public class EclFile {
     private byte[] fileByte;
     private int position = 0;
+	private String baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/ecl/";
 	EclHeader eclHeader;
 	EclList anm;
 	EclList ecli;
 	EclSubPack[] subPacks;
 
     public EclFile(String fileName) {
-        File ecl = new File(GameMain.baseEclPath + fileName);
+        File ecl = new File(baseEclPath + fileName);
         fileByte = new byte[(int) ecl.length()];
         try {
             FileInputStream fin = new FileInputStream(ecl);
@@ -144,28 +144,32 @@ public class EclFile {
         return i;
     }
 
-    public long readLong() {
-        long l = readLong(position);
-        position += 8;
-        return l;
-    }
-
     public byte readByte(int pos) {
+	  System.out.println(Integer.toHexString(fileByte[pos])+" "+pos);
         return fileByte[pos];
     }
 
     public short readShort(int pos) {
+		System.out.println(Integer.toHexString((fileByte[pos] | fileByte[pos + 1] << 8))+" "+pos);
         return (short) (fileByte[pos] | fileByte[pos + 1] << 8);
     }
 
+	
     public int readInt(int pos) {
-        return fileByte[pos] | fileByte[pos + 1] << 8 | fileByte[pos + 2] << 16 | fileByte[pos + 3] << 24;
+		System.out.println((fileByte[pos]&0xff) +" "+ (fileByte[pos + 1] << 8)+" "+ (fileByte[pos + 2] << 16) +" "+ (fileByte[pos + 3] << 24)+" "+pos);
+        return (fileByte[pos]&0xff) | ((fileByte[pos + 1] &0xff)<< 8) | ((fileByte[pos + 2]&0xff) << 16) | ((fileByte[pos + 3]&0xff) << 24);
     }
-
-    public long readLong(int pos) {
-        return fileByte[pos] | fileByte[pos + 1] << 8 | fileByte[pos + 2] << 16 | fileByte[pos + 3] << 24 | (long) fileByte[pos + 4] << 32 | (long) fileByte[pos + 5] << 40 | (long) fileByte[pos + 6] << 48 | (long) fileByte[pos + 7] << 56;
-    }
-
+	public long unsigned4BytesToInt(byte[] buf, int pos) {  
+        int firstByte = 0;  
+        int secondByte = 0;  
+        int thirdByte = 0;  
+        int fourthByte = 0;  
+        firstByte = (0x000000FF & ((int) fileByte[position]));  
+        secondByte = (0x000000FF & ((int) fileByte[position + 1]));  
+        thirdByte = (0x000000FF & ((int) fileByte[position + 2]));  
+        fourthByte = (0x000000FF & ((int) fileByte[position + 3]));  
+        return ((long) (firstByte << 24 | secondByte << 16 | thirdByte << 8 | fourthByte)) & 0xFFFFFFFFL;  
+	  }  
     public void moveToNextInt() {
         position |= 0b11;
         ++position;
