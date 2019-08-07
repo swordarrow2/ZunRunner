@@ -19,9 +19,7 @@ public class Main {
 */
         // new zunRunner() ;
         GameMain.baseEclPath="F:\\project\\ZunRunner\\ecl\\";
-        EclFile eclFile=new EclFile("st06.ecl");
-        System.out.println(eclFile.onLoadEclHeader());
-        System.out.println(eclFile.onLoadEclList());
-        System.out.println(eclFile.onLoadEclList());
+        EclFile eclFile=new EclFile("st06bs.ecl");
+        System.out.println(eclFile.toString());
     }
 }
