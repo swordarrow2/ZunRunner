@@ -1,11 +1,11 @@
 package com.InsProcess.parse;
 
 public class zunRunner {
-    private Ecl ecl;
+    private EclManager eclManager;
 
     public zunRunner() {
-    //    ecl = new Ecl();
-    /*      Sub testSub = ecl.sub();
+    //    eclManager = new EclManager();
+    /*      Sub testSub = eclManager.sub();
          testSub.parse(" BossCard7_at4(A B)\n" +
                   "{\n" +
                   "    var C D;\n" +
@@ -42,7 +42,7 @@ public class zunRunner {
 	  
     @Override
     public String toString() {
-        return ecl.toString();
+        return eclManager.toString();
     }
 
     public static final String A = "A";

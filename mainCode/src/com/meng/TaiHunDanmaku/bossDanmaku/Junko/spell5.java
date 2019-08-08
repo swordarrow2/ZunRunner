@@ -16,8 +16,7 @@ public class spell5 extends BaseSpellCard {
         waitFrameSpell = 120;
         spellName = "台符「纯粹的台混天堂」";
         shooters = new BulletShooter[]{
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setBulletColor(1)
                         .setBulletForm(3)
@@ -25,8 +24,7 @@ public class spell5 extends BaseSpellCard {
                         .setBulletWaysDegree(12.8571429f)
                         .setBulletVelocity(new Vector2(0, -2))
                         .setShooterCenterRandomRange(48, 48),
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(-120, -30))
                         .setBulletColor(4)
@@ -36,8 +34,7 @@ public class spell5 extends BaseSpellCard {
                         .setBulletRandomDegreeRange(360)
                         .setBulletVelocity(new Vector2(0, -0.7f))
                         .setShooterCenterRandomRange(64, 64),
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(120, -30))
                         .setBulletColor(4)
@@ -47,8 +44,7 @@ public class spell5 extends BaseSpellCard {
                         .setBulletRandomDegreeRange(360)
                         .setBulletVelocity(new Vector2(0, -0.7f))
                         .setShooterCenterRandomRange(64, 64),
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(-160, 0))
                         .setBulletColor(6)
@@ -58,8 +54,7 @@ public class spell5 extends BaseSpellCard {
                         .setBulletRandomDegreeRange(360)
                         .setBulletVelocity(new Vector2(0, -2.5f))
                         .setShooterCenterRandomRange(64, 64),
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setShootCenterOffset(new Vector2(160, 0))
                         .setBulletColor(6)
@@ -69,8 +64,7 @@ public class spell5 extends BaseSpellCard {
                         .setBulletRandomDegreeRange(360)
                         .setBulletVelocity(new Vector2(0, -2.5f))
                         .setShooterCenterRandomRange(64, 64),
-                new BulletShooter().init()
-                        .setEnemyPlane(boss)
+                new BulletShooter().init(boss)
                         .setShooterCenter(boss.objectCenter)
                         .setBulletColor(13)
                         .setBulletForm(3)

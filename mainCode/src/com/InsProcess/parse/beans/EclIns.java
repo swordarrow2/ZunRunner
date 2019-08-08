@@ -21,6 +21,13 @@ public class EclIns {
     public int zero;
     public byte data[];
 
+    private int dataPosition = 0;
+    private EclSub eclSub;
+
+    public EclIns(EclSub sub) {
+        eclSub = sub;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -33,64 +40,108 @@ public class EclIns {
     private int toUByte(byte buf) {
         return buf & 0xFF;
     }
-    public int readInt(int pos) {
-        return (data[pos] & 0xff) | (data[pos + 1] & 0xff) << 8 | (data[pos + 2] & 0xff) << 16 | (data[pos + 3] & 0xff) << 24;
+
+    public int readInt() {
+        int i = (data[dataPosition] & 0xff) | (data[dataPosition + 1] & 0xff) << 8 | (data[dataPosition + 2] & 0xff) << 16 | (data[dataPosition + 3] & 0xff) << 24;
+        dataPosition += 4;
+        if (dataPosition == data.length) {
+            dataPosition = 0;
+        }
+        return i;
     }
-	public float readFloat(int pos){
-		int l;                                           
-	    l = data[pos + 0];                                
-	    l &= 0xff;                                       
-	    l |= ((long) data[pos + 1] << 8);                 
-	    l &= 0xffff;                                     
-	    l |= ((long) data[pos + 2] << 16);                
-	    l &= 0xffffff;                                   
-	    l |= ((long) data[pos + 3] << 24);                
-	    return Float.intBitsToFloat(l);              
-	}
+
+    public float readFloat() {
+        float f = Float.intBitsToFloat((data[dataPosition] & 0xff) | (data[dataPosition + 1] & 0xff) << 8 | (data[dataPosition + 2] & 0xff) << 16 | (data[dataPosition + 3] & 0xff) << 24);
+        dataPosition += 4;
+        if (dataPosition == data.length) {
+            dataPosition = 0;
+        }
+        return f;
+    }
+
+    public byte[] readParams() {
+        byte[] bytes = new byte[data.length - dataPosition - 1];
+        for (int i = 0; i < bytes.length; ++i) {
+            bytes[i] = data[dataPosition + i];
+        }
+        return bytes;
+    }
+
+    public String readString() {
+        byte[] strByte = new byte[data[dataPosition]];
+        dataPosition += 4;
+        for (int i = 0; i < strByte.length; ++i) {
+            try {
+                strByte[i] = data[dataPosition + i];
+            }catch (Exception e){
+                throw new NullPointerException("sub:"+eclSub.eclSubPack.subName+" id:"+id+" pos:"+(dataPosition-4)+" size:"+strByte.length );
+            }
+        }
+        dataPosition += strByte.length;
+        if (dataPosition == data.length) {
+            dataPosition = 0;
+        }
+        String s = new String(strByte);
+        return s.substring(0,s.indexOf(0));
+    }
+
+    private void moveToNextInt() {
+        if ((dataPosition & 0b11) == 0) {
+            return;
+        }
+        dataPosition |= 0b11;
+        ++dataPosition;
+    }
+
     private String printArray(byte[] array) {
         if (array.length == 0) {
             return "no param";
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i=0;i<data.length;i+=4){
-            stringBuilder.append(((param_mask>>(i/4))&0b1)==1?"var:":"num:").append(readInt(i)).append(" | ");
-     //     stringBuilder.append(Integer.toHexString(b & 0xFF)).append((i + 1) % 4 == 0 ? " | " : " ");
+        if (id == 11 || id == 15 || id == 22) {
+            stringBuilder.append("str:").append(readString());
+        } else {
+            for (int i = 0; i < data.length; i += 4) {
+                stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(readInt()).append(" | ");
+            }
         }
+        dataPosition=0;
+        //    stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(Integer.toHexString(data[i] & 0xFF)).append((i + 1) % 4 == 0 ? " | " : " ");
         return stringBuilder.toString();
     }
 
-	/**
-	 * 浮点转换为字节
-	 * 
-	 * @param f
-	 * @return
-	 */
-	public static byte[] float2byte(float f) {
-		int fbit = Float.floatToIntBits(f);
-		byte[] b = new byte[4];  
-		b[0] = (byte) fbit;  
-		b[1] = (byte) (fbit >> 8);  
-		b[2] = (byte) (fbit >> 16);  
-		b[3] = (byte) (fbit >> 24);  
-	    return b;
-	  }
+    /**
+     * 浮点转换为字节
+     *
+     * @param f
+     * @return
+     */
+    public static byte[] float2byte(float f) {
+        int fbit = Float.floatToIntBits(f);
+        byte[] b = new byte[4];
+        b[0] = (byte) fbit;
+        b[1] = (byte) (fbit >> 8);
+        b[2] = (byte) (fbit >> 16);
+        b[3] = (byte) (fbit >> 24);
+        return b;
+    }
 
-	/**
-	 * 字节转换为浮点
-	 * 
-	 * @param b 字节（至少4个字节）
-	 * @param index 开始位置
-	 * @return
-	 */
-	public static float byte2float(byte[] b, int index) {  
-	    int l;                                           
-	    l = b[index + 0];                                
-	    l &= 0xff;                                       
-	    l |= ((long) b[index + 1] << 8);                 
-	    l &= 0xffff;                                     
-	    l |= ((long) b[index + 2] << 16);                
-	    l &= 0xffffff;                                   
-	    l |= ((long) b[index + 3] << 24);                
-	    return Float.intBitsToFloat(l);                  
-	  }
+    /**
+     * 字节转换为浮点
+     *
+     * @param b     字节（至少4个字节）
+     * @param index 开始位置
+     * @return
+     */
+    public static float byte2float(byte[] b, int index) {
+        int l;
+        l = b[index + 0];
+        l &= 0xff;
+        l |= ((long) b[index + 1] << 8);
+        l &= 0xffff;
+        l |= ((long) b[index + 2] << 16);
+        l &= 0xffffff;
+        l |= ((long) b[index + 3] << 24);
+        return Float.intBitsToFloat(l);
+    }
 }

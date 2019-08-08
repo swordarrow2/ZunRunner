@@ -19,7 +19,7 @@ public class Sub {
     public String subName;
     public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
     public EclNumberStack numberStack = new EclNumberStack();
-    public Ecl ecl;
+    public EclManager eclManager;
     public int nowIns = 0;
 
     public void update() {
@@ -47,20 +47,20 @@ public class Sub {
             case 10:
                 System.out.println("sub exit");
                 nowIns = 999;
-             //   Ecl.toDeleteSubs.add(this);
+                //   EclManager.toDeleteSubs.add(this);
                 break;
             case 11:
                 _11(a);
                 break;
             case 12:
-           //     nowIns = getLable(a[0].s);
+                //     nowIns = getLable(a[0].s);
                 break;
             case 13:
                 EclVar eclVar13 = a[0];
                 String gotoFlag13 = eclVar13.s.substring(eclVar13.s.indexOf("goto") + 4);
                 String expression13 = eclVar13.s.substring(eclVar13.s.indexOf("unless") + 6, eclVar13.s.indexOf("goto"));
                 if (!invokeExpression(expression13)) {
-           //         nowIns = getLable(gotoFlag13);
+                    //         nowIns = getLable(gotoFlag13);
                 }
                 break;
             case 14:
@@ -68,7 +68,7 @@ public class Sub {
                 String gotoFlag14 = eclVar14.s.substring(eclVar14.s.indexOf("goto") + 4);
                 String expression14 = eclVar14.s.substring(eclVar14.s.indexOf("if") + 2, eclVar14.s.indexOf("goto"));
                 if (invokeExpression(expression14)) {
-          //          nowIns = getLable(gotoFlag14);
+                    //          nowIns = getLable(gotoFlag14);
                 }
                 break;
             case 15:
@@ -334,7 +334,7 @@ public class Sub {
         for (int i = 0; i < as.length; ++i) {
             as[i] = args[i + 1];
         }
-    //    ecl.getSub(args[0].s).insertArgs(as).update();
+        //    eclManager.getSub(args[0].s).insertArgs(as).update();
     }
 
     public void _15(EclVar... args) {
@@ -342,7 +342,7 @@ public class Sub {
         for (int i = 0; i < as.length; ++i) {
             as[i] = args[i + 1];
         }
-    //    Ecl.toAddSubs.add(ecl.getSub(args[0].s).insertArgs(as));
+        //    EclManager.toAddSubs.add(eclManager.getSub(args[0].s).insertArgs(as));
     }
 
     public void _50(EclVar... args) {
@@ -433,20 +433,20 @@ public class Sub {
     }
 
     public void _535(EclVar var, int e, int n, int h, int l) {
-        switch (FightScreen.instence.difficulty) {
-            case "E":
+        switch (GameMain.difficulty) {
+            case 0:
                 if (var == null) {
                     throw new NullPointerException("var is null");
                 }
                 var.i = e;
                 break;
-            case "N":
+            case 1:
                 var.i = n;
                 break;
-            case "H":
+            case 2:
                 var.i = h;
                 break;
-            case "L":
+            case 3:
                 var.i = l;
                 break;
             default:
@@ -455,7 +455,7 @@ public class Sub {
     }
 
     public void _600(int danmakuNum) {
-        BulletShooter bShooter = new BulletShooter().init();
+        BulletShooter bShooter = new BulletShooter().init(FightScreen.instence.boss);
         bShooter.shooterCenter = FightScreen.instence.boss.objectCenter;
         bulletShooters.put(danmakuNum, bShooter);
     }

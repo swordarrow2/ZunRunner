@@ -3,17 +3,17 @@ package com.InsProcess.parse.beans;
 /**
  * @author Administrator th10_list_t
  */
-public class EclList {
+public class EclIncludeList {
     public byte[] magic = new byte[4];
     public int count;
     public byte[] data;
-	
-	public String[] getFileName(){
-	  if(data.length==0){
-		return null;
-	  }
-		return new String(data).split(String.valueOf((char)0));
-	}
+
+    public String[] getFileName() {
+        if (data.length == 0) {
+            return null;
+        }
+        return new String(data).split(String.valueOf((char) 0));
+    }
 
     @Override
     public String toString() {

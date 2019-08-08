@@ -1,26 +1,26 @@
 package com.InsProcess.parse;
 
 import java.io.*;
+import java.util.Collections;
 
 import com.InsProcess.parse.beans.EclHeader;
-import com.InsProcess.parse.beans.EclList;
-import com.badlogic.gdx.utils.StringBuilder;
+import com.InsProcess.parse.beans.EclIncludeList;
 import com.meng.TaiHunDanmaku.ui.*;
 import com.InsProcess.parse.beans.*;
 
 public class EclFile {
-    public Ecl eclManager;
+    public EclManager eclManager;
     private byte[] fileByte;
     private int position = 0;
     private EclHeader eclHeader;
-    private EclList anm;
-    private EclList ecli;
-    
-	private String name;
+    private EclIncludeList anm;
+    private EclIncludeList ecli;
 
-    public EclFile(Ecl eclManager,String fileName) {
-	  name=fileName;
-	  this.eclManager=eclManager;
+    private String name;
+
+    public EclFile(EclManager eclManager, String fileName) {
+        name = fileName;
+        this.eclManager = eclManager;
         File ecl = new File(GameMain.baseEclPath + fileName);
         fileByte = new byte[(int) ecl.length()];
         try {
@@ -42,67 +42,64 @@ public class EclFile {
         eclHeader.zero2[3] = readInt();
         anm = onLoadEclList();
         ecli = onLoadEclList();
-	    EclSubPack[] subPacks = new EclSubPack[eclHeader.sub_count];
+        EclSubPack[] subPacks = new EclSubPack[eclHeader.sub_count];
         for (int i = 0; i < eclHeader.sub_count; ++i) {
-            subPacks[i] = new EclSubPack(this);
+            subPacks[i] = new EclSubPack();
         }
-			for (int positionLoopFlag = 0, subPacksLength = subPacks.length; positionLoopFlag < subPacksLength; positionLoopFlag++) {
-				EclSubPack subPack = subPacks[positionLoopFlag];
-				subPack.position = readInt();
-			  }
-			moveToNextInt();
-			int subNameDataLength = 0;
-			for (int subNameZeroCount = 0; subNameZeroCount < subPacks.length; ++subNameDataLength) {
-				if (readByte(subNameDataLength + position) == 0) {
-					++subNameZeroCount;
-				  }
-			  }
-			--subNameDataLength;
-			byte[] subNameData = new byte[subNameDataLength];
-			for (int nameLoopFlag = 0; nameLoopFlag < subNameDataLength; ++nameLoopFlag) {
-				subNameData[nameLoopFlag] = readByte();
-			  }
-			String[] names = new String(subNameData).split(String.valueOf((char) 0));
-			for (int i = 0; i < subPacks.length; ++i) {
-				subPacks[i].subName = names[i];
-			  }
-			moveToNextInt();
-			int subPackLenSub1 = subPacks.length - 1;
-			for (int i = 0; i < eclHeader.sub_count; ++i) {
-				EclSub sub = new EclSub(this,subPacks[i]);
-				sub.magic = readMagic();
-				sub.data_offset = readInt();
-				sub.zero[0] = readInt();
-				sub.zero[1] = readInt();
-				if (i == subPackLenSub1) {
-					sub.data = new byte[fileByte.length - subPacks[i].position - sub.data_offset];
-				  } else {
-					sub.data = new byte[subPacks[i + 1].position - subPacks[i].position - sub.data_offset];
-				  }
-				for (int readDataLoopFlag = 0; readDataLoopFlag < sub.data.length; ++readDataLoopFlag) {
-					sub.data[readDataLoopFlag] = readByte();
-				  }
-				subPacks[i].sub = sub;
-				sub.insList();
-				moveToNextInt();
-			  }	
-		String[] includeName=ecli.getFileName();
-		if(includeName!=null){
-			for(String s:includeName){
-				new EclFile(eclManager,s);
-			  }
-		  }
-		  for(EclSubPack esp:subPacks){
-			eclManager.subPacks.add(esp);
-		  }
+        for (EclSubPack subPack : subPacks) {
+            subPack.position = readInt();
+        }
+        moveToNextInt();
+        int subNameDataLength = 0;
+        for (int subNameZeroCount = 0; subNameZeroCount < subPacks.length; ++subNameDataLength) {
+            if (readByte(subNameDataLength + position) == 0) {
+                ++subNameZeroCount;
+            }
+        }
+        --subNameDataLength;
+        byte[] subNameData = new byte[subNameDataLength];
+        for (int nameLoopFlag = 0; nameLoopFlag < subNameDataLength; ++nameLoopFlag) {
+            subNameData[nameLoopFlag] = readByte(position++);
+        }
+        String[] names = new String(subNameData).split(String.valueOf((char) 0));
+        for (int i = 0; i < subPacks.length; ++i) {
+            subPacks[i].subName = names[i];
+        }
+        moveToNextInt();
+        int subPackLenSub1 = subPacks.length - 1;
+        for (int i = 0; i < eclHeader.sub_count; ++i) {
+            EclSub sub = new EclSub(this, subPacks[i]);
+            sub.magic = readMagic();
+            sub.data_offset = readInt();
+            sub.zero[0] = readInt();
+            sub.zero[1] = readInt();
+            if (i == subPackLenSub1) {
+                sub.data = new byte[fileByte.length - subPacks[i].position - sub.data_offset];
+            } else {
+                sub.data = new byte[subPacks[i + 1].position - subPacks[i].position - sub.data_offset];
+            }
+            for (int readDataLoopFlag = 0; readDataLoopFlag < sub.data.length; ++readDataLoopFlag) {
+                sub.data[readDataLoopFlag] = readByte(position++);
+            }
+            sub.readIns();
+            subPacks[i].sub = sub;
+            moveToNextInt();
+        }
+        String[] includeName = ecli.getFileName();
+        if (includeName != null) {
+            for (String s : includeName) {
+                new EclFile(eclManager, s);
+            }
+        }
+        Collections.addAll(eclManager.subPacks, subPacks);
     }
 
-    private EclList onLoadEclList() {
-        EclList eclList = new EclList();
-        eclList.magic = readMagic();
-        eclList.count = readInt();
+    private EclIncludeList onLoadEclList() {
+        EclIncludeList eclIncludeList = new EclIncludeList();
+        eclIncludeList.magic = readMagic();
+        eclIncludeList.count = readInt();
         int length = 0;
-        for (int zeroCount = 0; zeroCount < eclList.count; ++length) {
+        for (int zeroCount = 0; zeroCount < eclIncludeList.count; ++length) {
             if (readByte(length + position) == 0) {
                 ++zeroCount;
             }
@@ -110,16 +107,12 @@ public class EclFile {
         if (length != 0) {
             --length;
         }
-        eclList.data = new byte[length];
+        eclIncludeList.data = new byte[length];
         for (int i = 0; i < length; ++i) {
-            eclList.data[i] = readByte();
+            eclIncludeList.data[i] = readByte(position++);
         }
         moveToNextInt();
-        return eclList;
-    }
-
-    private byte readByte() {
-        return readByte(position++);
+        return eclIncludeList;
     }
 
     private short readShort() {
@@ -143,7 +136,7 @@ public class EclFile {
     }
 
     private int readInt(int pos) {
-	  return (fileByte[pos] & 0xff) | (fileByte[pos + 1] & 0xff) << 8 | (fileByte[pos + 2] & 0xff) << 16 | (fileByte[pos + 3] & 0xff) << 24;
+        return (fileByte[pos] & 0xff) | (fileByte[pos + 1] & 0xff) << 8 | (fileByte[pos + 2] & 0xff) << 16 | (fileByte[pos + 3] & 0xff) << 24;
     }
 
     private void moveToNextInt() {
@@ -156,14 +149,10 @@ public class EclFile {
 
     private byte[] readMagic() {
         byte[] ba = new byte[4];
-        ba[0] = fileByte[position];
-        ++position;
-        ba[1] = fileByte[position];
-        ++position;
-        ba[2] = fileByte[position];
-        ++position;
-        ba[3] = fileByte[position];
-        ++position;
+        ba[0] = fileByte[position++];
+        ba[1] = fileByte[position++];
+        ba[2] = fileByte[position++];
+        ba[3] = fileByte[position++];
         return ba;
     }
 
@@ -173,6 +162,6 @@ public class EclFile {
 
     @Override
     public String toString() {
-		return name;
+        return name;
     }
 }

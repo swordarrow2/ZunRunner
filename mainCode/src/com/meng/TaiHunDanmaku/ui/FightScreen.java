@@ -13,6 +13,7 @@ import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.*;
 import com.meng.TaiHunDanmaku.control.*;
 import com.meng.TaiHunDanmaku.task.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -26,8 +27,7 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
-    public String difficulty = "E";
-	public static String nowins="111";
+    public static String nowins = "111";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -68,31 +68,32 @@ public class FightScreen extends ScreenAdapter {
         stage.addActor(groupHighLight);
         stage.addActor(changeBlend2);
         //      boss = new BossTaiZhang1();
-		new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
-		
+        new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
+
         new MyPlaneReimu().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
-		Ecl ecl=new Ecl("st06.ecl");
-		ecl.start();
-		/*Ecl ecl = new Ecl();
-		Sub card7 = ecl.sub();	
+        EclManager eclManager = new EclManager("st06.ecl");
+        eclManager.start();
+        System.out.println(eclManager.toString());
+		/*EclManager eclManager = new EclManager();
+		Sub card7 = eclManager.sub();
         card7.parse(read("BossCard7.txt"));
-		Sub sub1 = ecl.sub();
+		Sub sub1 = eclManager.sub();
 		sub1.parse(read("BossCard7_at.txt"));
-		Sub  sub2 = ecl.sub();
+		Sub  sub2 = eclManager.sub();
 		sub2.parse(read("BossCard7_at2.txt"));	
-		Sub sub2b = ecl.sub();
+		Sub sub2b = eclManager.sub();
 		sub2b.parse(read("BossCard7_at2b.txt"));		
-		Sub  sub3 = ecl.sub();
+		Sub  sub3 = eclManager.sub();
 		sub3.parse(read("BossCard7_at3.txt"));
-		Sub sub3b = ecl.sub();
+		Sub sub3b = eclManager.sub();
 	    sub3b.parse(read("BossCard7_at3b.txt"));		
-        Sub sub4 = ecl.sub();
+        Sub sub4 = eclManager.sub();
 		sub4.parse(read("BossCard7_at4.txt"));
 		card7.start();
-		*/	
+		*/
         super.show();
     }
 
@@ -109,19 +110,16 @@ public class FightScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         ++gameTimeFlag;
-		try {
-			Thread.sleep(50);
-		  } catch (InterruptedException e) {}
         stage.draw();
         gameMain.spriteBatch.begin();
-        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond()+"\nBullets:"+EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
-        gameMain.bitmapFont.draw(gameMain.spriteBatch,nowins,20,150);
-		
-		if (boss == null) {
-                 } else {
+        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
+        gameMain.bitmapFont.draw(gameMain.spriteBatch, nowins, 20, 150);
+
+        if (boss == null) {
+        } else {
             boss.update();
-				   }
-				   Ecl.update();
+        }
+        EclManager.update();
         BulletShooter.updateAll();
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
@@ -137,24 +135,24 @@ public class FightScreen extends ScreenAdapter {
     public void hide() {
         super.hide();
     }
-	
-	public String read(String path) {
+
+    public String read(String path) {
         String s = "";
-		File eclFile=new File(GameMain.baseEclPath + path);
+        File eclFile = new File(GameMain.baseEclPath + path);
         try {
             if (!eclFile.exists()) {
-                throw new NullPointerException("file not found:"+eclFile.getAbsolutePath());
-			  }
+                throw new NullPointerException("file not found:" + eclFile.getAbsolutePath());
+            }
             long filelength = eclFile.length();
             byte[] filecontent = new byte[(int) filelength];
             FileInputStream in = new FileInputStream(eclFile);
             in.read(filecontent);
             in.close();
             s = new String(filecontent, "Shift_JIS");
-		  } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-		  }
+        }
         return s;
-	  }
-	
+    }
+
 }

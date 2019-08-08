@@ -71,11 +71,7 @@ public class BulletShooter implements Cloneable {
         return bs;
     }
 
-    public BulletShooter init() {
-        return this;
-    }
-
-    public BulletShooter setEnemyPlane(Junko enemyPlane) {
+    public BulletShooter init(Junko enemyPlane) {
         this.enemyPlane = enemyPlane;
         return this;
     }
@@ -227,7 +223,7 @@ public class BulletShooter implements Cloneable {
             case 1:
                 bulletVelocity = MyPlaneReimu.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
                 break;
-				case 3:
+            case 3:
             case 5:
                 bulletWaysDegree = 360f / bulletWays;
                 break;
