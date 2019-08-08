@@ -7,6 +7,13 @@ public class EclList {
     public byte[] magic = new byte[4];
     public int count;
     public byte[] data;
+	
+	public String[] getFileName(){
+	  if(data.length==0){
+		return null;
+	  }
+		return new String(data).split(String.valueOf((char)0));
+	}
 
     @Override
     public String toString() {

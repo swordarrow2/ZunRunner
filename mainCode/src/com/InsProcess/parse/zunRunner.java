@@ -4,9 +4,9 @@ public class zunRunner {
     private Ecl ecl;
 
     public zunRunner() {
-        ecl = new Ecl();
-          Sub testSub = ecl.sub();
-          testSub.parse(" BossCard7_at4(A B)\n" +
+    //    ecl = new Ecl();
+    /*      Sub testSub = ecl.sub();
+         testSub.parse(" BossCard7_at4(A B)\n" +
                   "{\n" +
                   "    var C D;\n" +
                   "    $C = 5;\n" +
@@ -30,7 +30,7 @@ public class zunRunner {
                   "    ins_10();\n" +
                   "}\n" +
                   "\n");
-
+*/
     }
 	private String toStr(int i){
 	  return String.valueOf(i);

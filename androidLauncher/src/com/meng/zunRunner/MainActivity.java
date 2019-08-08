@@ -16,13 +16,14 @@ public class MainActivity extends Activity{//AndroidApplication {
         super.onCreate(savedInstanceState);
 		GameMain.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/ecl/";
       //  setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
-	  StringBuilder sb=new StringBuilder();
-		EclFile eclFile=new EclFile("st06.ecl");
-	
+	//  StringBuilder sb=new StringBuilder();
+		Ecl ecl=new Ecl("st06.ecl");
 		ScrollView s=new ScrollView(this);
+		HorizontalScrollView hs=new HorizontalScrollView(this);
 		TextView t=new TextView(this);
-		t.setText(eclFile.getSubNames());
+		t.setText(ecl.toString());
 		s.addView(t);
-		setContentView(s);
+		hs.addView(s);
+		setContentView(hs);
 	  }
   }

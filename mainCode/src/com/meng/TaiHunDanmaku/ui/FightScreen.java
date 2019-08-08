@@ -74,7 +74,7 @@ public class FightScreen extends ScreenAdapter {
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
 		
-		Ecl ecl = new Ecl();
+		/*Ecl ecl = new Ecl();
 		Sub card7 = ecl.sub();	
         card7.parse(read("BossCard7.txt"));
 		Sub sub1 = ecl.sub();
@@ -90,7 +90,7 @@ public class FightScreen extends ScreenAdapter {
         Sub sub4 = ecl.sub();
 		sub4.parse(read("BossCard7_at4.txt"));
 		card7.start();
-			
+		*/	
         super.show();
     }
 
