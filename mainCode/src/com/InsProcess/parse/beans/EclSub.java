@@ -121,11 +121,32 @@ public class EclSub {
         dataPosition |= 0b11;
         ++dataPosition;
     }
+	
+	private void gotoIns(int length){
+	  int nowSkipLength=0;
+	  int nowSkipIns=0;
+	  if(length<0){
+		while(nowSkipLength>length){
+		  EclIns ins=preIns();
+		  nowSkipLength+=ins.size;
+		  ++nowSkipIns;
+		}
+	//	eclPosition-=nowSkipIns;
+	  }else{
+		  while(nowSkipLength<length){
+			  EclIns ins=nextIns();
+			  nowSkipLength+=ins.size;
+			  ++nowSkipIns;
+			}
+	//	eclPosition+=nowSkipIns;
+	  }
+	}
 
 	public void update() {
         if (eclPosition < inses.size()) {
             EclIns ins = inses.get(eclPosition);
-            if (ins.id == 23) {
+			if (ins.id == 23) {FightScreen.nowins="eclUpdate:"+ins.id+" param:"+ins.readInt(0)+" waited:"+waitFrams;
+				
                 if (ins.readInt(0) > ++waitFrams) {
                     return;
 				  }else{
@@ -142,6 +163,7 @@ public class EclSub {
 	  
 	public void invoke(EclIns ins) {
       //  EclVar[] a = ins.args;
+	  
         switch (ins.id) {
             case 10:
 			  System.out.println("sub exit");
@@ -155,21 +177,23 @@ public class EclSub {
 		//	  nowIns = 999;
 		//	  Ecl.toDeleteSubs.add(this);
 			  break;
-			  case 11:
-			  Ecl.toAddSubs.add(eclFile.eclManager.getSubPack(new String(ins.data)).startByIns11(true).setPartent(this));
-			  Ecl.onPauseSubs.add(this);
-			  Ecl.toDeleteSubs.add(this);
-			  break;
-			  case 15:
-			  Ecl.toAddSubs.add(eclFile.eclManager.getSubPack(new String(ins.data)).startByIns11(false));
-			  break;
+		//	  case 11:
+		//	  Ecl.toAddSubs.add(eclFile.eclManager.getSubPack(new String(ins.data)).startByIns11(true).setPartent(this));
+		//	  Ecl.onPauseSubs.add(this);
+		//	  Ecl.toDeleteSubs.add(this);
+		//	  break;
+		//	  case 15:
+		//	  Ecl.toAddSubs.add(eclFile.eclManager.getSubPack(new String(ins.data)).startByIns11(false));
+		//	  break;
       /*      case 11:
 			  _11(a);
 			  break;
-            case 12:
-			  nowIns = getLable(a[0].s);
-			  break;
-            case 13:
+      */     case 12:
+	         case 13:
+		     case 14:
+			  gotoIns(ins.readInt(0));
+		     break;
+      /*      case 13:
 			  EclVar eclVar13 = a[0];
 			  String gotoFlag13 = eclVar13.s.substring(eclVar13.s.indexOf("goto") + 4);
 			  String expression13 = eclVar13.s.substring(eclVar13.s.indexOf("unless") + 6, eclVar13.s.indexOf("goto"));

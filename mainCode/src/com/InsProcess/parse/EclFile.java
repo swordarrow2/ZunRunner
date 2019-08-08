@@ -83,6 +83,7 @@ public class EclFile {
 					sub.data[readDataLoopFlag] = readByte();
 				  }
 				subPacks[i].sub = sub;
+				sub.insList();
 				moveToNextInt();
 			  }	
 		String[] includeName=ecli.getFileName();

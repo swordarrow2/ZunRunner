@@ -27,6 +27,7 @@ public class FightScreen extends ScreenAdapter {
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
     public String difficulty = "E";
+	public static String nowins="111";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -73,7 +74,8 @@ public class FightScreen extends ScreenAdapter {
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
-		
+		Ecl ecl=new Ecl("st06.ecl");
+		ecl.start();
 		/*Ecl ecl = new Ecl();
 		Sub card7 = ecl.sub();	
         card7.parse(read("BossCard7.txt"));
@@ -107,14 +109,19 @@ public class FightScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         ++gameTimeFlag;
+		try {
+			Thread.sleep(50);
+		  } catch (InterruptedException e) {}
         stage.draw();
         gameMain.spriteBatch.begin();
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond()+"\nBullets:"+EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
-        Ecl.update();
+        gameMain.bitmapFont.draw(gameMain.spriteBatch,nowins,20,150);
+		
 		if (boss == null) {
                  } else {
             boss.update();
-        }
+				   }
+				   Ecl.update();
         BulletShooter.updateAll();
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();

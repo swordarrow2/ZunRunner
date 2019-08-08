@@ -26,10 +26,10 @@ public class Ecl {
 	}
 
     public static void update() {
-        if (FightScreen.instence.boss == null) {
-            runningSubs.clear();
+   /*     if (FightScreen.instence.boss == null) {
+         //   runningSubs.clear();
             return;
-        }
+        }*/
         for (EclSub runningSub : runningSubs) {
             runningSub.update();
         }
@@ -46,7 +46,7 @@ public class Ecl {
 				return sp.sub;
 			  }
 		  }
-		throw new NullPointerException("sub not found");
+		throw new NullPointerException("sub not found:"+name);
 	  }
 	  
 	@Override
