@@ -9,7 +9,7 @@ import com.meng.TaiHunDanmaku.ui.*;
 import java.io.*;
 import android.app.*;
 
-public class MainActivity extends AndroidApplication {
+public class MainActivity extends  AndroidApplication {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class MainActivity extends AndroidApplication {
 		GameMain.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/ecl/";
         setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
 	//  StringBuilder sb=new StringBuilder();
-	/*	EclManager ecl=new EclManager("st06.ecl");
+		EclManager ecl=new EclManager("st06.ecl");
 		
 		ScrollView s=new ScrollView(this);
 		HorizontalScrollView hs=new HorizontalScrollView(this);
@@ -25,7 +25,7 @@ public class MainActivity extends AndroidApplication {
 		t.setText(ecl.toString());
 		s.addView(t);
 		hs.addView(s);
-		setContentView(hs);
-		ecl.start();*/
+		//setContentView(hs);
+		ecl.start();
 	  }
   }

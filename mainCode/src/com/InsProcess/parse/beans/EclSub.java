@@ -129,33 +129,37 @@ public class EclSub {
     }
 
     private void gotoIns(int length) {
-        int nowSkipLength = 0;
         if (length < 0) {
-            while (nowSkipLength > length) {
+			int nowSkipLength = 0;
+            while (nowSkipLength != length) {
                 EclIns ins = preIns();
-                nowSkipLength += ins.size;
+                nowSkipLength -= ins.size;
             }
-        } else {
-            while (nowSkipLength < length) {
+		  } else {
+			int nowSkipLength = 24;
+            while (nowSkipLength != length) {
                 EclIns ins = nextIns();
                 nowSkipLength += ins.size;
             }
+			nextIns();
         }
     }
 
     public void update() {
         if (eclPosition < inses.size()) {
             EclIns ins = inses.get(eclPosition);
-			FightScreen.nowins="now:"+ins.id+"\n"+FightScreen.nowins;
+			if(eclSubPack.subName.equals("BossCard7")){
+			//	FightScreen.nowins="now:"+ins.id+"\n"+FightScreen.nowins;
+			}
             if (((ins.rank_mask >> GameMain.difficulty) & 0b1) == 0) {
                 ++eclPosition;
                 return;
             }
             if (ins.id == 23) {
-                if (ins.readInt() <= ++waitFrams) {
-                    waitFrams = 0;
-                    ++eclPosition;
-                }
+          //      if (ins.readInt() < waitFrams++) {
+           //         waitFrams = 0;
+           //         ++eclPosition;
+          //      }
                 return;
             }
             invoke(ins);
@@ -1538,7 +1542,7 @@ public class EclSub {
                 _77();
                 break;
             case 78:
-                _78(ins.readInt());
+			  _78(eclStack.popInt());
                 break;
             case 81:
                 _81(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
