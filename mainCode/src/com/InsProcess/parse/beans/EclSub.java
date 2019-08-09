@@ -27,7 +27,7 @@ public class EclSub {
     private Junko master;
 
     private HashMap<Integer,byte[]> varMap=new HashMap<>();
-
+	private EclStack eclStack=new EclStack();
     public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
 
     private int waitFrams = 0;
@@ -146,6 +146,7 @@ public class EclSub {
     public void update() {
         if (eclPosition < inses.size()) {
             EclIns ins = inses.get(eclPosition);
+			FightScreen.nowins="now:"+ins.id+"\n"+FightScreen.nowins;
             if (((ins.rank_mask >> GameMain.difficulty) & 0b1) == 0) {
                 ++eclPosition;
                 return;
@@ -162,7 +163,6 @@ public class EclSub {
             update();
         }
     }
-
 
     private void _0() {
 
@@ -194,11 +194,15 @@ public class EclSub {
     }
 
     private void _13(int i0, int i1) { //unless  goto
-
+	    if(eclStack.popInt()==0){
+	      gotoIns(i0);
+	    }
     }
 
     private void _14(int i0, int i1) { //if   goto
-
+	    if(eclStack.popInt()!=0){
+	      gotoIns(i0);
+	    }
     }
 
     private void _15(String s0, byte[] i1) {
@@ -226,139 +230,205 @@ public class EclSub {
     }
 
     private void _40(int i0) {
-
+	  eclStack.initVarSize(i0);
     }
 
     private void _42(int i0) {
-
+	    eclStack.push(i0);
     }
 
     private void _43(int i0) {
-
+	    eclStack.putGlobal(i0,eclStack.popInt());
     }
 
     private void _44(float f0) {
-
+	    eclStack.push(f0);
     }
 
     private void _45(float f0) {
-
+	    eclStack.putGlobal(Float.floatToIntBits(f0),eclStack.popFloat());
     }
 
     private void _50() {
-
+		eclStack.push(eclStack.popInt()+eclStack.popInt());
     }
 
     private void _51() {
-
+		eclStack.push(eclStack.popFloat()+eclStack.popFloat());
     }
 
     private void _52() {
-
+		int b=eclStack.popInt();
+		int a=eclStack.popInt();
+		eclStack.push(a-b);
     }
 
     private void _53() {
-
+		float b=eclStack.popFloat();
+		float a=eclStack.popFloat();
+		eclStack.push(a-b);
     }
 
     private void _54() {
-
+		eclStack.push(eclStack.popInt()*eclStack.popInt());
     }
 
     private void _55() {
-
+		eclStack.push(eclStack.popFloat()*eclStack.popFloat());
     }
 
     private void _56() {
-
+		int b=eclStack.popInt();
+		int a=eclStack.popInt();
+		eclStack.push(a/b);
     }
 
     private void _57() {
-
+		float b=eclStack.popFloat();
+		float a=eclStack.popFloat();
+		eclStack.push(a/b);
     }
 
     private void _58() {
-
+	  int b=eclStack.popInt();
+	  int a=eclStack.popInt();
+	  eclStack.push(a%b);
     }
 
     private void _59() {
-
+		if(eclStack.popInt()==eclStack.popInt()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _60() {
-
+		if(eclStack.popFloat()==eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _61() {
-
+		if(eclStack.popInt()!=eclStack.popInt()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _62() {
-
+		if(eclStack.popFloat()!=eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _63() {
-
+		if(eclStack.popInt()>eclStack.popInt()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _64() {
-
+		if(eclStack.popFloat()>eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _65() {
-
+		if(eclStack.popInt()>=eclStack.popInt()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _66() {
-
+		if(eclStack.popFloat()>=eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _67() {
-
+		if(eclStack.popInt()<eclStack.popInt()){
+		  eclStack.push(1);
+		}else{
+		  eclStack.push(0);
+		}
     }
 
     private void _68() {
-
+		if(eclStack.popFloat()<eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _69() {
-
+		if(eclStack.popInt()<=eclStack.popInt()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _70() {
-
+		if(eclStack.popFloat()<=eclStack.popFloat()){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _71() {
-
+	    eclStack.push(eclStack.popInt()==0?1:0);
     }
 
     private void _72() {
-
+		eclStack.push(eclStack.popFloat()==0?1:0);
     }
 
     private void _73() {
-
+		if(eclStack.popInt()!=0||eclStack.popInt()!=0){
+	  	  eclStack.push(1);
+		}else{
+		  eclStack.push(0);
+		}
     }
 
     private void _74() {
-
+		if(eclStack.popInt()!=0&&eclStack.popInt()!=0){
+			eclStack.push(1);
+		  }else{
+			eclStack.push(0);
+		  }
     }
 
     private void _75() {
-
+		eclStack.push(eclStack.popInt()^eclStack.popInt());
     }
 
     private void _76() {
-
+		eclStack.push(eclStack.popInt()|eclStack.popInt());
     }
 
     private void _77() {
-
+		eclStack.push(eclStack.popInt()&eclStack.popInt());
     }
 
     private void _78(int i0) {
-
+	  eclStack.push(i0==0?0:1);
     }
 
     private void _81(float f0, float f1, float f2, float f3) {
@@ -1061,40 +1131,38 @@ public class EclSub {
 
     }
 
-    public void _600(int danmakuNum) {
+    private void _600(int danmakuNum) {
         BulletShooter bShooter = new BulletShooter().init(FightScreen.instence.boss);
-        bShooter.shooterCenter = FightScreen.instence.boss.objectCenter;
         bulletShooters.put(danmakuNum, bShooter);
     }
 
-    public void _601(int danmakuNum) {
+    private void _601(int danmakuNum) {
         bulletShooters.get(danmakuNum).shoot();
     }
 
-    public void _602(int danmakuNum, int form, int color) {
+    private void _602(int danmakuNum, int form, int color) {
         bulletShooters.get(danmakuNum).setBulletColor(color).setBulletForm(form);
     }
 
-    public void _603(int danmakuNum, float offsetX, float offsetY) {
+    private void _603(int danmakuNum, float offsetX, float offsetY) {
         bulletShooters.get(danmakuNum).setShootCenterOffset(new Vector2(offsetX, offsetY));
     }
 
-    public void _604(int danmakuNum, float direct, float r) {
+    private void _604(int danmakuNum, float direct, float r) {
         bulletShooters.get(danmakuNum).setBulletWaysDegree((float) Math.toDegrees(direct));
     }
 
-    public void _605(int danmakuNum, float speed, float slowlestSpeed) {
+    private void _605(int danmakuNum, float speed, float slowlestSpeed) {
         bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0, -speed));
     }
 
-    public void _606(int danmakuNum, int way, int ceng) {
+    private void _606(int danmakuNum, int way, int ceng) {
         bulletShooters.get(danmakuNum).setBulletWays(way).setBulletCengShu(ceng);
     }
 
-    public void _607(int danmakuNum, int style) {
+    private void _607(int danmakuNum, int style) {
         bulletShooters.get(danmakuNum).setBulletStyle(style);
     }
-
 
     private void _608(int i0, int i1, int i2) {
 
@@ -1343,13 +1411,13 @@ public class EclSub {
                 _11(ins.readString(), ins.readParams());
                 break;
             case 12:
-          //      _12(ins.readInt(), ins.readInt());
-          //      break;
+			  _12((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
+                break;
             case 13:
-          //      _13(ins.readInt(), ins.readInt());
-          //      break;
+			  _13((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
+                break;
             case 14:
-                _14(ins.readInt(), ins.readInt());
+			  _14((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
                 break;
             case 15:
                 _15(ins.readString(), ins.readParams());
@@ -1373,6 +1441,7 @@ public class EclSub {
                 _40(ins.readInt());
                 break;
             case 42:
+			 _42((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt());
                 _42(ins.readInt());
                 break;
             case 43:

@@ -73,6 +73,7 @@ public class BulletShooter implements Cloneable {
 
     public BulletShooter init(Junko enemyPlane) {
         this.enemyPlane = enemyPlane;
+		shooterCenter=enemyPlane.objectCenter;
         return this;
     }
 

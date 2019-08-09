@@ -32,7 +32,7 @@ public class EclIns {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         //rank E:193 N:194 H:196 L:232
-        stringBuilder.append("time:").append(time).append(" id:").append(id).append(" size:").append(size).append(" param_mask:").append(param_mask).append(" rank_mask:").append(toUByte(rank_mask)).append(" param_count:").append(param_count).append("\n");
+        stringBuilder.append("time:").append(time).append(" id:").append(id).append(" size:").append(size).append(" paraPos:").append(param_mask).append(" rank:").append(toUByte(rank_mask)).append(" paraCount:").append(param_count).append("\n");
         stringBuilder.append(printArray(data));
         return stringBuilder.toString();
     }
@@ -100,7 +100,11 @@ public class EclIns {
         StringBuilder stringBuilder = new StringBuilder();
         if (id == 11 || id == 15 || id == 22) {
             stringBuilder.append("str:").append(readString());
-        } else {
+        } else if(id == 44 || id == 45){
+			for (int i = 0; i < data.length; i += 4) {
+                stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(readFloat()).append(" | ");
+			  }
+		} else {
             for (int i = 0; i < data.length; i += 4) {
                 stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(readInt()).append(" | ");
             }
@@ -110,38 +114,4 @@ public class EclIns {
         return stringBuilder.toString();
     }
 
-    /**
-     * 浮点转换为字节
-     *
-     * @param f
-     * @return
-     */
-    public static byte[] float2byte(float f) {
-        int fbit = Float.floatToIntBits(f);
-        byte[] b = new byte[4];
-        b[0] = (byte) fbit;
-        b[1] = (byte) (fbit >> 8);
-        b[2] = (byte) (fbit >> 16);
-        b[3] = (byte) (fbit >> 24);
-        return b;
-    }
-
-    /**
-     * 字节转换为浮点
-     *
-     * @param b     字节（至少4个字节）
-     * @param index 开始位置
-     * @return
-     */
-    public static float byte2float(byte[] b, int index) {
-        int l;
-        l = b[index + 0];
-        l &= 0xff;
-        l |= ((long) b[index + 1] << 8);
-        l &= 0xffff;
-        l |= ((long) b[index + 2] << 16);
-        l &= 0xffffff;
-        l |= ((long) b[index + 3] << 24);
-        return Float.intBitsToFloat(l);
-    }
 }

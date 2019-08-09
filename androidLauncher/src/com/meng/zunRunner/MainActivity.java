@@ -17,7 +17,7 @@ public class MainActivity extends AndroidApplication {
 		GameMain.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/ecl/";
         setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
 	//  StringBuilder sb=new StringBuilder();
-	/*	Ecl ecl=new Ecl("st06.ecl");
+	/*	EclManager ecl=new EclManager("st06.ecl");
 		
 		ScrollView s=new ScrollView(this);
 		HorizontalScrollView hs=new HorizontalScrollView(this);
