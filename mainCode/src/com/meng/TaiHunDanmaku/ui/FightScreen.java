@@ -27,7 +27,6 @@ public class FightScreen extends ScreenAdapter {
     public Junko boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
-    public static String nowins = "111";
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -113,10 +112,7 @@ public class FightScreen extends ScreenAdapter {
         stage.draw();
         gameMain.spriteBatch.begin();
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
-        gameMain.bitmapFont.draw(gameMain.spriteBatch, nowins, GameMain.width/2, gameMain.height-5);
-
-        if (boss == null) {
-        } else {
+        if (boss != null) {
             boss.update();
         }
         EclManager.update();

@@ -73,8 +73,8 @@ public class EclIns {
         for (int i = 0; i < strByte.length; ++i) {
             try {
                 strByte[i] = data[dataPosition + i];
-            }catch (Exception e){
-                throw new NullPointerException("sub:"+eclSub.eclSubPack.subName+" id:"+id+" pos:"+(dataPosition-4)+" size:"+strByte.length );
+            } catch (Exception e) {
+                throw new NullPointerException("sub:" + eclSub.eclSubPack.subName + " id:" + id + " pos:" + (dataPosition - 4) + " size:" + strByte.length);
             }
         }
         dataPosition += strByte.length;
@@ -82,7 +82,7 @@ public class EclIns {
             dataPosition = 0;
         }
         String s = new String(strByte);
-        return s.substring(0,s.indexOf(0));
+        return s.substring(0, s.indexOf(0));
     }
 
     private void moveToNextInt() {
@@ -100,16 +100,16 @@ public class EclIns {
         StringBuilder stringBuilder = new StringBuilder();
         if (id == 11 || id == 15 || id == 22) {
             stringBuilder.append("str:").append(readString());
-        } else if(id == 44 || id == 45){
-			for (int i = 0; i < data.length; i += 4) {
+        } else if (id == 44 || id == 45) {
+            for (int i = 0; i < data.length; i += 4) {
                 stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(readFloat()).append(" | ");
-			  }
-		} else {
+            }
+        } else {
             for (int i = 0; i < data.length; i += 4) {
                 stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(readInt()).append(" | ");
             }
         }
-        dataPosition=0;
+        dataPosition = 0;
         //    stringBuilder.append(((param_mask >> (i / 4)) & 0b1) == 1 ? "var:" : "num:").append(Integer.toHexString(data[i] & 0xFF)).append((i + 1) % 4 == 0 ? " | " : " ");
         return stringBuilder.toString();
     }

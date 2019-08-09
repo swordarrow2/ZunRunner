@@ -26,8 +26,8 @@ public class EclSub {
 
     private Junko master;
 
-    private HashMap<Integer,byte[]> varMap=new HashMap<>();
-	private EclStack eclStack=new EclStack();
+    private HashMap<Integer, byte[]> varMap = new HashMap<>();
+    private EclStack stack = new EclStack();
     public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
 
     private int waitFrams = 0;
@@ -129,37 +129,34 @@ public class EclSub {
     }
 
     private void gotoIns(int length) {
-        if (length < 0) {
-			int nowSkipLength = 0;
-            while (nowSkipLength != length) {
-                EclIns ins = preIns();
-                nowSkipLength -= ins.size;
-            }
-		  } else {
-			int nowSkipLength = 24;
+        if (length > 0) {
+            int nowSkipLength = 24;
             while (nowSkipLength != length) {
                 EclIns ins = nextIns();
                 nowSkipLength += ins.size;
             }
-			nextIns();
+        } else {
+            int nowSkipLength = 0;
+            while (nowSkipLength != length) {
+                EclIns ins = preIns();
+                nowSkipLength -= ins.size;
+            }
+            preIns();
         }
     }
 
     public void update() {
         if (eclPosition < inses.size()) {
             EclIns ins = inses.get(eclPosition);
-			if(eclSubPack.subName.equals("BossCard7")){
-			//	FightScreen.nowins="now:"+ins.id+"\n"+FightScreen.nowins;
-			}
             if (((ins.rank_mask >> GameMain.difficulty) & 0b1) == 0) {
                 ++eclPosition;
                 return;
             }
             if (ins.id == 23) {
-          //      if (ins.readInt() < waitFrams++) {
-           //         waitFrams = 0;
-           //         ++eclPosition;
-          //      }
+                if (ins.readInt() < waitFrams++) {
+                    waitFrams = 0;
+                    ++eclPosition;
+                }
                 return;
             }
             invoke(ins);
@@ -177,7 +174,7 @@ public class EclSub {
     }
 
     private void _10() {
-        System.out.println("sub "+eclSubPack.subName+" exit");
+        System.out.println("sub " + eclSubPack.subName + " exit");
         if (startByIns11) {
             EclManager.toAddSubs.add(parentSub);
             EclManager.onPauseSubs.remove(parentSub);
@@ -198,15 +195,16 @@ public class EclSub {
     }
 
     private void _13(int i0, int i1) { //unless  goto
-	    if(eclStack.popInt()==0){
-	      gotoIns(i0);
-	    }
+        if (stack.popInt() == 0) {
+            gotoIns(i0);
+        }
     }
 
     private void _14(int i0, int i1) { //if   goto
-	    if(eclStack.popInt()!=0){
-	      gotoIns(i0);
-	    }
+        int i = stack.popInt();
+        if (i != 0) {
+            gotoIns(i0);
+        }
     }
 
     private void _15(String s0, byte[] i1) {
@@ -234,205 +232,217 @@ public class EclSub {
     }
 
     private void _40(int i0) {
-	  eclStack.initVarSize(i0);
+        stack.initVarSize(i0);
     }
 
     private void _42(int i0) {
-	    eclStack.push(i0);
+        stack.push(i0);
     }
 
     private void _43(int i0) {
-	    eclStack.putGlobal(i0,eclStack.popInt());
+        stack.putGlobal(i0, stack.popInt());
     }
 
     private void _44(float f0) {
-	    eclStack.push(f0);
+        stack.push(f0);
     }
 
     private void _45(float f0) {
-	    eclStack.putGlobal(Float.floatToIntBits(f0),eclStack.popFloat());
+        stack.putGlobal(Float.floatToIntBits(f0), stack.popFloat());
     }
 
     private void _50() {
-		eclStack.push(eclStack.popInt()+eclStack.popInt());
+        stack.push(stack.popInt() + stack.popInt());
     }
 
     private void _51() {
-		eclStack.push(eclStack.popFloat()+eclStack.popFloat());
+        stack.push(stack.popFloat() + stack.popFloat());
     }
 
     private void _52() {
-		int b=eclStack.popInt();
-		int a=eclStack.popInt();
-		eclStack.push(a-b);
+        int b = stack.popInt();
+        int a = stack.popInt();
+        stack.push(a - b);
     }
 
     private void _53() {
-		float b=eclStack.popFloat();
-		float a=eclStack.popFloat();
-		eclStack.push(a-b);
+        float b = stack.popFloat();
+        float a = stack.popFloat();
+        stack.push(a - b);
     }
 
     private void _54() {
-		eclStack.push(eclStack.popInt()*eclStack.popInt());
+        stack.push(stack.popInt() * stack.popInt());
     }
 
     private void _55() {
-		eclStack.push(eclStack.popFloat()*eclStack.popFloat());
+        stack.push(stack.popFloat() * stack.popFloat());
     }
 
     private void _56() {
-		int b=eclStack.popInt();
-		int a=eclStack.popInt();
-		eclStack.push(a/b);
+        int b = stack.popInt();
+        int a = stack.popInt();
+        stack.push(a / b);
     }
 
     private void _57() {
-		float b=eclStack.popFloat();
-		float a=eclStack.popFloat();
-		eclStack.push(a/b);
+        float b = stack.popFloat();
+        float a = stack.popFloat();
+        stack.push(a / b);
     }
 
     private void _58() {
-	  int b=eclStack.popInt();
-	  int a=eclStack.popInt();
-	  eclStack.push(a%b);
+        int b = stack.popInt();
+        int a = stack.popInt();
+        stack.push(a % b);
     }
 
     private void _59() {
-		if(eclStack.popInt()==eclStack.popInt()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() == stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _60() {
-		if(eclStack.popFloat()==eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() == stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _61() {
-		if(eclStack.popInt()!=eclStack.popInt()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() != stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _62() {
-		if(eclStack.popFloat()!=eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() != stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _63() {
-		if(eclStack.popInt()>eclStack.popInt()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() > stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _64() {
-		if(eclStack.popFloat()>eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() > stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _65() {
-		if(eclStack.popInt()>=eclStack.popInt()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() >= stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _66() {
-		if(eclStack.popFloat()>=eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() >= stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _67() {
-		if(eclStack.popInt()<eclStack.popInt()){
-		  eclStack.push(1);
-		}else{
-		  eclStack.push(0);
-		}
+        if (stack.popInt() < stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _68() {
-		if(eclStack.popFloat()<eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() < stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _69() {
-		if(eclStack.popInt()<=eclStack.popInt()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() <= stack.popInt()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _70() {
-		if(eclStack.popFloat()<=eclStack.popFloat()){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popFloat() <= stack.popFloat()) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _71() {
-	    eclStack.push(eclStack.popInt()==0?1:0);
+        if (stack.popInt() == 0) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _72() {
-		eclStack.push(eclStack.popFloat()==0?1:0);
+        if (stack.popFloat() == 0) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _73() {
-		if(eclStack.popInt()!=0||eclStack.popInt()!=0){
-	  	  eclStack.push(1);
-		}else{
-		  eclStack.push(0);
-		}
+        if (stack.popInt() != 0 || stack.popInt() != 0) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _74() {
-		if(eclStack.popInt()!=0&&eclStack.popInt()!=0){
-			eclStack.push(1);
-		  }else{
-			eclStack.push(0);
-		  }
+        if (stack.popInt() != 0 && stack.popInt() != 0) {
+            stack.push(1);
+        } else {
+            stack.push(0);
+        }
     }
 
     private void _75() {
-		eclStack.push(eclStack.popInt()^eclStack.popInt());
+        stack.push(stack.popInt() ^ stack.popInt());
     }
 
     private void _76() {
-		eclStack.push(eclStack.popInt()|eclStack.popInt());
+        stack.push(stack.popInt() | stack.popInt());
     }
 
     private void _77() {
-		eclStack.push(eclStack.popInt()&eclStack.popInt());
+        stack.push(stack.popInt() & stack.popInt());
     }
 
     private void _78(int i0) {
-	  eclStack.push(i0==0?0:1);
+        if (i0 == 0) {
+            stack.push(0);
+        } else {
+            stack.push(1);
+        }
     }
 
     private void _81(float f0, float f1, float f2, float f3) {
@@ -1402,6 +1412,7 @@ public class EclSub {
 
     public void invoke(EclIns ins) {
         switch (ins.id) {
+
             case 0:
                 _0();
                 break;
@@ -1415,46 +1426,46 @@ public class EclSub {
                 _11(ins.readString(), ins.readParams());
                 break;
             case 12:
-			  _12((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
+                _12((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 13:
-			  _13((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
+                _13((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 14:
-			  _14((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt(), ins.readInt());
+                _14((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 15:
                 _15(ins.readString(), ins.readParams());
                 break;
             case 16:
-                _16(ins.readString(), ins.readInt(), ins.readInt());
+                _16(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 17:
-                _17(ins.readInt());
+                _17((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 22:
-                _22(ins.readInt(), ins.readString());
+                _22((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 23:
-                _23(ins.readInt());
+                _23((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 30:
-                _30(ins.readString(), ins.readInt());
+                _30(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 40:
-                _40(ins.readInt());
+                _40((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 42:
-			 _42((ins.param_mask&1)==1?eclStack.getInt(ins.readInt()):ins.readInt());
-                _42(ins.readInt());
+                _42(((ins.param_mask & 1) == 1) ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 43:
                 _43(ins.readInt());
                 break;
             case 44:
-                _44(ins.readFloat());
+                _44((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 45:
+                // _45((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 _45(ins.readFloat());
                 break;
             case 50:
@@ -1542,13 +1553,15 @@ public class EclSub {
                 _77();
                 break;
             case 78:
-			  _78(eclStack.popInt());
+                int varPos = ins.readInt();
+                _78((ins.param_mask & 1) == 1 ? stack.getInt(varPos) : ins.readInt());
+                stack.dec(varPos);
                 break;
             case 81:
-                _81(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _81((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 82:
-                _82(ins.readFloat());
+                _82((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 83:
                 _83();
@@ -1557,196 +1570,196 @@ public class EclSub {
                 _84();
                 break;
             case 85:
-                _85(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _85((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 86:
-                _86(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _86((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 87:
-                _87(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _87((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 88:
-                _88(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _88((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 89:
-                _89(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _89((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 90:
-                _90(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _90((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 91:
-                _91(ins.readInt(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _91((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 92:
-                _92(ins.readInt(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _92((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 93:
-                _93(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _93((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 300:
-                _300(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _300(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 301:
-                _301(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _301(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 302:
-                _302(ins.readInt());
+                _302((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 303:
-                _303(ins.readInt(), ins.readInt());
+                _303((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 304:
-                _304(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _304(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 305:
-                _305(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _305(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 306:
-                _306(ins.readInt(), ins.readInt());
+                _306((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 307:
-                _307(ins.readInt(), ins.readInt());
+                _307((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 308:
-                _308(ins.readInt(), ins.readInt());
+                _308((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 309:
-                _309(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _309(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 310:
-                _310(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _310(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 311:
-                _311(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _311(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 312:
-                _312(ins.readString(), ins.readFloat(), ins.readFloat(), ins.readInt(), ins.readInt(), ins.readInt());
+                _312(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 313:
-                _313(ins.readInt());
+                _313((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 314:
-                _314(ins.readInt(), ins.readInt());
+                _314((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 315:
-                _315(ins.readInt(), ins.readInt(), ins.readFloat());
+                _315((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 316:
-                _316(ins.readInt(), ins.readInt());
+                _316((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 317:
-                _317(ins.readInt(), ins.readInt());
+                _317((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 318:
                 _318();
                 break;
             case 319:
-                _319(ins.readInt(), ins.readFloat());
+                _319((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 320:
-                _320(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _320((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 321:
-                _321(ins.readString(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _321(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 322:
-                _322(ins.readInt(), ins.readInt());
+                _322((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 323:
-                _323(ins.readInt(), ins.readInt());
+                _323((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 324:
-                _324(ins.readInt());
+                _324((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 325:
-                _325(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _325((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 326:
-                _326(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _326((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 327:
-                _327(ins.readInt(), ins.readInt());
+                _327((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 328:
-                _328(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _328((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 329:
-                _329(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _329((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 330:
-                _330(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _330((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 331:
-                _331(ins.readInt(), ins.readInt());
+                _331((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 332:
-                _332(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _332((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 333:
-                _333(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _333((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 334:
-                _334(ins.readInt());
+                _334((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 335:
-                _335(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _335((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 336:
-                _336(ins.readInt(), ins.readInt());
+                _336((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 337:
-                _337(ins.readInt(), ins.readInt());
+                _337((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 338:
-                _338(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _338((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 339:
-                _339(ins.readInt(), ins.readInt(), ins.readInt());
+                _339((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 340:
-                _340(ins.readInt());
+                _340((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 400:
-                _400(ins.readFloat(), ins.readFloat());
+                _400((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 401:
-                _401(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _401((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 402:
-                _402(ins.readFloat(), ins.readFloat());
+                _402((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 403:
-                _403(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _403((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 404:
-                _404(ins.readFloat(), ins.readFloat());
+                _404((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 405:
-                _405(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _405((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 406:
-                _406(ins.readFloat(), ins.readFloat());
+                _406((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 407:
-                _407(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _407((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 408:
-                _408(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _408((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 409:
-                _409(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _409((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 410:
-                _410(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _410((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 411:
-                _411(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _411((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 412:
-                _412(ins.readInt(), ins.readInt(), ins.readFloat());
+                _412((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 413:
-                _413(ins.readInt(), ins.readInt(), ins.readFloat());
+                _413((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 414:
                 _414();
@@ -1755,115 +1768,115 @@ public class EclSub {
                 _415();
                 break;
             case 416:
-                _416(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _416((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 417:
-                _417(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _417((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 418:
-                _418(ins.readFloat(), ins.readFloat());
+                _418((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 419:
-                _419(ins.readFloat(), ins.readFloat());
+                _419((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 420:
-                _420(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _420((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 421:
-                _421(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _421((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 422:
-                _422(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _422((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 423:
-                _423(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _423((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 424:
-                _424(ins.readInt());
+                _424((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 425:
-                _425(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _425((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 426:
-                _426(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _426((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 427:
                 _427();
                 break;
             case 428:
-                _428(ins.readFloat(), ins.readFloat());
+                _428((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 429:
-                _429(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _429((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 430:
-                _430(ins.readFloat(), ins.readFloat());
+                _430((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 431:
-                _431(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _431((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 432:
-                _432(ins.readInt());
+                _432((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 433:
-                _433(ins.readInt());
+                _433((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 434:
-                _434(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _434((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 435:
-                _435(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _435((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 436:
-                _436(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _436((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 437:
-                _437(ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _437((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 438:
-                _438(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _438((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 439:
-                _439(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _439((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 440:
-                _440(ins.readFloat());
+                _440((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 441:
-                _441(ins.readInt(), ins.readInt(), ins.readFloat());
+                _441((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 442:
-                _442(ins.readFloat());
+                _442((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 443:
-                _443(ins.readInt(), ins.readInt(), ins.readFloat());
+                _443((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 444:
-                _444(ins.readFloat());
+                _444((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 445:
-                _445(ins.readInt(), ins.readInt(), ins.readFloat());
+                _445((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 446:
-                _446(ins.readFloat());
+                _446((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 447:
-                _447(ins.readInt(), ins.readInt(), ins.readFloat());
+                _447((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 500:
-                _500(ins.readFloat(), ins.readFloat());
+                _500((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 501:
-                _501(ins.readFloat(), ins.readFloat());
+                _501((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 502:
-                _502(ins.readInt());
+                _502((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 503:
-                _503(ins.readInt());
+                _503((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 504:
-                _504(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _504((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 505:
                 _505();
@@ -1872,40 +1885,40 @@ public class EclSub {
                 _506();
                 break;
             case 507:
-                _507(ins.readInt(), ins.readInt());
+                _507((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 508:
-                _508(ins.readFloat(), ins.readFloat());
+                _508((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 509:
                 _509();
                 break;
             case 510:
-                _510(ins.readInt());
+                _510((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 511:
-                _511(ins.readInt());
+                _511((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 512:
-                _512(ins.readInt());
+                _512((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 513:
                 _513();
                 break;
             case 514:
-                _514(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _514((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 515:
-                _515(ins.readInt());
+                _515((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 516:
-                _516(ins.readInt());
+                _516((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 517:
-                _517(ins.readInt(), ins.readInt(), ins.readInt());
+                _517((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 518:
-                _518(ins.readInt());
+                _518((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 519:
                 _519();
@@ -1914,67 +1927,67 @@ public class EclSub {
                 _520();
                 break;
             case 521:
-                _521(ins.readInt(), ins.readString());
+                _521((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 522:
-                _522(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _522((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 523:
                 _523();
                 break;
             case 524:
-                _524(ins.readInt());
+                _524((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 525:
                 _525();
                 break;
             case 526:
-                _526(ins.readFloat());
+                _526((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 527:
-                _527(ins.readInt(), ins.readFloat(), ins.readInt());
+                _527((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 528:
-                _528(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _528((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 529:
-                _529(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _529((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 530:
-                _530(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _530((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 531:
-                _531(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _531((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 532:
-                _532(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _532((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 533:
-                _533(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _533((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 534:
-                _534(ins.readInt(), ins.readInt(), ins.readInt());
+                _534((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 535:
-                _535(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _535((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 536:
-                _536(ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _536((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 537:
-                _537(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _537((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 538:
-                _538(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _538((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 539:
-                _539(ins.readInt(), ins.readInt(), ins.readInt(), ins.readString());
+                _539((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 540:
-                _540(ins.readInt());
+                _540((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 541:
-                _541(ins.readInt());
+                _541((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 542:
                 _542();
@@ -1983,55 +1996,55 @@ public class EclSub {
                 _543();
                 break;
             case 544:
-                _544(ins.readInt());
+                _544((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 545:
                 _545();
                 break;
             case 546:
-                _546(ins.readInt(), ins.readInt());
+                _546((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 547:
-                _547(ins.readFloat());
+                _547((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 548:
-                _548(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _548((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 549:
-                _549(ins.readInt());
+                _549((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 550:
-                _550(ins.readInt());
+                _550((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 551:
-                _551(ins.readInt());
+                _551((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 552:
-                _552(ins.readInt());
+                _552((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 553:
-                _553(ins.readInt());
+                _553((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 554:
                 _554();
                 break;
             case 555:
-                _555(ins.readInt(), ins.readInt());
+                _555((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 556:
                 _556(ins.readString());
                 break;
             case 557:
-                _557(ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _557((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 558:
-                _558(ins.readInt());
+                _558((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 559:
-                _559(ins.readInt());
+                _559((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 560:
-                _560(ins.readFloat(), ins.readFloat());
+                _560((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 561:
                 _561();
@@ -2040,25 +2053,25 @@ public class EclSub {
                 _562();
                 break;
             case 563:
-                _563(ins.readInt());
+                _563((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 564:
-                _564(ins.readFloat());
+                _564((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 565:
-                _565(ins.readFloat());
+                _565((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 566:
                 _566();
                 break;
             case 567:
-                _567(ins.readInt());
+                _567((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 568:
-                _568(ins.readInt());
+                _568((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 569:
-                _569(ins.readInt());
+                _569((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 570:
                 _570();
@@ -2067,190 +2080,196 @@ public class EclSub {
                 _571();
                 break;
             case 572:
-                _572(ins.readInt());
+                _572((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 600:
-                _600(ins.readInt());
+                _600((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 601:
-                _601(ins.readInt());
+                _601((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 602:
-                _602(ins.readInt(), ins.readInt(), ins.readInt());
+                _602((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 603:
-                _603(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _603((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 604:
-                _604(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _604((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 605:
-                _605(ins.readInt(), ins.readFloat(), ins.readFloat());
+                int p1 = (ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt();
+                float p2 = ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat();
+                float p3 = ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat();
+                _605(
+                        p1,
+                        p2,
+                        p3);
                 break;
             case 606:
-                _606(ins.readInt(), ins.readInt(), ins.readInt());
+                _606((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 607:
-                _607(ins.readInt(), ins.readInt());
+                _607((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 608:
-                _608(ins.readInt(), ins.readInt(), ins.readInt());
+                _608((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 609:
-                _609(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _609((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 610:
-                _610(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _610((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 9) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 10) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 11) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 611:
-                _611(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat());
+                _611((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 612:
-                _612(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _612((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 9) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 10) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 613:
                 _613();
                 break;
             case 614:
-                _614(ins.readInt(), ins.readInt());
+                _614((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 615:
-                _615(ins.readFloat());
+                _615((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 616:
-                _616(ins.readFloat());
+                _616((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 617:
-                _617(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _617((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 618:
-                _618(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _618((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 9) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 10) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 619:
-                _619(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _619((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 620:
-                _620(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _620((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 621:
-                _621(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _621((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 9) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 10) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 622:
-                _622(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _622((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 623:
-                _623(ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _623((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 624:
-                _624(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _624((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 625:
-                _625(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _625((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 6) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 7) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 8) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 626:
-                _626(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _626((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 627:
-                _627(ins.readInt(), ins.readFloat());
+                _627((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 628:
-                _628(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _628((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 629:
-                _629(ins.readFloat(), ins.readInt());
+                _629((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 630:
-                _630(ins.readInt());
+                _630((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 631:
-                _631(ins.readInt());
+                _631((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 632:
-                _632(ins.readInt());
+                _632((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 633:
-                _633(ins.readInt());
+                _633((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 634:
-                _634(ins.readInt());
+                _634((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 635:
-                _635(ins.readFloat());
+                _635((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 636:
-                _636(ins.readFloat());
+                _636((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 637:
-                _637(ins.readInt());
+                _637((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 638:
-                _638(ins.readInt());
+                _638((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 639:
-                _639(ins.readInt());
+                _639((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 640:
-                _640(ins.readInt(), ins.readInt(), ins.readString());
+                _640((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 641:
-                _641(ins.readInt());
+                _641((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 700:
-                _700(ins.readInt(), ins.readFloat(), ins.readFloat(), ins.readFloat(), ins.readFloat());
+                _700((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 701:
-                _701(ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt(), ins.readInt());
+                _701((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 3) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 4) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 5) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 702:
-                _702(ins.readInt());
+                _702((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 703:
-                _703(ins.readInt(), ins.readInt());
+                _703((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 704:
-                _704(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _704((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 705:
-                _705(ins.readInt(), ins.readFloat(), ins.readFloat());
+                _705((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 706:
-                _706(ins.readInt(), ins.readFloat());
+                _706((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 707:
-                _707(ins.readInt(), ins.readFloat());
+                _707((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 708:
-                _708(ins.readInt(), ins.readFloat());
+                _708((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 709:
-                _709(ins.readInt(), ins.readFloat());
+                _709((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 710:
-                _710(ins.readInt());
+                _710((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 711:
-                _711(ins.readInt());
+                _711((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 712:
-                _712(ins.readFloat(), ins.readFloat());
+                _712((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat());
                 break;
             case 713:
-                _713(ins.readInt());
+                _713((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 714:
-                _714(ins.readInt(), ins.readInt());
+                _714((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 800:
-                _800(ins.readInt(), ins.readString());
+                _800((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 801:
-                _801(ins.readFloat(), ins.readFloat(), ins.readInt());
+                _801((ins.param_mask & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getFloat(ins.readInt()) : ins.readFloat(), ((ins.param_mask >> 2) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 802:
-                _802(ins.readInt());
+                _802((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 900:
-                _900(ins.readInt());
+                _900((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 901:
                 _901();
@@ -2259,16 +2278,15 @@ public class EclSub {
                 _902();
                 break;
             case 1000:
-                _1000(ins.readInt());
+                _1000((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 1001:
-                _1001(ins.readInt());
+                _1001((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 1002:
-                _1002(ins.readInt());
+                _1002((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
         }
+
     }
-
-
 }

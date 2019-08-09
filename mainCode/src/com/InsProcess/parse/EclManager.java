@@ -55,5 +55,4 @@ public class EclManager {
         return subPacks.size() + "\n" + getSubPack("BossCard7").toString() + "\n";
     }
 
-
 }
