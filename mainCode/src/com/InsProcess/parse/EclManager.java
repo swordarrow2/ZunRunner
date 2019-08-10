@@ -19,15 +19,11 @@ public class EclManager {
     }
 
     public void start() {
-        toAddSubs.add(getSubPack("BossCard3").setManager(FightScreen.instence.boss));
-        //toAddSubs.add(getSubPack("BossCard7_at4"));
+       // toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
+        toAddSubs.add(getSubPack("main").setManager(FightScreen.instence.mapleEnemy));
     }
 
-    public static void update() {
-   /*     if (FightScreen.instence.boss == null) {
-         //   runningSubs.clear();
-            return;
-        }*/
+    public static void updateAll() {
         for (EclSub runningSub : runningSubs) {
             runningSub.update();
         }
@@ -52,7 +48,7 @@ public class EclManager {
         // for (EclSubPack f : subPacks) {
         //     sb.append(f.toString()).append("\n");
         //  }
-        return getSubPack("BossCard1").toString();
+        return getSubPack("MainSub00").toString();
     }
 
 }

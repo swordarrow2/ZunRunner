@@ -11,12 +11,10 @@ import com.meng.TaiHunDanmaku.helpers.*;
 public class ReimuShoot extends BaseMyBullet{
 
     @Override
-    public Drawable getDrawable(){
-        if(drawable==null){
-            drawable=ResourcesManager.textures.get(TextureNameManager.ReimuBullet);
-		  }
-        return drawable;
-	  }
+    public void init(Vector2 center, Vector2 velocity) {
+        super.init(center, velocity);
+        image.setDrawable(ResourcesManager.textures.get(TextureNameManager.ReimuBullet));
+    }
 
     @Override
     public void update(){

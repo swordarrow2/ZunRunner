@@ -46,8 +46,8 @@ public class EclFile {
         for (int i = 0; i < eclHeader.sub_count; ++i) {
             subPacks[i] = new EclSubPack();
         }
-        for (EclSubPack subPack : subPacks) {
-            subPack.position = readInt();
+        for (int i = 0, subPacksLength = subPacks.length; i < subPacksLength; i++) {
+            subPacks[i].position = readInt();
         }
         moveToNextInt();
         int subNameDataLength = 0;
@@ -64,6 +64,7 @@ public class EclFile {
         String[] names = new String(subNameData).split(String.valueOf((char) 0));
         for (int i = 0; i < subPacks.length; ++i) {
             subPacks[i].subName = names[i];
+      //      System.out.println(names[i]+" :"+subPacks[i].position);
         }
         moveToNextInt();
         int subPackLenSub1 = subPacks.length - 1;

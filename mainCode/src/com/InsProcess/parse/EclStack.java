@@ -15,9 +15,11 @@ public class EclStack {
     public HashMap<Integer, Integer> values = new HashMap<>();
 
     public void initVarSize(int size,byte[] bs) {
-        varArray = new byte[size];
-        for(int i=0;i<bs.length;++i){
-        	varArray[i]=bs[i];
+        if(size!=0){
+            varArray = new byte[size];
+            for(int i=0;i<bs.length;++i){
+                varArray[i]=bs[i];
+            }
         }
         values.put(-9949, 0);
         values.put(-9948, 0);
@@ -41,6 +43,9 @@ public class EclStack {
             switch (i) {
                 case -1:
                     return popInt();
+                case -9904:
+                case -9907:
+                    return -1;
                 case -9947:
                 case -9948:
                 case -9949:
@@ -72,6 +77,7 @@ public class EclStack {
         } else {
             switch (i) {
                 case -1082130432: //-1.0
+                case -1073741824: //-2.0
                     return popFloat();
                 case -971314176: //-9915.0
                     break;
@@ -178,7 +184,7 @@ public class EclStack {
                 case -971228160: //-9999.0
                     break;
                 default:
-                    throw new NullPointerException("unexpect value:" + Float.intBitsToFloat(i));
+                    throw new NullPointerException("unexpect value:" + Float.intBitsToFloat(i)+" bytes:"+i);
             }
             throw new NullPointerException("unexpect value:" + i);
         }

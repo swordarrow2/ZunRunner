@@ -22,9 +22,11 @@ public class FightScreen extends ScreenAdapter {
     public GameMain gameMain;
     public int gameTimeFlag = 0;
     public Stage stage;
+    public boolean onBoss = false;
+    public Enemy boss;
+    public Enemy mapleEnemy;
     public Group groupNormal;
     public Group groupHighLight;
-    public Enemy boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
     private final Actor changeBlend1 = new Actor() {
@@ -55,8 +57,6 @@ public class FightScreen extends ScreenAdapter {
         groupHighLight = new Group();
         // groupHighLight.addActor(laserManager);
         Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGB565);
-
-
         p.setColor(Color.DARK_GRAY);
         p.fill();
         Image bg = new Image(new Texture(p));
@@ -67,32 +67,17 @@ public class FightScreen extends ScreenAdapter {
         stage.addActor(groupHighLight);
         stage.addActor(changeBlend2);
         //      boss = new BossTaiZhang1();
-        new Enemy().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
-
+        //new Enemy().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
+        mapleEnemy = new Enemy();
+        mapleEnemy.init(new Vector2(-1, -1), 1000, 2147483627, new Task[0]);
+        mapleEnemy.set0Size();
         new MyPlaneReimu().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
         EclManager eclManager = new EclManager("st06.ecl");
         eclManager.start();
-        System.out.println(eclManager.toString());
-		/*EclManager eclManager = new EclManager();
-		Sub card7 = eclManager.sub();
-        card7.parse(read("BossCard7.txt"));
-		Sub sub1 = eclManager.sub();
-		sub1.parse(read("BossCard7_at.txt"));
-		Sub  sub2 = eclManager.sub();
-		sub2.parse(read("BossCard7_at2.txt"));	
-		Sub sub2b = eclManager.sub();
-		sub2b.parse(read("BossCard7_at2b.txt"));		
-		Sub  sub3 = eclManager.sub();
-		sub3.parse(read("BossCard7_at3.txt"));
-		Sub sub3b = eclManager.sub();
-	    sub3b.parse(read("BossCard7_at3b.txt"));		
-        Sub sub4 = eclManager.sub();
-		sub4.parse(read("BossCard7_at4.txt"));
-		card7.start();
-		*/
+        // System.out.println(eclManager.toString());
         super.show();
     }
 
@@ -112,10 +97,8 @@ public class FightScreen extends ScreenAdapter {
         stage.draw();
         gameMain.spriteBatch.begin();
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
-        if (boss != null) {
-            boss.update();
-        }
-        EclManager.update();
+        EclManager.updateAll();
+        Enemy.updateAll();
         BulletShooter.updateAll();
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
@@ -131,24 +114,4 @@ public class FightScreen extends ScreenAdapter {
     public void hide() {
         super.hide();
     }
-
-    public String read(String path) {
-        String s = "";
-        File eclFile = new File(GameMain.baseEclPath + path);
-        try {
-            if (!eclFile.exists()) {
-                throw new NullPointerException("file not found:" + eclFile.getAbsolutePath());
-            }
-            long filelength = eclFile.length();
-            byte[] filecontent = new byte[(int) filelength];
-            FileInputStream in = new FileInputStream(eclFile);
-            in.read(filecontent);
-            in.close();
-            s = new String(filecontent, "Shift_JIS");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return s;
-    }
-
 }

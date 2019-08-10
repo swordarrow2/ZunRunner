@@ -11,7 +11,6 @@ public abstract class BaseGameObject {
     public Circle judgeCircle;
     public Image image = null;
     public int animFlag = 0;
-    public Drawable drawable = null;
     public Vector2 velocity = new Vector2();
     public int existTime = 0;
     public Vector2 size = new Vector2();

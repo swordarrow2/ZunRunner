@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseBullet;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
 import com.meng.TaiHunDanmaku.helpers.Data;
 import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
@@ -21,8 +22,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class EnemyBullet extends BaseBullet {
 
     public static HashSet<EnemyBullet> instances = new HashSet<EnemyBullet>();
-    public static LinkedBlockingQueue<EnemyBullet> toDelete = new LinkedBlockingQueue<EnemyBullet>();
-    public static LinkedBlockingQueue<EnemyBullet> toAdd = new LinkedBlockingQueue<EnemyBullet>();
+    private static LinkedBlockingQueue<EnemyBullet> toDelete = new LinkedBlockingQueue<EnemyBullet>();
+    private static LinkedBlockingQueue<EnemyBullet> toAdd = new LinkedBlockingQueue<EnemyBullet>();
 
     public int reflexCount = 0;
     public int reflexTopCount = 0;
@@ -43,23 +44,6 @@ public class EnemyBullet extends BaseBullet {
 
     public static void create(Vector2 center, Vector2 velocity, Vector2 acceleration, int bulletForm, int bulletColor, boolean highLight, int reflex, int reflexT, int reflexB, int reflexL, int reflexR, int through, int throughT, int throughB, int throughL, int throughR, ArrayList<Task> tasks) {
         ObjectPools.enemyBulletPool.obtain().init(center, velocity, acceleration, bulletForm, bulletColor, highLight, reflex, reflexT, reflexB, reflexL, reflexR, through, throughT, throughB, throughL, throughR, tasks);
-    }
-
-    @Override
-    public Drawable getDrawable() {
-        if (formNum == 13 || formNum == 14) {
-            image.setSize(14, 16);
-        }
-        if (formNum == 0) {
-            image.setSize(8, 8);
-        }
-        if (formNum == 8) {
-            image.setSize(8, 10);
-        }
-        if (drawable == null) {
-            drawable = ResourcesManager.textures.get("bullet" + (formNum * 16 + colorNum));
-        }
-        return drawable;
     }
 
     public void init(Vector2 center, Vector2 velocity, Vector2 acceleration, int bulletForm, int bulletColor, boolean highLight, int reflex, int reflexT, int reflexB, int reflexL, int reflexR, int through, int throughT, int throughB, int throughL, int throughR, ArrayList<Task> tasks) {
@@ -86,11 +70,20 @@ public class EnemyBullet extends BaseBullet {
         judgeCircle = new Circle(objectCenter, Math.min(image.getWidth(), image.getHeight()) / 3);
         colorNum = bulletColor;
         formNum = bulletForm;
-        image.setDrawable(getDrawable());
+        image.setDrawable(ResourcesManager.textures.get("bullet" + (formNum * 16 + colorNum)));
         if (highLight) {
             FightScreen.instence.groupHighLight.addActor(image);
         } else {
             FightScreen.instence.groupNormal.addActor(image);
+        }
+        if (formNum == 13 || formNum == 14) {
+            image.setSize(14, 16);
+        }
+        if (formNum == 0) {
+            image.setSize(8, 8);
+        }
+        if (formNum == 8) {
+            image.setSize(8, 10);
         }
         image.setZIndex(Data.zIndexEnemyBullet);
     }
@@ -112,7 +105,6 @@ public class EnemyBullet extends BaseBullet {
         super.kill();
         toDelete.add(this);
         image.remove();
-        drawable = null;
         ObjectPools.enemyBulletPool.free(this);
     }
 
@@ -133,7 +125,10 @@ public class EnemyBullet extends BaseBullet {
 
     @Override
     public void judge() {
-
+        if (getCollisionArea().contains(MyPlaneReimu.instance.objectCenter)) {
+            MyPlaneReimu.instance.kill();
+            kill();
+        }
     }
 
     @Override

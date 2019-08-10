@@ -15,16 +15,10 @@ import com.meng.TaiHunDanmaku.ui.FightScreen;
 public class SubPlanePersuationNeedle extends BaseMyBullet {
 
     @Override
-    public Drawable getDrawable() {
-        if (drawable == null) {
-            drawable = ResourcesManager.textures.get(TextureNameManager.ReimuSubPlaneBulletStraight);
-        }
-        return drawable;
-    }
-
-    @Override
     public void init(Vector2 center, Vector2 velocity) {
         super.init(center, velocity);
+        damage=10.5f;
+        image.setDrawable(ResourcesManager.textures.get(TextureNameManager.ReimuSubPlaneBulletStraight));
     }
 
     @Override
@@ -32,15 +26,6 @@ public class SubPlanePersuationNeedle extends BaseMyBullet {
         return new Vector2(64, 16);
     }
 
-    @Override
-    public void judge() {
-        if (FightScreen.instence.boss != null) {
-            if (((Circle) getCollisionArea()).overlaps(((Circle) FightScreen.instence.boss.getJudgeCircle()))) {
-                FightScreen.instence.boss.hit(MyPlaneReimu.instance.slow ? 13.5f : 10.5f);
-                kill();
-            }
-        }
-    }
 
     @Override
     public void kill() {

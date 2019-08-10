@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.HashSet;
@@ -14,12 +15,11 @@ import com.meng.TaiHunDanmaku.helpers.*;
 
 public abstract class BaseMyBullet extends BaseBullet {
 
-    public static HashSet<BaseMyBullet> instances = new HashSet<BaseMyBullet>();
-    public static LinkedBlockingQueue<BaseMyBullet> toDelete = new LinkedBlockingQueue<BaseMyBullet>();
-    public static LinkedBlockingQueue<BaseMyBullet> toAdd = new LinkedBlockingQueue<BaseMyBullet>();
+    private static HashSet<BaseMyBullet> instances = new HashSet<BaseMyBullet>();
+    private static LinkedBlockingQueue<BaseMyBullet> toDelete = new LinkedBlockingQueue<BaseMyBullet>();
+    private static LinkedBlockingQueue<BaseMyBullet> toAdd = new LinkedBlockingQueue<BaseMyBullet>();
 
-    @Override
-    public abstract Drawable getDrawable();
+    public float damage = 0;
 
     public void init(Vector2 center, Vector2 velocity) {
         super.init();
@@ -28,7 +28,6 @@ public abstract class BaseMyBullet extends BaseBullet {
         this.velocity.set(velocity);
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         judgeCircle = new Circle(objectCenter, image.getHeight() / 2 * 3); //中心、半径
-        image.setDrawable(getDrawable());
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexMyBullet);
     }
@@ -60,10 +59,12 @@ public abstract class BaseMyBullet extends BaseBullet {
 
     @Override
     public void judge() {
-        if (FightScreen.instence.boss != null) {
-            if (((Circle) getCollisionArea()).overlaps(((Circle) FightScreen.instence.boss.getJudgeCircle()))) {
-                kill();
-                FightScreen.instence.boss.hit(10.5f);
+        if (Enemy.instances.isEmpty()) {
+            return;
+        }
+        for (Enemy e : Enemy.instances) {
+            if (((Circle) e.getJudgeCircle()).overlaps(judgeCircle)) {
+                e.hit(damage);
             }
         }
     }

@@ -1,17 +1,23 @@
 package com.meng.TaiHunDanmaku.baseObjects.planes;
 
 import java.util.HashSet;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.InsProcess.parse.beans.EclSub;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.*;
 import com.meng.TaiHunDanmaku.*;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseMyBullet;
 import com.meng.TaiHunDanmaku.helpers.*;
 import com.meng.TaiHunDanmaku.task.*;
 import com.meng.TaiHunDanmaku.ui.*;
 
 public class Enemy extends BaseGameObject {
+
+    public static HashSet<Enemy> instances = new HashSet<Enemy>();
+    private static LinkedBlockingQueue<Enemy> toDelete = new LinkedBlockingQueue<Enemy>();
+    private static LinkedBlockingQueue<Enemy> toAdd = new LinkedBlockingQueue<Enemy>();
 
     private final int[][] junkoAnim = new int[][]{
             {10, 14},
@@ -30,16 +36,18 @@ public class Enemy extends BaseGameObject {
     public MoveStatus status = MoveStatus.stay;
     public String objectName = "";
     public boolean flip = false;
-    public int[][] animNum; 
+    public int[][] animNum;
 
     public Vector2 targetPosition = new Vector2();
 
     public TaskManagerEnemyPlane taskManager;
-//    public BaseNormalDanmaku normalDanmaku;
- //   public BaseSpellCard spellCard;
 
     public void init(Vector2 center, int everyAnimFrameTime, int hp, Task[] task) {
         super.init();
+        if (FightScreen.instence.onBoss) {
+            FightScreen.instence.boss = this;
+        }
+        toAdd.add(this);
         taskManager = new TaskManagerEnemyPlane(this, TaskRepeatMode.noRepeat);
         for (Task t : task) {
             taskManager.addTask(t);
@@ -54,15 +62,14 @@ public class Enemy extends BaseGameObject {
         judgeCircle = new Circle(objectCenter, image.getWidth() / 4);
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexEnemyPlane);
-        FightScreen.instence.boss = this;
         objectName = "chunhu";
         targetPosition = center.cpy();
         this.everyAnimFrameTime = everyAnimFrameTime;
         animNum = junkoAnim;
-   /*     normalDanmaku = new normal1();
-        normalDanmaku.init(this);
-        spellCard = new spell5();
-        spellCard.init(this);*/
+    }
+
+    public void set0Size() {
+        image.setSize(0, 0);
     }
 
     public Vector2 getSize() {
@@ -73,12 +80,8 @@ public class Enemy extends BaseGameObject {
         if (hp < 1) {
             kill();
         } else {
-            hp -= bulletDamage/7;
+            hp -= bulletDamage / 7;
         }
-    }
-
-    public Vector2 getLocation() {
-        return objectCenter;
     }
 
     public void moveTo(float x, float y) {
@@ -110,6 +113,8 @@ public class Enemy extends BaseGameObject {
                 animTo = animNum[1][1];
                 curFrameNumber = animFrom;
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + status);
         }
     }
 
@@ -117,10 +122,13 @@ public class Enemy extends BaseGameObject {
     public void kill() {
         super.kill();
         image.remove();
+        toDelete.add(this);
         isKilled = true;
         judgeCircle = null;
         FightScreen.instence.reflexAndThroughs.clear();
-        FightScreen.instence.boss = null;
+        if (FightScreen.instence.onBoss) {
+            FightScreen.instence.boss = null;
+        }
     }
 
     @Override
@@ -140,10 +148,10 @@ public class Enemy extends BaseGameObject {
             judge();
         }
         if (objectCenter.cpy().sub(targetPosition).len2() > 10) {
-           objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
-       }
-    //    normalDanmaku.update();
-        // spellCard.update();
+            objectCenter.add(targetPosition.cpy().sub(objectCenter).nor().scl(3f));
+        }
+        //    normalDanmaku.updateAll();
+        // spellCard.updateAll();
     }
 
     private void anim() {
@@ -165,21 +173,30 @@ public class Enemy extends BaseGameObject {
         }
         if (flip) {
             image.setDrawable(ResourcesManager.flipedTextures.get(objectName + curFrameNumber));
-        } else { 
+        } else {
             image.setDrawable(ResourcesManager.textures.get(objectName + curFrameNumber));
         }
-    }
-
-    public Shape2D getCollisionArea() {
-        return judgeCircle;
     }
 
     public Shape2D getJudgeCircle() {
         return judgeCircle;
     }
 
-    public void judge() {
-
+    private void judge() {
+        if (getJudgeCircle().contains(MyPlaneReimu.instance.objectCenter)) {
+            MyPlaneReimu.instance.kill();
+        }
     }
 
+    public static void updateAll() {
+        while (!toDelete.isEmpty()) {
+            instances.remove(toDelete.poll());
+        }
+        while (!toAdd.isEmpty()) {
+            instances.add(toAdd.poll());
+        }
+        for (Enemy e : instances) {
+            e.update();
+        }
+    }
 }
