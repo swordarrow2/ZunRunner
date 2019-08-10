@@ -85,7 +85,6 @@ public class EclSub {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n");
         for (EclIns eclIns : inses) {
             stringBuilder.append("\n").append(eclIns.toString());
         }
@@ -153,7 +152,7 @@ public class EclSub {
                 return;
             }
             if (ins.id == 23) {
-                if (ins.readInt() < waitFrams++) {
+                if ((ins.param_mask == 1 ? stack.getInt(ins.readInt()) : ins.readInt()) < waitFrams++) {
                     waitFrams = 0;
                     ++eclPosition;
                 }
@@ -438,10 +437,10 @@ public class EclSub {
     }
 
     private void _78(int i0) {
-        if (i0 == 0) {
-            stack.push(0);
-        } else {
+        if (i0 > 0) {
             stack.push(1);
+        } else {
+            stack.push(0);
         }
     }
 
@@ -1447,7 +1446,7 @@ public class EclSub {
                 _22((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 23:
-                _23((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
+        //        _23((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 30:
                 _30(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());

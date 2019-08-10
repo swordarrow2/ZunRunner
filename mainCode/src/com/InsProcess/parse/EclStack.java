@@ -8,7 +8,7 @@ import java.util.*;
 
 public class EclStack {
 
-    private final int maxDepth = 64;
+    private final int maxDepth = 32;
     private int depth = 0;
     private int[] stack = new int[maxDepth];
     private byte[] varArray;
@@ -170,7 +170,7 @@ public class EclStack {
                 case -971230208: //-9997.0
                     break;
                 case -971229184: //-9998.0
-                    break;
+                    return new RandomXS128().nextFloat()*6.28f-3.14f;
                 case -971228160: //-9999.0
                     break;
                 default:
