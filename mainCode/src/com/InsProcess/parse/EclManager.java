@@ -20,7 +20,7 @@ public class EclManager {
     }
 
     public void start() {
-		toAddSubs.add(getSubPack("BossCard7_at"));
+        toAddSubs.add(getSubPack("BossCard7"));
         //toAddSubs.add(getSubPack("BossCard7_at4"));
     }
 
@@ -53,7 +53,7 @@ public class EclManager {
         // for (EclSubPack f : subPacks) {
         //     sb.append(f.toString()).append("\n");
         //  }
-        return getSubPack("BossCard7_at").toString();
+        return getSubPack("BossCard7_at4").toString();
     }
 
 }

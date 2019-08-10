@@ -24,9 +24,7 @@ public class EclStack {
 
     public void dec(int pos) {
         int i = (varArray[pos] & 0xff) | (varArray[pos + 1] & 0xff) << 8 | (varArray[pos + 2] & 0xff) << 16 | (varArray[pos + 3] & 0xff) << 24;
-        System.out.println("before:" + i);
         --i;
-        System.out.println("after:" + i);
         varArray[pos] = (byte) (i & 0xff);
         varArray[pos + 1] = (byte) ((i >> 8) & 0xff);
         varArray[pos + 2] = (byte) ((i >> 16) & 0xff);

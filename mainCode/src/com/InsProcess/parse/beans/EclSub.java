@@ -26,11 +26,11 @@ public class EclSub {
 
     private Junko master;
 
-    private HashMap<Integer, byte[]> varMap = new HashMap<>();
     private EclStack stack = new EclStack();
     public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
 
     private int waitFrams = 0;
+    private int ins23frame = 0;
 
     private boolean startByIns11 = false;
 
@@ -140,7 +140,6 @@ public class EclSub {
                 EclIns ins = preIns();
                 nowSkipLength -= ins.size;
             }
-            preIns();
         }
     }
 
@@ -151,9 +150,14 @@ public class EclSub {
                 ++eclPosition;
                 return;
             }
+        //    System.out.println("now-------" + ins.id);
             if (ins.id == 23) {
-                if ((ins.param_mask == 1 ? stack.getInt(ins.readInt()) : ins.readInt()) < waitFrams++) {
+                if (ins23frame == 0) {
+                    ins23frame = (ins.param_mask == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
+                }
+                if (ins23frame < waitFrams++) {
                     waitFrams = 0;
+                    ins23frame=0;
                     ++eclPosition;
                 }
                 return;
@@ -200,9 +204,9 @@ public class EclSub {
     }
 
     private void _14(int i0, int i1) { //if   goto
-        int i = stack.popInt();
-        if (i != 0) {
+        if (stack.popInt() != 0) {
             gotoIns(i0);
+            --eclPosition;
         }
     }
 
@@ -1258,7 +1262,7 @@ public class EclSub {
     }
 
     private void _628(int i0, float f1, float f2) {
-
+        bulletShooters.get(i0).setShooterCenter(new Vector2(f1 + GameMain.width / 2f, GameMain.height - f2));
     }
 
     private void _629(float f0, int i1) {
@@ -1446,7 +1450,7 @@ public class EclSub {
                 _22((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(), ins.readString());
                 break;
             case 23:
-        //        _23((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
+                //        _23((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 30:
                 _30(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
