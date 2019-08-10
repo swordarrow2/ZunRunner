@@ -1,11 +1,10 @@
 package com.InsProcess.parse;
 
-import com.InsProcess.helper.EclVar;
+import java.util.HashSet;
 
-import java.util.*;
-
-import com.meng.TaiHunDanmaku.ui.*;
-import com.InsProcess.parse.beans.*;
+import com.InsProcess.parse.beans.EclSub;
+import com.InsProcess.parse.beans.EclSubPack;
+import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 public class EclManager {
     public static HashSet<EclSub> runningSubs = new HashSet<>();
@@ -20,7 +19,7 @@ public class EclManager {
     }
 
     public void start() {
-        toAddSubs.add(getSubPack("BossCard7"));
+        toAddSubs.add(getSubPack("BossCard3").setManager(FightScreen.instence.boss));
         //toAddSubs.add(getSubPack("BossCard7_at4"));
     }
 
@@ -53,7 +52,7 @@ public class EclManager {
         // for (EclSubPack f : subPacks) {
         //     sb.append(f.toString()).append("\n");
         //  }
-        return getSubPack("BossCard7_at4").toString();
+        return getSubPack("BossCard1").toString();
     }
 
 }

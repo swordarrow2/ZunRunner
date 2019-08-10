@@ -8,13 +8,13 @@ import java.util.*;
 
 public class TaskManagerEnemyPlane {
     private TaskRepeatMode repeatMode;
-    private Junko junko;
+    private Enemy junko;
     private int holdingTime = 0;
     private int addTaskFlag = 0;
     private int getTaskFlag = 0;
     private HashMap<Integer, Task> tasks;
 
-    public TaskManagerEnemyPlane(Junko junko, TaskRepeatMode repeatMode) {
+    public TaskManagerEnemyPlane(Enemy junko, TaskRepeatMode repeatMode) {
         this.repeatMode = repeatMode;
         this.junko = junko;
         tasks = new HashMap<>();

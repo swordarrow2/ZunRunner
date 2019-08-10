@@ -24,7 +24,7 @@ public class FightScreen extends ScreenAdapter {
     public Stage stage;
     public Group groupNormal;
     public Group groupHighLight;
-    public Junko boss;
+    public Enemy boss;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
     private final Actor changeBlend1 = new Actor() {
@@ -67,7 +67,7 @@ public class FightScreen extends ScreenAdapter {
         stage.addActor(groupHighLight);
         stage.addActor(changeBlend2);
         //      boss = new BossTaiZhang1();
-        new Junko().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
+        new Enemy().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
 
         new MyPlaneReimu().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();

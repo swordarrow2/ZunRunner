@@ -14,8 +14,11 @@ public class EclStack {
     private byte[] varArray;
     public HashMap<Integer, Integer> values = new HashMap<>();
 
-    public void initVarSize(int i) {
-        varArray = new byte[i];
+    public void initVarSize(int size,byte[] bs) {
+        varArray = new byte[size];
+        for(int i=0;i<bs.length;++i){
+        	varArray[i]=bs[i];
+        }
         values.put(-9949, 0);
         values.put(-9948, 0);
         values.put(-9947, 1);
@@ -44,6 +47,8 @@ public class EclStack {
                     return values.get(i);
                 case -9954:
                     return (int) FightScreen.instence.boss.hp;
+                case -9959:
+                	return GameMain.difficulty;
                 case -9978:
                 case -9979:
                 case -9980:
@@ -61,8 +66,9 @@ public class EclStack {
     }
 
     public float getFloat(int i) {
-        if (i >= 0) {
-            return Float.intBitsToFloat((varArray[i] & 0xff) | (varArray[i + 1] & 0xff) << 8 | (varArray[i + 2] & 0xff) << 16 | (varArray[i + 3] & 0xff) << 24);
+    	int fvalue=(int) Float.intBitsToFloat(i);
+        if (fvalue >= 0) {
+            return Float.intBitsToFloat((varArray[fvalue] & 0xff) | (varArray[fvalue + 1] & 0xff) << 8 | (varArray[fvalue + 2] & 0xff) << 16 | (varArray[fvalue + 3] & 0xff) << 24);
         } else {
             switch (i) {
                 case -1082130432: //-1.0
@@ -148,9 +154,9 @@ public class EclStack {
                 case -971246592: //-9981.0
                     return Float.intBitsToFloat(values.get(i));
                 case -971240448: //-9987.0
-                    break;
+                    return new RandomXS128().nextFloat()*2f-1f;
                 case -971238400: //-9989.0
-                    break;
+                	return 1.5f;
                 case -971237376: //-9990.0
                     break;
                 case -971236352: //-9991.0
@@ -172,7 +178,7 @@ public class EclStack {
                 case -971228160: //-9999.0
                     break;
                 default:
-                    throw new NullPointerException("unexpect value:" + i);
+                    throw new NullPointerException("unexpect value:" + Float.intBitsToFloat(i));
             }
             throw new NullPointerException("unexpect value:" + i);
         }

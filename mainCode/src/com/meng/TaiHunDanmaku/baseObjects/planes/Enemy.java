@@ -1,5 +1,8 @@
 package com.meng.TaiHunDanmaku.baseObjects.planes;
 
+import java.util.HashSet;
+
+import com.InsProcess.parse.beans.EclSub;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.*;
@@ -8,7 +11,7 @@ import com.meng.TaiHunDanmaku.helpers.*;
 import com.meng.TaiHunDanmaku.task.*;
 import com.meng.TaiHunDanmaku.ui.*;
 
-public class Junko extends BaseGameObject {
+public class Enemy extends BaseGameObject {
 
     private final int[][] junkoAnim = new int[][]{
             {10, 14},
@@ -27,7 +30,7 @@ public class Junko extends BaseGameObject {
     public MoveStatus status = MoveStatus.stay;
     public String objectName = "";
     public boolean flip = false;
-    public int[][] animNum;
+    public int[][] animNum; 
 
     public Vector2 targetPosition = new Vector2();
 
@@ -162,9 +165,8 @@ public class Junko extends BaseGameObject {
         }
         if (flip) {
             image.setDrawable(ResourcesManager.flipedTextures.get(objectName + curFrameNumber));
-        } else {
-            Drawable d = ResourcesManager.textures.get(objectName + curFrameNumber);
-            image.setDrawable(d);
+        } else { 
+            image.setDrawable(ResourcesManager.textures.get(objectName + curFrameNumber));
         }
     }
 

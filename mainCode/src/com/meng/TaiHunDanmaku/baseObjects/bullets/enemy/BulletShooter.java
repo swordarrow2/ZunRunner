@@ -1,7 +1,7 @@
 package com.meng.TaiHunDanmaku.baseObjects.bullets.enemy;
 
 import com.badlogic.gdx.math.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.Junko;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
 import com.meng.TaiHunDanmaku.helpers.*;
 import com.meng.TaiHunDanmaku.task.*;
@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 
 public class BulletShooter implements Cloneable {
 
-    public Junko enemyPlane;
+    public Enemy enemyPlane;
 
     public static HashSet<BulletShooter> instances = new HashSet<BulletShooter>();
     public static LinkedBlockingQueue<BulletShooter> toDelete = new LinkedBlockingQueue<BulletShooter>();
@@ -71,7 +71,7 @@ public class BulletShooter implements Cloneable {
         return bs;
     }
 
-    public BulletShooter init(Junko enemyPlane) {
+    public BulletShooter init(Enemy enemyPlane) {
         this.enemyPlane = enemyPlane;
 		shooterCenter=enemyPlane.objectCenter;
         return this;
