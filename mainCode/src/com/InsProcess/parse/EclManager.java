@@ -4,6 +4,10 @@ import java.util.HashSet;
 
 import com.InsProcess.parse.beans.EclSub;
 import com.InsProcess.parse.beans.EclSubPack;
+import com.badlogic.gdx.math.Vector2;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
+import com.meng.TaiHunDanmaku.task.Task;
+import com.meng.TaiHunDanmaku.task.TaskMoveTo;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 public class EclManager {
@@ -20,7 +24,10 @@ public class EclManager {
 
     public void start() {
        // toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
-        toAddSubs.add(getSubPack("main").setManager(FightScreen.instence.mapleEnemy));
+
+		FightScreen.instence.boss = new Enemy();
+		FightScreen.instence.boss.init(new Vector2(275, 450), 10, 700, new Task[] { new TaskMoveTo(193, 250) });
+        toAddSubs.add(getSubPack("BossCard7").setManager(FightScreen.instence.boss));
     }
 
     public static void updateAll() {

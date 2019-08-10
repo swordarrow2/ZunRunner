@@ -89,7 +89,7 @@ public class Enemy extends BaseGameObject {
         targetPosition.y = y;
     }
 
-    public void setStatus(MoveStatus mov) {
+    private void setStatus(MoveStatus mov) {
         if (mov == status) {
             return;
         }
@@ -124,7 +124,6 @@ public class Enemy extends BaseGameObject {
         image.remove();
         toDelete.add(this);
         isKilled = true;
-        judgeCircle = null;
         FightScreen.instence.reflexAndThroughs.clear();
         if (FightScreen.instence.onBoss) {
             FightScreen.instence.boss = null;

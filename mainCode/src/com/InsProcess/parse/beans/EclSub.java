@@ -2,12 +2,9 @@ package com.InsProcess.parse.beans;
 
 import java.util.*;
 
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
-import com.meng.TaiHunDanmaku.task.Task;
-import com.meng.TaiHunDanmaku.task.TaskMoveTo;
 import com.meng.TaiHunDanmaku.ui.*;
 import com.InsProcess.parse.*;
 
@@ -19,21 +16,21 @@ public class EclSub {
     public int data_offset;/* sizeof(th10_sub_t) */
     public int[] zero = new int[2];
     public byte[] data;
-    private ArrayList<EclIns> inses = new ArrayList<>();
+    private ArrayList<EclIns> insList = new ArrayList<>();
     private int dataPosition = 0;
-    private int eclPosition = 0;
+    private int insPosition = 0;
 
     private EclFile eclFile;
     public EclSubPack eclSubPack;
     private EclSub parentSub;
-    private byte[] tempArg = new byte[0];
+    private int[] tempArg = new int[0];
 
     private Enemy enemy;
 
     private Enemy enemyCreateInThis;
 
     private EclStack stack = new EclStack();
-    public HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
+    private HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
 
     private int waitFrams = 0;
     private int ins23frame = 0;
@@ -50,35 +47,23 @@ public class EclSub {
         return this;
     }
 
-    public EclIns nowIns() {
-        return inses.get(eclPosition);
-    }
-
-    public EclIns nextIns() {
-        return inses.get(++eclPosition);
-    }
-
-    public EclIns preIns() {
-        return inses.get(--eclPosition);
-    }
-
     public void readIns() {
         while (dataPosition < data.length) {
             EclIns eclIns = new EclIns(this);
-            eclIns.time = readInt();
-            eclIns.id = readShort();
-            eclIns.size = readShort();
-            eclIns.param_mask = readShort();
-            eclIns.rank_mask = readByte();
-            eclIns.param_count = readByte();
-            eclIns.zero = readInt();
+            eclIns.time = (data[dataPosition++] & 0xff) | (data[dataPosition++] & 0xff) << 8 | (data[dataPosition++] & 0xff) << 16 | (data[dataPosition++] & 0xff) << 24;
+            eclIns.id = (short) (data[dataPosition++] & 0xff | (data[dataPosition++] & 0xff) << 8);
+            eclIns.size = (short) (data[dataPosition++] & 0xff | (data[dataPosition++] & 0xff) << 8);
+            eclIns.param_mask = (short) (data[dataPosition++] & 0xff | (data[dataPosition++] & 0xff) << 8);
+            eclIns.rank_mask = data[dataPosition++];
+            eclIns.param_count = data[dataPosition++];
+            eclIns.zero = (data[dataPosition++] & 0xff) | (data[dataPosition++] & 0xff) << 8 | (data[dataPosition++] & 0xff) << 16 | (data[dataPosition++] & 0xff) << 24;
             int bound = eclIns.size - 16;
             eclIns.data = new byte[bound];
             for (int i = 0; i < bound; ++i) {
                 eclIns.data[i] = data[dataPosition];
                 ++dataPosition;
             }
-            inses.add(eclIns);
+            insList.add(eclIns);
         }
     }
 
@@ -88,60 +73,23 @@ public class EclSub {
     }
 
     public EclSub startByIns11(boolean b) {
-        eclPosition = 0;
+        insPosition = 0;
         startByIns11 = b;
         return this;
     }
 
-    public EclSub insertArgs(byte[] bytes) {
-        byte[] bs = new byte[bytes.length / 2];
-        int j = 0;
-        for (int i = 0; i < bytes.length; i += 8) {
-            bs[j++] = bytes[i + 4];
-            bs[j++] = bytes[i + 5];
-            bs[j++] = bytes[i + 6];
-            bs[j++] = bytes[i + 7];
-        }
-        tempArg = bs;
+    public EclSub insertArgs(int... bytes) {
+        tempArg = bytes;
         return this;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (EclIns eclIns : inses) {
+        for (EclIns eclIns : insList) {
             stringBuilder.append("\n").append(eclIns.toString());
         }
         return stringBuilder.toString();
-    }
-
-    private byte readByte() {
-        return readByte(dataPosition++);
-    }
-
-    private short readShort() {
-        short s = readShort(dataPosition);
-        dataPosition += 2;
-        return s;
-    }
-
-    private int readInt() {
-        int i = readInt(dataPosition);
-        dataPosition += 4;
-        return i;
-    }
-
-    private byte readByte(int pos) {
-        return data[pos];
-    }
-
-    private short readShort(int pos) {
-        return (short) (data[pos] & 0xff | (data[pos + 1] & 0xff) << 8);
-    }
-
-    private int readInt(int pos) {
-        return (data[pos] & 0xff) | (data[pos + 1] & 0xff) << 8 | (data[pos + 2] & 0xff) << 16
-                | (data[pos + 3] & 0xff) << 24;
     }
 
     private void moveToNextInt() {
@@ -156,28 +104,26 @@ public class EclSub {
         if (length > 0) {
             int nowSkipLength = 24;
             while (nowSkipLength != length) {
-                EclIns ins = nextIns();
-                nowSkipLength += ins.size;
+                nowSkipLength += insList.get(++insPosition).size;
             }
         } else {
             int nowSkipLength = 0;
             while (nowSkipLength != length) {
-                EclIns ins = preIns();
-                nowSkipLength -= ins.size;
+                nowSkipLength -= insList.get(--insPosition).size;
             }
         }
     }
 
     public void update() {
-        if (enemy.judgeCircle == null) {
+        if (enemy.isKilled) {
             enemy = null;
             _10();
             return;
         }
-        if (eclPosition < inses.size()) {
-            EclIns ins = inses.get(eclPosition);
+        if (insPosition < insList.size()) {
+            EclIns ins = insList.get(insPosition);
             if (((ins.rank_mask >> GameMain.difficulty) & 0b1) == 0) {
-                ++eclPosition;
+                ++insPosition;
                 return;
             }
             if (ins.id == 23) {
@@ -187,12 +133,12 @@ public class EclSub {
                 if (ins23frame < waitFrams++) {
                     waitFrams = 0;
                     ins23frame = 0;
-                    ++eclPosition;
+                    ++insPosition;
                 }
                 return;
             }
             invoke(ins);
-            ++eclPosition;
+            ++insPosition;
             update();
         }
     }
@@ -216,10 +162,10 @@ public class EclSub {
         }
     }
 
-    private void _11(String s0, byte[] i1) {
-        System.out.println("sub " + eclSubPack.subName + " start by ins_11");
-        EclManager.toAddSubs
-                .add(eclFile.eclManager.getSubPack(s0).insertArgs(i1).startByIns11(true).setManager(enemy).setPartent(this));
+    private void _11(String s0, int... i1) {
+        EclSub toRun = eclFile.eclManager.getSubPack(s0);
+        System.out.println("sub " + toRun.eclSubPack.subName + " start by ins_11");
+        EclManager.toAddSubs.add(toRun.insertArgs(i1).startByIns11(true).setManager(enemy).setPartent(this));
         EclManager.onPauseSubs.add(this);
         EclManager.toDeleteSubs.add(this);
     }
@@ -237,14 +183,14 @@ public class EclSub {
     private void _14(int i0, int i1) { // if goto
         if (stack.popInt() != 0) {
             gotoIns(i0);
-            --eclPosition;
+            --insPosition;
         }
     }
 
-    private void _15(String s0, byte[] i1) {
-        System.out.println("sub " + eclSubPack.subName + " start by ins_15");
-        EclManager.toAddSubs
-                .add(eclFile.eclManager.getSubPack(s0).insertArgs(i1).setManager(enemy).startByIns11(false));
+    private void _15(String s0, int... i1) {
+        EclSub toRun = eclFile.eclManager.getSubPack(s0);
+        System.out.println("sub " + toRun.eclSubPack.subName + " start by ins_15");
+        EclManager.toAddSubs.add(toRun.insertArgs(i1).setManager(enemy).startByIns11(false));
     }
 
     private void _16(String s0, int i1, int i2) {
@@ -538,11 +484,8 @@ public class EclSub {
     }
 
     private void _301(String s0, float f1, float f2, int i3, int i4, int i5) {
-      FightScreen.instence.boss=  new Enemy();
-FightScreen.instence.boss.init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
         System.out.println("sub " + eclSubPack.subName + " start by ins_301");
-        EclManager.toAddSubs
-                .add(eclFile.eclManager.getSubPack(s0).setManager(enemy).startByIns11(false));
+        // EclManager.toAddSubs.add(eclFile.eclManager.getSubPack(s0).setManager(enemy).startByIns11(false));
     }
 
     private void _302(int i0) {
@@ -1496,7 +1439,13 @@ FightScreen.instence.boss.init(new Vector2(275, 450), 10, 7000, new Task[]{new T
                 _10();
                 break;
             case 11:
-                _11(ins.readString(), ins.readParams());
+                String subName11 = ins.readString();
+                int[] intBytes11 = new int[ins.param_count - 1];
+                for (int i = 0; i < intBytes11.length; ++i) {
+                    ins.readInt();
+                    intBytes11[i] = ins.readInt();
+                }
+                _11(subName11, intBytes11);
                 break;
             case 12:
                 _12((ins.param_mask & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(),
@@ -1511,7 +1460,13 @@ FightScreen.instence.boss.init(new Vector2(275, 450), 10, 7000, new Task[]{new T
                         ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt());
                 break;
             case 15:
-                _15(ins.readString(), ins.readParams());
+                String subName15 = ins.readString();
+                int[] intBytes15 = new int[ins.param_count - 1];
+                for (int i = 0; i < intBytes15.length; ++i) {
+                    ins.readInt();
+                    intBytes15[i] = ins.readInt();
+                }
+                _15(subName15, intBytes15);
                 break;
             case 16:
                 _16(ins.readString(), ((ins.param_mask >> 1) & 1) == 1 ? stack.getInt(ins.readInt()) : ins.readInt(),

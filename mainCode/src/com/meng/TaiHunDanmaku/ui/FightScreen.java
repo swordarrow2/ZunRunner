@@ -24,7 +24,7 @@ public class FightScreen extends ScreenAdapter {
     public Stage stage;
     public boolean onBoss = false;
     public Enemy boss;
-    public Enemy mapleEnemy;
+    public MapleEnemy mapleEnemy;
     public Group groupNormal;
     public Group groupHighLight;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
@@ -68,9 +68,7 @@ public class FightScreen extends ScreenAdapter {
         stage.addActor(changeBlend2);
         //      boss = new BossTaiZhang1();
         //new Enemy().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
-        mapleEnemy = new Enemy();
-        mapleEnemy.init(new Vector2(-1, -1), 1000, 2147483627, new Task[0]);
-        mapleEnemy.set0Size();
+        mapleEnemy = new MapleEnemy();
         new MyPlaneReimu().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());

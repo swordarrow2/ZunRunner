@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MapleEnemy;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.HashSet;
@@ -63,8 +64,11 @@ public abstract class BaseMyBullet extends BaseBullet {
             return;
         }
         for (Enemy e : Enemy.instances) {
-            if (((Circle) e.getJudgeCircle()).overlaps(judgeCircle)) {
-                e.hit(damage);
+            if (!(e instanceof MapleEnemy)) {
+                if (((Circle) e.getJudgeCircle()).overlaps(judgeCircle)) {
+                    e.hit(damage);
+                    kill();
+                }
             }
         }
     }
