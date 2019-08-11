@@ -57,7 +57,7 @@ public class Laser extends Actor {
         v3.scl(distance + begin1.getHeight());
         v3.add(p1);
         p2.set(v3);
-        if (pointToLine(p1.x, p1.y, p2.x, p2.y, MyPlaneReimu.instance.objectCenter.x, MyPlaneReimu.instance.objectCenter.y) < 5) {
+        if (pointToLine(p1.x, p1.y, p2.x, p2.y, MyPlane.instance.objectCenter.x, MyPlane.instance.objectCenter.y) < 5) {
             ++FightScreen.instence.gameMain.miss;
 			this.remove();
         }

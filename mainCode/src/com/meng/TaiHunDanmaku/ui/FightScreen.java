@@ -1,5 +1,6 @@
 package com.meng.TaiHunDanmaku.ui;
 
+import com.InsProcess.EclBullet;
 import com.InsProcess.parse.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -69,7 +70,7 @@ public class FightScreen extends ScreenAdapter {
         //      boss = new BossTaiZhang1();
         //new Enemy().init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
         mapleEnemy = new MapleEnemy();
-        new MyPlaneReimu().init(gameMain);
+        new MyPlane().init(gameMain);
         InputMultiplexer inputManager = new InputMultiplexer();
         inputManager.addProcessor(new PlayerInputProcessor());
         Gdx.input.setInputProcessor(inputManager);
@@ -94,13 +95,16 @@ public class FightScreen extends ScreenAdapter {
         ++gameTimeFlag;
         stage.draw();
         gameMain.spriteBatch.begin();
-        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() + "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp), 20, 100);
+        gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() +
+                "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp + "\n" + "time:" + gameTimeFlag), 20, 100);
         EclManager.updateAll();
         Enemy.updateAll();
         BulletShooter.updateAll();
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
-        MyPlaneReimu.instance.update();
+        EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
+        EclBullet.updateAll();
+        MyPlane.instance.update();
         gameMain.spriteBatch.end();
         for (ReflexAndThrough reflexAndThrough : reflexAndThroughs) {
             reflexAndThrough.update();

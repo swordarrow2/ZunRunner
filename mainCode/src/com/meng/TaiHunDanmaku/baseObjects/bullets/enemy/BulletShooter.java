@@ -2,7 +2,7 @@ package com.meng.TaiHunDanmaku.baseObjects.bullets.enemy;
 
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
-import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
 import com.meng.TaiHunDanmaku.helpers.*;
 import com.meng.TaiHunDanmaku.task.*;
 
@@ -73,7 +73,7 @@ public class BulletShooter implements Cloneable {
 
     public BulletShooter init(Enemy enemyPlane) {
         this.enemyPlane = enemyPlane;
-		shooterCenter=enemyPlane.objectCenter;
+        shooterCenter = enemyPlane.objectCenter;
         return this;
     }
 
@@ -222,7 +222,7 @@ public class BulletShooter implements Cloneable {
             case 0:
                 break;
             case 1:
-                bulletVelocity = MyPlaneReimu.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
+                bulletVelocity = MyPlane.instance.objectCenter.cpy().sub(shooterCenter).nor().scl(bulletVelocity.len());
                 break;
             case 3:
             case 5:

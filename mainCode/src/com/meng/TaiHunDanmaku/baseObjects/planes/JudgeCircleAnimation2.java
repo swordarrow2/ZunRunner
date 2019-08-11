@@ -23,9 +23,9 @@ public class JudgeCircleAnimation2 extends BaseGameObject{
 
     @Override
     public void update(){
-		objectCenter= MyPlaneReimu.instance.objectCenter;
+		objectCenter= MyPlane.instance.objectCenter;
         image.setRotation(stat);
-		if(MyPlaneReimu.instance.slow){
+		if(MyPlane.instance.slow){
 			image.setSize(48,48);
 		  }else{
 			image.setSize(0,0);

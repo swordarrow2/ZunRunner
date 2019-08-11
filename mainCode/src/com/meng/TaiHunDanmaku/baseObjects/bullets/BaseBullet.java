@@ -14,7 +14,6 @@ public abstract class BaseBullet extends BaseGameObject {
         super.init();
         size = getSize();
         image.setSize(size.x, size.y);
-        image.setRotation(getRotationDegree());
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         existTime = 0;
     }

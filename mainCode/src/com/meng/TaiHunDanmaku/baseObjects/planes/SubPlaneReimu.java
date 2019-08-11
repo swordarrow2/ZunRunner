@@ -12,7 +12,7 @@ import com.meng.TaiHunDanmaku.ui.FightScreen;
 public class SubPlaneReimu extends BaseGameObject {
 
     private Vector2 nowPosition = Vector2.Zero;
-    public MyPlaneReimu myPlane;
+    public MyPlane myPlane;
     private int bianHao = 1;
     private int degree = 0;
     private Vector2 vel = new Vector2(0, 37);
@@ -27,7 +27,7 @@ public class SubPlaneReimu extends BaseGameObject {
             -32, 0, -16, 32, 16, 32, 32, 0
     };
 
-    public SubPlaneReimu init(MyPlaneReimu myPlane, int subPlaneNumber) {
+    public SubPlaneReimu init(MyPlane myPlane, int subPlaneNumber) {
         super.init();
         this.bianHao = subPlaneNumber;
         subPlanePosition = getSubPlanePosition();

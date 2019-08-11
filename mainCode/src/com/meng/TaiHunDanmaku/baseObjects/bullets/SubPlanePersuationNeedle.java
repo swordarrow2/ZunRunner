@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseMyBullet;
-import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlaneReimu;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
 import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
 import com.meng.TaiHunDanmaku.helpers.TextureNameManager;

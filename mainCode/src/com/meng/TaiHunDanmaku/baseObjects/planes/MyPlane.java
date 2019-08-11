@@ -9,9 +9,9 @@ import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
 
-public class MyPlaneReimu extends BaseGameObject {
+public class MyPlane extends BaseGameObject {
 
-    public static MyPlaneReimu instance;
+    public static MyPlane instance;
 
     private JudgeCircleAnimation animation = null;
     private JudgeCircleAnimation2 animation2 = null;

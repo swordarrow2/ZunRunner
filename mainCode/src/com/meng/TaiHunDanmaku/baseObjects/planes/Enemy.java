@@ -182,8 +182,8 @@ public class Enemy extends BaseGameObject {
     }
 
     private void judge() {
-        if (getJudgeCircle().contains(MyPlaneReimu.instance.objectCenter)) {
-            MyPlaneReimu.instance.kill();
+        if (getJudgeCircle().contains(MyPlane.instance.objectCenter)) {
+            MyPlane.instance.kill();
         }
     }
 

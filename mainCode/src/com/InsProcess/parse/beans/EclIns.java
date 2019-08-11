@@ -67,18 +67,18 @@ public class EclIns {
         return f;
     }
 
-  /*  public byte[] readParams() {
-        byte[] bytes = new byte[data.length - dataPosition];
-        for (int i = 0; i < bytes.length; ++i) {
-            bytes[i] = data[dataPosition + i];
-        }
-        dataPosition += bytes.length;
-        if (dataPosition == data.length) {
-            dataPosition = 0;
-        }
-        return bytes;
-    }
-*/
+    /*  public byte[] readParams() {
+          byte[] bytes = new byte[data.length - dataPosition];
+          for (int i = 0; i < bytes.length; ++i) {
+              bytes[i] = data[dataPosition + i];
+          }
+          dataPosition += bytes.length;
+          if (dataPosition == data.length) {
+              dataPosition = 0;
+          }
+          return bytes;
+      }
+  */
     public String readString() {
         byte[] strByte = new byte[data[dataPosition]];
         dataPosition += 4;
