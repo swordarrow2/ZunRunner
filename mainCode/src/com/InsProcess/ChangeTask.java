@@ -10,7 +10,7 @@ public class ChangeTask {
 	public float m;
 	public float n;
 	public float r;
-	public float s;
+	public float s; 
 	
 	public ChangeTask(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn){
 	  singleMode=way==0;

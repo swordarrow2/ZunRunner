@@ -2,7 +2,6 @@ package com.meng.TaiHunDanmaku.baseObjects.bullets;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MapleEnemy;
