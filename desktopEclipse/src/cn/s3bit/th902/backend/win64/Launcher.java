@@ -19,7 +19,7 @@ public class Launcher {
 	        config.title = "SJF";
 	        config.width = GameMain.width;
 	        config.height = GameMain.height;
-	        config.vSyncEnabled = true;
+	        config.vSyncEnabled = false;
 	        config.resizable = true;
 	        config.foregroundFPS = 60;
 	        config.addIcon("textures/beammid2.png", Files.FileType.Internal);

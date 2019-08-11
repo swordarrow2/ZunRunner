@@ -13,6 +13,7 @@ public class ReimuShoot extends BaseMyBullet{
     @Override
     public void init(Vector2 center, Vector2 velocity) {
         super.init(center, velocity);
+        damage=40;
         image.setDrawable(ResourcesManager.textures.get(TextureNameManager.ReimuBullet));
     }
 

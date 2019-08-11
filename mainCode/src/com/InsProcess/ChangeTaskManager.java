@@ -1,8 +1,7 @@
 package com.InsProcess;
 
-import com.InsProcess.parse.beans.EclIns;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 public class ChangeTaskManager {
 
@@ -16,19 +15,17 @@ public class ChangeTaskManager {
 	}
 
 	public void addChange(int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
-		taskList[num] = new ChangeTask(way, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
+		taskList[num] = new ChangeTask(way==0?true:false, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
 	}
 
 	public void addChange(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
-		taskList[nowTask++] = new ChangeTask(way, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
+		taskList[nowTask++] = new ChangeTask(way==0?true:false, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
 	}
 
 	public void update() {
 		ChangeTask task = taskList[nowTask];
 		if (task != null) {
 			doTask(task);
-		} else {
-			nowTask = 0;
 		}
 	}
 
@@ -75,6 +72,13 @@ public class ChangeTaskManager {
 		case 524288: // 1<<19
 			break;
 		case 1048576: // 1<<20
+			if(task.a==1){ 
+				FightScreen.instence.groupHighLight.addActor(bullet.image);
+				FightScreen.instence.groupNormal.removeActor(bullet.image);
+			} else {
+				FightScreen.instence.groupNormal.addActor(bullet.image);
+				FightScreen.instence.groupHighLight.removeActor(bullet.image);
+			}
 			break;
 		case 2097152: // 1<<21
 			break;

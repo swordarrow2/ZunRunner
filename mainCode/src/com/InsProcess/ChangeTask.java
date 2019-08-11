@@ -12,8 +12,8 @@ public class ChangeTask {
 	public float r;
 	public float s; 
 	
-	public ChangeTask(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn){
-	  singleMode=way==0;
+	public ChangeTask(boolean singleMode, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn){
+	  this.singleMode=singleMode;
 	  this.mode=mode;
 	  a=inta;
 	  b=intb;
@@ -23,5 +23,8 @@ public class ChangeTask {
 	  n=floatn;
 	  r=floatr;
 	  s=floats;
+	}
+	public ChangeTask copy(){
+		return new ChangeTask(singleMode, mode, a, b, c, d, m, n, r, s);
 	}
   }
