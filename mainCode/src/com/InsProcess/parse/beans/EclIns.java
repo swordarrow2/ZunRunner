@@ -36,7 +36,6 @@ public class EclIns {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        // rank E:193 N:194 H:196 L:232
         stringBuilder.append("time:").append(time).append(" id:").append(id).append(" size:").append(size)
                 .append(" paraPos:").append(param_mask).append(" rank:").append(toUByte(rank_mask))
                 .append(" paraCount:").append(param_count).append("\n");

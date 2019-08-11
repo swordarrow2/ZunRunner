@@ -24,6 +24,7 @@ public class EclStack {
 		values.put(-9949, 0);
 		values.put(-9948, 0);
 		values.put(-9947, 1);
+	//	values.put(-9985,0);
 		values.put(-971246592, 0);
 	}
 
@@ -52,6 +53,7 @@ public class EclStack {
 			case -9978:
 			case -9979:
 			case -9980:
+			case -9985:
 				return values.get(i);
 			case -9986:
 				return 0;

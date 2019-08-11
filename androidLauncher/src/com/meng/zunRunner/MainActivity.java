@@ -2,12 +2,9 @@ package com.meng.zunRunner;
 
 import android.os.*;
 import android.widget.*;
-import com.InsProcess.pack.*;
 import com.InsProcess.parse.*;
 import com.badlogic.gdx.backends.android.*;
 import com.meng.TaiHunDanmaku.ui.*;
-import java.io.*;
-import android.app.*;
 
 public class MainActivity extends  AndroidApplication {
 
@@ -26,6 +23,6 @@ public class MainActivity extends  AndroidApplication {
 		s.addView(t);
 		hs.addView(s);
 		//setContentView(hs);
-		ecl.start();
+		//ecl.start();
 	  }
   }

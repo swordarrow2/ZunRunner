@@ -1158,178 +1158,156 @@ public class EclSub {
 
     }
 
-    private void _600(int i0) {
+	private void _600(int i0) {
         BulletShooter bShooter = new BulletShooter().init(enemy);
         bulletShooters.put(i0, bShooter);
-    }
+	  }
+	
 
-    private void _601(int i0) {
-        bulletShooters.get(i0).shoot();
-    }
+    public void _601(int danmakuNum) {
+        bulletShooters.get(danmakuNum).shoot();
+	  }
 
-    private void _602(int i0, int form, int color) {
-        bulletShooters.get(i0).setBulletForm(form).setBulletColor(color);
-    }
+    public void _602(int danmakuNum, int form, int color) {
+        bulletShooters.get(danmakuNum).setBulletColor(color).setBulletForm(form);
+	  }
 
-    private void _603(int i0, float offsetX, float offsetY) {
-        bulletShooters.get(i0).setShootCenterOffset(new Vector2(offsetX, offsetY));
-    }
+    public void _603(int danmakuNum, float offsetX, float offsetY) {
+        bulletShooters.get(danmakuNum).setShootCenterOffset(new Vector2(offsetX, offsetY));
+	  }
 
-    private void _604(int i0, float direct, float r) {
-        bulletShooters.get(i0).setBulletWaysDegree((float) Math.toDegrees(direct));
-    }
+    public void _604(int danmakuNum, float direct, float r) {
+        bulletShooters.get(danmakuNum).setBulletWaysDegree((float) Math.toDegrees(direct));
+	  }
 
-    private void _605(int i0, float speed, float slowlestSpeed) {
-        bulletShooters.get(i0).setBulletVelocity(new Vector2(0, -speed));
-    }
+    public void _605(int danmakuNum, float speed, float slowlestSpeed) {
+        bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0, -speed));
+	  }
 
-    private void _606(int i0, int way, int ceng) {
-        bulletShooters.get(i0).setBulletWays(way).setBulletCengShu(ceng);
-    }
+    public void _606(int danmakuNum, int way, int ceng) {
+        bulletShooters.get(danmakuNum).setBulletWays(way).setBulletCengShu(ceng);
+	  }
 
-    private void _607(int i0, int style) {
-        bulletShooters.get(i0).setBulletStyle(style);
-    }
+    public void _607(int danmakuNum, int style) {
+        bulletShooters.get(danmakuNum).setBulletStyle(style);
+	  }
 
-    private void _608(int i0, int i1, int i2) {
+    public void _608(int danmakuNum, int voiceOnShoot, int voiceOnChange) {
+	  }
 
-    }
+    public void _609(int danmakuNum, int num, int way, int mode, int inta, int intb, float floatr, float floats) {
+	  }
 
-    private void _609(int i0, int i1, int i2, int i3, int i4, int i5, float f6, float f7) {
+    public void _610(int danmakuNum, int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
+	  }
 
-    }
+    public void _611(int danmakuNum, int way, int mode, int inta, int intb, float floatr, float floats) {
+	  }
 
-    private void _610(int i0, int i1, int i2, int i3, int i4, int i5, int i6, int i7, float f8, float f9, float f10,
-                      float f11) {
+    public void _612(int danmakuNum, int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
+	  }
 
-    }
+    public void _613() {
+	  }
 
-    private void _611(int i0, int i1, int i2, int i3, int i4, float f5, float f6) {
+    public void _614(int danmakuA, int danmakuB) {
+        bulletShooters.put(danmakuB, bulletShooters.get(danmakuA).clone());
+	  }
 
-    }
+    public void _615(float floatR) {
+	  }
 
-    private void _612(int i0, int i1, int i2, int i3, int i4, int i5, int i6, float f7, float f8, float f9, float f10) {
+    public void _616(float floatR) {
+	  }
+	  
+	private void _617(int i0, float f1, float f2, float f3, float f4, float f5, float f6) {
 
-    }
-
-    private void _613() {
-
-    }
-
-    private void _614(int i0, int i1) {
-        bulletShooters.put(i0, bulletShooters.get(i1).clone());
-    }
-
-    private void _615(float f0) {
-
-    }
-
-    private void _616(float f0) {
-
-    }
-
-    private void _617(int i0, float f1, float f2, float f3, float f4, float f5, float f6) {
-
-    }
+	  }
 
     private void _618(int i0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9,
                       float f10) {
 
-    }
+	  }
 
     private void _619(int i0, float f1, float f2, float f3, float f4) {
 
-    }
+	  }
 
     private void _620(int i0, int i1, int i2, int i3, int i4, int i5, int i6) {
 
-    }
+	  }
 
     private void _621(int i0, int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) {
 
-    }
+	  }
 
     private void _622(int i0, int i1, int i2, int i3, int i4) {
 
-    }
+	  }
 
-    private void _623(float f0, float f1, float f2) {
+    public void _623(float floatVarName, float floatX, float floatY) {
+	  }
 
-    }
+    public void _624(int danmakuNum, float floatA, float b, float c, float d, float e, float f, float g, float h) {
+	  }
 
-    private void _624(int i0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
+    public void _625(int danmakuNum, int intA, int b, int c, int d, int e, int f, int g, int h) {
+	  }
 
-    }
+    public void _626(int danmakuNum, float floatAngel, float r) {
+        bulletShooters.get(danmakuNum).setBulletRandomDegreeRange((float) Math.toDegrees(floatAngel)).shooterCenterRandomRange = new Vector2(r, r);
+	  }
 
-    private void _625(int i0, int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+    public void _627(int danmakuNum, float r) {
+	  }
 
-    }
+    public void _628(int danmakuNum, float floatX, float y) {
+        bulletShooters.get(danmakuNum).setShooterCenter(new Vector2(floatX + GameMain.width / 2f, GameMain.height - y));
+	  }
 
-    private void _626(int i0, float f1, float f2) {
-        bulletShooters.get(i0)
-                .setBulletRandomDegreeRange((float) Math.toDegrees(f1)).shooterCenterRandomRange = new Vector2(f2, f2);
-    }
+    public void _629(float floatR, int intRgb) {
+	  }
 
-    private void _627(int i0, float f1) {
+    //int
+    public void _630(int a) {
+	  }
 
-    }
+    public void _631(int a) {
+	  }
 
-    private void _628(int i0, float f1, float f2) {
-        bulletShooters.get(i0).setShooterCenter(new Vector2(f1 + GameMain.width / 2f, GameMain.height - f2));
-    }
+    public void _632(int a) {
+	  }
 
-    private void _629(float f0, int i1) {
+    public void _633(int a) {
+	  }
 
-    }
+    public void _634(int a) {
+	  }
 
-    private void _630(int i0) {
+    //float
+    public void _635(float a) {
+	  }
 
-    }
+    public void _636(float a) {
+	  }
 
-    private void _631(int i0) {
+    //int
+    public void _637(int a) {
+	  }
 
-    }
+    public void _638(int a) {
+	  }
 
-    private void _632(int i0) {
+    public void _639(int a) {
+	  }
 
-    }
+    //mode=16777216 danmakuNum=2
+    public void _640(int danmakuNum, int intMode, String sub) {
+	  }
 
-    private void _633(int i0) {
-
-    }
-
-    private void _634(int i0) {
-
-    }
-
-    private void _635(float f0) {
-
-    }
-
-    private void _636(float f0) {
-
-    }
-
-    private void _637(int i0) {
-
-    }
-
-    private void _638(int i0) {
-
-    }
-
-    private void _639(int i0) {
-
-    }
-
-    private void _640(int i0, int i1, String s2) {
-
-    }
-
-    private void _641(int i0) {
-
-    }
-
+    public void _641(int danmakuNum) {
+	  
+	}
     private void _700(int i0, float f1, float f2, float f3, float f4) {
 
     }
