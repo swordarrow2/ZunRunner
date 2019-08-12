@@ -13,9 +13,7 @@ import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
 
-public class EclBullet extends BaseBullet {
-    private float offsetX;
-    private float offsetY;
+public class EclBullet extends BaseBullet { 
     private float directionAngle;
     private float speed;
     private float acceleration;
@@ -42,18 +40,16 @@ public class EclBullet extends BaseBullet {
     private static LinkedBlockingQueue<EclBullet> toAdd = new LinkedBlockingQueue<>();
 
     public static void create(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
-        ObjectPools.eclBulletPool.obtain().init(centerX + GameMain.width / 2f, GameMain.height - centerY, offsetX, offsetY, form, color, directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection);
+        ObjectPools.eclBulletPool.obtain().init(centerX , centerY, offsetX, offsetY, form, color, directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection);
     }
 
     public void init(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
-        super.init();
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        super.init(); 
         this.directionAngle = directionAngle;
         this.speed = speed;
         this.voiceOnShoot = voiceOnShoot;
         this.voiceOnChangeDirection = voiceOnChangeDirection;
-        objectCenter.set(centerX, centerY);
+        objectCenter.set(centerX+offsetX, centerY+offsetY);
         judgeCircle = new Circle(objectCenter, Math.min(image.getWidth(), image.getHeight()) / 3);
         image.setDrawable(ResourcesManager.textures.get("bullet" + ((form << 4) + color)));
         FightScreen.instence.groupNormal.addActor(image);
@@ -87,6 +83,7 @@ public class EclBullet extends BaseBullet {
         super.kill();
         ObjectPools.eclBulletPool.free(this);
         toDelete.add(this);
+        image.remove();
     }
 
     @Override

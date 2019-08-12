@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.ui.*;
+import com.InsProcess.EclBulletShooter;
+import com.InsProcess.helper.MathHelper;
 import com.InsProcess.parse.*;
 
 /**
@@ -31,6 +33,7 @@ public class EclSub {
 
     private EclStack stack = new EclStack();
     private HashMap<Integer, BulletShooter> bulletShooters = new HashMap<>();
+    private HashMap<Integer,EclBulletShooter > eclBulletShooters = new HashMap<>();
 
     private int waitFrams = 0;
     private int ins23frame = 0;
@@ -1161,34 +1164,43 @@ public class EclSub {
     private void _600(int i0) {
         BulletShooter bShooter = new BulletShooter().init(enemy);
         bulletShooters.put(i0, bShooter);
+        EclBulletShooter eclBulletShooter=new EclBulletShooter().init(enemy);
+        eclBulletShooters.put(i0, eclBulletShooter);
     }
 
     private void _601(int danmakuNum) {
-        bulletShooters.get(danmakuNum).shoot();
+       // bulletShooters.get(danmakuNum).shoot();
+        eclBulletShooters.get(danmakuNum).shoot();
     }
 
     private void _602(int danmakuNum, int form, int color) {
         bulletShooters.get(danmakuNum).setBulletColor(color).setBulletForm(form);
+    	eclBulletShooters.get(danmakuNum).setFormAndColor(form, color);
     }
 
     private void _603(int danmakuNum, float offsetX, float offsetY) {
         bulletShooters.get(danmakuNum).setShootCenterOffset(new Vector2(offsetX, offsetY));
+    	eclBulletShooters.get(danmakuNum).setOffsetCartesian(offsetX, offsetY);
     }
 
     private void _604(int danmakuNum, float direct, float r) {
         bulletShooters.get(danmakuNum).setBulletWaysDegree((float) Math.toDegrees(direct));
+    	eclBulletShooters.get(danmakuNum).setDirectionAndSub(direct- 1.5707963267948966f, r);
     }
 
-    private void _605(int danmakuNum, float speed, float slowlestSpeed) {
+    private void _605(int danmakuNum, float speed, float slowestSpeed) {
         bulletShooters.get(danmakuNum).setBulletVelocity(new Vector2(0, -speed));
+    	eclBulletShooters.get(danmakuNum).setSpeed(speed, slowestSpeed);
     }
 
     private void _606(int danmakuNum, int way, int ceng) {
         bulletShooters.get(danmakuNum).setBulletWays(way).setBulletCengShu(ceng);
+    	eclBulletShooters.get(danmakuNum).setWaysAndOverlap(way, ceng);
     }
 
     private void _607(int danmakuNum, int style) {
         bulletShooters.get(danmakuNum).setBulletStyle(style);
+    	eclBulletShooters.get(danmakuNum).setStyle(style);
     }
 
     private void _608(int danmakuNum, int voiceOnShoot, int voiceOnChange) {
@@ -1212,7 +1224,12 @@ public class EclSub {
     }
 
     private void _614(int danmakuA, int danmakuB) {
-        bulletShooters.put(danmakuB, bulletShooters.get(danmakuA).clone());
+    	BulletShooter bst=bulletShooters.get(danmakuA);
+    	if(bst==null){
+    		throw new NullPointerException("bst null");
+    	}
+        bulletShooters.put(danmakuB,bst );
+    	eclBulletShooters.put(danmakuB, eclBulletShooters.get(danmakuA).clone());
     }
 
     private void _615(float floatR) {
@@ -1261,6 +1278,9 @@ public class EclSub {
 
     private void _626(int danmakuNum, float floatAngel, float r) {
         bulletShooters.get(danmakuNum).setBulletRandomDegreeRange((float) Math.toDegrees(floatAngel)).shooterCenterRandomRange = new Vector2(r, r);
+    	Vector2 cart=MathHelper.polarToCartesian(floatAngel, r);
+    	Random random=new Random();
+        eclBulletShooters.get(danmakuNum).setOffsetCartesian(random.nextFloat()*r,random.nextFloat()*r);
     }
 
     private void _627(int danmakuNum, float r) {
@@ -1268,6 +1288,7 @@ public class EclSub {
 
     private void _628(int danmakuNum, float floatX, float y) {
         bulletShooters.get(danmakuNum).setShooterCenter(new Vector2(floatX + GameMain.width / 2f, GameMain.height - y));
+        eclBulletShooters.get(danmakuNum).setCenter(floatX+ GameMain.width / 2f, GameMain.height -y);
     }
 
     private void _629(float floatR, int intRgb) {

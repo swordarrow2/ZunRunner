@@ -96,13 +96,13 @@ public class FightScreen extends ScreenAdapter {
         stage.draw();
         gameMain.spriteBatch.begin();
         gameMain.bitmapFont.draw(gameMain.spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond() +
-                "\nBullets:" + EnemyBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp + "\n" + "time:" + gameTimeFlag), 20, 100);
+                "\nBullets:" + EclBullet.instances.size() + (boss == null ? "" : "\nHP:" + boss.hp + "\n" + "time:" + gameTimeFlag), 20, 100);
         EclManager.updateAll();
         Enemy.updateAll();
         BulletShooter.updateAll();
         BaseMyBullet.updateAll();
         EnemyBullet.updateAll();
-        EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
+      //  EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
         EclBullet.updateAll();
         MyPlane.instance.update();
         gameMain.spriteBatch.end();
