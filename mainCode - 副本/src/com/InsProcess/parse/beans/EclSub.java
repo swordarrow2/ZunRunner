@@ -1,20 +1,14 @@
 package com.InsProcess.parse.beans;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
+import com.badlogic.gdx.math.Vector2;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
+import com.meng.TaiHunDanmaku.ui.*;
 import com.InsProcess.EclBulletShooter;
 import com.InsProcess.helper.MathHelper;
-import com.InsProcess.parse.EclFile;
-import com.InsProcess.parse.EclManager;
-import com.InsProcess.parse.EclStack;
-import com.badlogic.gdx.math.Vector2;
-import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
-import com.meng.TaiHunDanmaku.task.Task;
-import com.meng.TaiHunDanmaku.task.TaskMoveTo;
-import com.meng.TaiHunDanmaku.ui.FightScreen;
-import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.InsProcess.parse.*;
 
 /**
  * @author Administrator th10_sub_t
@@ -34,6 +28,8 @@ public class EclSub implements Cloneable {
 	private int[] tempArg = new int[0];
 
 	private Enemy enemy;
+
+	private Enemy enemyCreateInThis;
 
 	private EclStack stack = new EclStack();
 	private HashMap<Integer, EclBulletShooter> eclBulletShooters = new HashMap<>();
@@ -183,10 +179,10 @@ public class EclSub implements Cloneable {
 	}
 
 	private void _11(String s0, int[] i1, boolean[] isInt, int paramMask) {
-		EclSub toRun = EclManager.getSubPack(s0);
+		EclSub toRun = eclFile.eclManager.getSubPack(s0);
 		int[] result = new int[i1.length];
 		for (int i = 0; i < result.length; ++i) {
-			if (((paramMask >> (i+1)) & 1) == 1) {
+			if (((paramMask >> i) & 1) == 1) {
 				if (isInt[i]) {
 					result[i] = stack.getInt(i1[i]);
 				} else {
@@ -197,7 +193,7 @@ public class EclSub implements Cloneable {
 					result[i] = i1[i];
 				} else {
 					result[i] = Float.floatToIntBits(i1[i]);
-				}
+				} 
 			}
 		}
 		System.out.println("sub " + toRun.eclSubPack.subName + " start by ins_11 arg[0]:"
@@ -225,10 +221,10 @@ public class EclSub implements Cloneable {
 	}
 
 	private void _15(String s0, int[] i1, boolean[] isInt, int paramMask) {
-		EclSub toRun = EclManager.getSubPack(s0);
+		EclSub toRun = eclFile.eclManager.getSubPack(s0);
 		int[] result = new int[i1.length];
 		for (int i = 0; i < result.length; ++i) {
-			if (((paramMask >> (i+1)) & 1) == 1) {
+			if (((paramMask >> i) & 1) == 1) {
 				if (isInt[i]) {
 					result[i] = stack.getInt(i1[i]);
 				} else {
@@ -239,7 +235,7 @@ public class EclSub implements Cloneable {
 					result[i] = i1[i];
 				} else {
 					result[i] = Float.floatToIntBits(i1[i]);
-				}
+				} 
 			}
 		}
 		System.out.println("sub " + toRun.eclSubPack.subName + " start by ins_15");
@@ -538,9 +534,6 @@ public class EclSub implements Cloneable {
 
 	private void _301(String s0, float f1, float f2, int i3, int i4, int i5) {
 		System.out.println("sub " + eclSubPack.subName + " start by ins_301");
-		FightScreen.instence.boss = new Enemy();
-		FightScreen.instence.boss.init(new Vector2(275, 450), 10, 700, new Task[] { new TaskMoveTo(193, 250) });
-		enemy=FightScreen.instence.boss;
 		// EclManager.toAddSubs.add(eclFile.eclManager.getSubPack(s0).setManager(enemy).startByIns11(false));
 	}
 
@@ -946,7 +939,6 @@ public class EclSub implements Cloneable {
 		} else {
 			FightScreen.instence.onBoss = true;
 		}
-		_301("", 0, 0, 0, 0, 0);
 	}
 
 	private void _513() {
@@ -954,7 +946,7 @@ public class EclSub implements Cloneable {
 	}
 
 	private void _514(int i0, int i1, int i2, String s3) {
-EclManager.nextSub=EclManager.getSubPack("BossCard1").setManager(enemy);
+
 	}
 
 	private void _515(int i0) {

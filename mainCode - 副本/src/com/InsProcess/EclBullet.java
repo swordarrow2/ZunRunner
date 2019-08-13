@@ -38,8 +38,6 @@ public class EclBullet extends BaseBullet {
     public static HashSet<EclBullet> instances = new HashSet<>();
     private static LinkedBlockingQueue<EclBullet> toDelete = new LinkedBlockingQueue<>();
     private static LinkedBlockingQueue<EclBullet> toAdd = new LinkedBlockingQueue<>();
-    
-    private ChangeTaskManager changeTaskManager;
 
     public static void create(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
         ObjectPools.eclBulletPool.obtain().init(centerX , centerY, offsetX, offsetY, form, color, directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection);
@@ -47,7 +45,6 @@ public class EclBullet extends BaseBullet {
 
     public void init(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
         super.init(); 
-        changeTaskManager=new ChangeTaskManager(this);
         this.directionAngle = directionAngle;
         this.speed = speed;
         this.voiceOnShoot = voiceOnShoot;
@@ -93,7 +90,6 @@ public class EclBullet extends BaseBullet {
     public void update() {
         velocity.add(accelerationWithAngle);
         objectCenter.add(velocity);
-        changeTaskManager.update();
         super.update();
     }
 

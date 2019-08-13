@@ -5,12 +5,12 @@ import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 public class ChangeTaskManager {
 
-    private EclBullet bullet;
+    private EnemyBullet bullet;
     private ChangeTask[] taskList = new ChangeTask[16];
     private int nowTask = 0;
     private int holdingTime = 0;
 
-    public ChangeTaskManager(EclBullet enemyBullet) {
+    public ChangeTaskManager(EnemyBullet enemyBullet) {
         bullet = enemyBullet;
     }
 

@@ -96,6 +96,7 @@ public class FightScreen extends ScreenAdapter {
         EclManager.updateAll();
         Enemy.updateAll();
         BaseMyBullet.updateAll();
+        EnemyBullet.updateAll();
       //  EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
         EclBullet.updateAll();
         MyPlane.instance.update();
