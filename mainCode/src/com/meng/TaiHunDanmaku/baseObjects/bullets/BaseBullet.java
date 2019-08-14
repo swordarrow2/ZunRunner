@@ -2,10 +2,9 @@ package com.meng.TaiHunDanmaku.baseObjects.bullets;
 
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.meng.TaiHunDanmaku.BaseGameObject;
-import com.meng.TaiHunDanmaku.ui.*;
+import com.meng.TaiHunDanmaku.ui.GameMain;
 
 public abstract class BaseBullet extends BaseGameObject {
 
@@ -35,6 +34,8 @@ public abstract class BaseBullet extends BaseGameObject {
     public Shape2D getCollisionArea() {
         return judgeCircle;
     }
+    
+    public abstract void kill();
 
     public abstract void judge();
 

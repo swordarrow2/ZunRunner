@@ -26,8 +26,13 @@ public class ChangeTask implements Cloneable{
 	  }
 
 	@Override
-	public ChangeTask clone() throws CloneNotSupportedException {
-		return (ChangeTask)super.clone();
+	public ChangeTask clone()  {
+		try {
+			return (ChangeTask)super.clone();
+		} catch (CloneNotSupportedException e) { 
+			e.printStackTrace();
+			return null;
+		}
 	  }
 	
 }

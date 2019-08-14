@@ -202,7 +202,7 @@ public class EclSub implements Cloneable {
 			}
 		}
 		System.out.println("sub " + toRun.eclSubPack.subName + " start by ins_11 arg[0]:"
-				+ (i1.length < 1 ? "" : Float.intBitsToFloat(i1[0])));
+				+ (result.length < 1 ? "" : result[0]));
 		EclManager.toAddSubs.add(toRun.insertArgs(result).startByIns11(true).setManager(enemy).setPartent(this));
 		EclManager.onPauseSubs.add(this);
 		EclManager.toDeleteSubs.add(this);
@@ -280,6 +280,7 @@ public class EclSub implements Cloneable {
 	}
 
 	private void _44(float f0) {
+		System.out.println("stack push:"+f0);
 		stack.push(f0);
 	}
 
@@ -938,7 +939,7 @@ public class EclSub implements Cloneable {
 	}
 
 	private void _511(int i0) {
-
+		enemy.hp=i0;
 	}
 
 	private void _512(int i0) {
@@ -1235,6 +1236,13 @@ EclManager.nextSub=EclManager.getSubPack("BossCard1").setManager(enemy);
 
 	private void _604(int danmakuNum, float direct, float r) {
 		eclBulletShooters.get(danmakuNum).setDirectionAndSub(direct - 1.5707963267948966f, r);
+		System.out.println("604:"+(direct - 1.5707963267948966f));
+		try {
+
+			System.out.println("B:"+stack.getInt(4)+" C:"+Float.intBitsToFloat(stack.getInt(8))+" D:"+Float.intBitsToFloat(stack.getInt(12))+" E:"+stack.getInt(16));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	private void _605(int danmakuNum, float speed, float slowestSpeed) {
@@ -1254,6 +1262,7 @@ EclManager.nextSub=EclManager.getSubPack("BossCard1").setManager(enemy);
 	}
 
 	private void _609(int danmakuNum, int num, int way, int mode, int inta, int intb, float floatr, float floats) {
+		  eclBulletShooters.get(danmakuNum).addChange(new ChangeTask(way==0, mode, inta, intb, 0, 0, floatr, floats, 0, 0));
 	}
 
 	private void _610(int danmakuNum, int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr,

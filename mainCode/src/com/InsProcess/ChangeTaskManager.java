@@ -15,11 +15,11 @@ public class ChangeTaskManager {
     }
 
     public void addChange(int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
-        taskList[num] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
+        taskList[num] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatr, floats, floatm, floatn);
     }
 
     public void addChange(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
-        taskList[nowTask++] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
+        taskList[nowTask++] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatr, floats, floatm, floatn);
     }
 	
 	public void addChange(ChangeTask task){
@@ -30,6 +30,9 @@ public class ChangeTaskManager {
 	  nowTask=0;
 	}
     public void update() {
+    	if(holdingTime-->0){
+    		return;
+    	}
         ChangeTask task = taskList[nowTask];
         if (task != null) {
             doTask(task);
@@ -92,6 +95,19 @@ public class ChangeTaskManager {
 				//throw new NullPointerException("jhhh");
                 break;
             case 2097152: // 1<<21
+    			holdingTime = task.a;
+    		//	float a = 0;
+    			System.out.println("speed:"+task.r);
+    			if (task.s != -999999.0f) {
+    			//	a = (task.s - bullet.speed) / task.a;
+    				bullet.setTargetSpeed(task.r, task.a);
+    			}
+    		//	float d = 0;
+    		//	if (task.r != -999999.0f) {
+    			//	d = task.r;
+    		//		bullet.setAccelerationAngle(d);
+    		//	}
+                    ++nowTask;
                 break;
             case 4194304: // 1<<22
                 break;
@@ -112,12 +128,8 @@ public class ChangeTaskManager {
             case 1073741824: // 1<<30
                 break;
             case -2147483648: // 1<<31
-                if (task.a < holdingTime++) {
-                    holdingTime = 0;
+    			holdingTime = task.a;
                     ++nowTask;
-                    update();
-                    break;
-                }
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + task.mode);

@@ -35,7 +35,6 @@ public abstract class BaseMyBullet extends BaseBullet {
 
     @Override
     public void kill() {
-        super.kill();
         toDelete.add(this);
         image.remove();
     }
