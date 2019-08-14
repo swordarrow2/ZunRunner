@@ -6,6 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseBullet;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
 import com.meng.TaiHunDanmaku.helpers.Data;
 import com.meng.TaiHunDanmaku.helpers.ObjectPools;
@@ -14,6 +15,7 @@ import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
 
 public class EclBullet extends BaseBullet {
+	public Enemy enemy;
 	private float directionAngle;
 	public float speed;
 	private float acceleration;
@@ -40,24 +42,26 @@ public class EclBullet extends BaseBullet {
 	private static LinkedBlockingQueue<EclBullet> toAdd = new LinkedBlockingQueue<>();
 
 	private ChangeTaskManager changeTaskManager;
-	
+
 	private float speedSub;
 	private float targetSpeed;
-	 
-	
 
-	public static void create(float centerX, float centerY, float offsetX, float offsetY, int form, int color,
+	private float dirSub;
+	private float targetDir;
+
+	public static void create(Enemy enemy,float centerX, float centerY, float offsetX, float offsetY, int form, int color,
 			float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection, ChangeTask[] tasks) {
-		ObjectPools.eclBulletPool.obtain().init(centerX, centerY, offsetX, offsetY, form, color,
+		ObjectPools.eclBulletPool.obtain().init(enemy,centerX, centerY, offsetX, offsetY, form, color,
 				directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection, tasks);
 	}
 
-	public void init(float centerX, float centerY, float offsetX, float offsetY, int form, int color,
+	public void init(Enemy enemy,float centerX, float centerY, float offsetX, float offsetY, int form, int color,
 			float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection, ChangeTask[] tasks) {
 		super.init();
 		changeTaskManager = new ChangeTaskManager(this);
-		for (ChangeTask ct : tasks) {
-			changeTaskManager.addChange(ct);
+		this.enemy=enemy;
+		for (int i = 0, tasksLength = tasks.length; i < tasksLength; i++) {
+			changeTaskManager.addChange(i, tasks[i]);
 		}
 		changeTaskManager.end();
 		this.directionAngle = directionAngle;
@@ -82,20 +86,37 @@ public class EclBullet extends BaseBullet {
 		velocity = new Vector2(0, speed).rotateRad(directionAngle);
 		image.setRotation(getRotationDegree());
 		toAdd.add(this);
+		speedSub = 0;
+		targetSpeed = 0;
+		dirSub = 0;
+		targetDir = 0;
 	}
 
-	public void setTargetSpeed(float targetSpeed,int frame) {
+	public void setTargetSpeed(float targetSpeed, int frame) {
 		this.targetSpeed = targetSpeed;
-		speedSub=(targetSpeed-speed)/frame;
+		speedSub = (targetSpeed - speed) / frame;
+	}
+
+	public void setTargetDir(float targetDir) {
+		this.targetDir = targetDir;
+		directionAngle+=targetDir;
+		velocity.setAngleRad(directionAngle);
 	}
 	
+	 public void setAcceleration(float acceleration) {
+		this.acceleration = acceleration;
+		accelerationWithAngle=new Vector2(0, acceleration);
+	}
+	 public void setAccelerationAngle(float accelerationAngle) {
+		this.accelerationAngle = accelerationAngle;
+		accelerationWithAngle.setAngleRad(accelerationAngle);
+	}
 	@Override
 	public void judge() {
 		if (getCollisionArea().contains(MyPlane.instance.objectCenter)) {
 			MyPlane.instance.kill();
 			kill();
 		}
-
 	}
 
 	@Override
@@ -110,8 +131,8 @@ public class EclBullet extends BaseBullet {
 		velocity.add(accelerationWithAngle);
 		objectCenter.add(velocity);
 		changeTaskManager.update();
-		if(Math.abs(speed-targetSpeed)>0.0001f){
-			speed+=speedSub;
+		if (Math.abs(speed - targetSpeed) > 0.0001f) {
+			speed += speedSub;
 			velocity.nor().scl(speed);
 		}
 		super.update();

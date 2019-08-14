@@ -9,6 +9,7 @@ public class ChangeTaskManager {
     private ChangeTask[] taskList = new ChangeTask[16];
     private int nowTask = 0;
     private int holdingTime = 0;
+    private EclBulletShooter eclBulletShooter;
 
     public ChangeTaskManager(EclBullet enemyBullet) {
         bullet = enemyBullet;
@@ -21,10 +22,14 @@ public class ChangeTaskManager {
     public void addChange(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
         taskList[nowTask++] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatr, floats, floatm, floatn);
     }
-	
-	public void addChange(ChangeTask task){
-	  taskList[nowTask++]=task;
-	}
+
+    public void addChange(ChangeTask task){
+        taskList[nowTask++]=task;
+    }
+
+    public void addChange(int pos,ChangeTask task){
+        taskList[pos]=task;
+    }
 	
 	public void end(){
 	  nowTask=0;
@@ -45,9 +50,15 @@ public class ChangeTaskManager {
             case 1: // 1<<0
                 break;
             case 2: // 1<<1
-			++nowTask;
                 break;
             case 4: // 1<<2
+            	holdingTime=task.a;
+    			if (task.r != -999999.0f) {
+    				bullet.setAcceleration(task.r);
+            	}
+    			if (task.s != -999999.0f) {
+    				bullet.setAccelerationAngle(task.s);
+            	}
                 break;
             case 8: // 1<<3
                 break;
@@ -70,6 +81,16 @@ public class ChangeTaskManager {
             case 4096: // 1<<12
                 break;
             case 8192: // 1<<13
+            	eclBulletShooter.setFormAndColor(task.a, task.b);
+            	if(task.c==1){
+            		bullet.kill();
+            	}
+    			if (task.r != -999999.0f) {
+    				eclBulletShooter.setDirection(task.r );
+    			}
+    			if(task.s!=-999999.0f){
+    				eclBulletShooter.setDirectionSub(task.s);
+    			}
                 break;
             case 16384: // 1<<14
                 break;
@@ -91,23 +112,15 @@ public class ChangeTaskManager {
                     FightScreen.instence.groupNormal.addActor(bullet.image);
                     FightScreen.instence.groupHighLight.removeActor(bullet.image);
                 }
-				++nowTask;
-				//throw new NullPointerException("jhhh");
                 break;
             case 2097152: // 1<<21
     			holdingTime = task.a;
-    		//	float a = 0;
-    			System.out.println("speed:"+task.r);
-    			if (task.s != -999999.0f) {
-    			//	a = (task.s - bullet.speed) / task.a;
+    			if (task.r != -999999.0f) {
     				bullet.setTargetSpeed(task.r, task.a);
     			}
-    		//	float d = 0;
-    		//	if (task.r != -999999.0f) {
-    			//	d = task.r;
-    		//		bullet.setAccelerationAngle(d);
-    		//	}
-                    ++nowTask;
+    			if(task.s!=-999999.0f){
+    				bullet.setTargetDir(task.s);
+    			}
                 break;
             case 4194304: // 1<<22
                 break;
@@ -120,6 +133,14 @@ public class ChangeTaskManager {
             case 67108864: // 1<<26
                 break;
             case 134217728: // 1<<27
+            	eclBulletShooter=new EclBulletShooter().init(bullet.enemy);
+            	eclBulletShooter.setFormAndColor(task.b, task.c);
+    			if (task.r != -999999.0f) {
+    				eclBulletShooter.setDirection(task.r );
+    			}
+    			if(task.s!=-999999.0f){
+    				eclBulletShooter.setDirectionSub(task.s);
+    			}
                 break;
             case 268435456: // 1<<28
                 break;
@@ -128,12 +149,11 @@ public class ChangeTaskManager {
             case 1073741824: // 1<<30
                 break;
             case -2147483648: // 1<<31
-    			holdingTime = task.a;
-                    ++nowTask;
+    			holdingTime = task.a; 
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + task.mode);
         }
-
+        ++nowTask;
     }
 }

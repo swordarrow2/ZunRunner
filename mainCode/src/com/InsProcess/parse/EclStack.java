@@ -89,12 +89,10 @@ public class EclStack implements Cloneable {
 		if (fvalue >= 0) {
 			return Float.intBitsToFloat(varArray[fvalue / 4]);
 		} else {
-			float f = 0;
 			switch (intBytes) {
 			case -1082130432: // -1.0
 			case -1073741824: // -2.0
-				f = popFloat();
-				break;
+				return popFloat();
 			case -971314176: // -9915.0
 				break;
 			case -971313152: // -9916.0
@@ -203,8 +201,8 @@ public class EclStack implements Cloneable {
 				throw new NullPointerException(
 						"unexpect value:" + Float.intBitsToFloat(intBytes) + " bytes:" + intBytes);
 			}
-			System.out.println("get float:" + f);
-			return f;
+			throw new NullPointerException(
+					"unexpect value:" + Float.intBitsToFloat(intBytes) + " bytes:" + intBytes);
 		}
 	}
 

@@ -1262,7 +1262,7 @@ EclManager.nextSub=EclManager.getSubPack("BossCard1").setManager(enemy);
 	}
 
 	private void _609(int danmakuNum, int num, int way, int mode, int inta, int intb, float floatr, float floats) {
-		  eclBulletShooters.get(danmakuNum).addChange(new ChangeTask(way==0, mode, inta, intb, 0, 0, floatr, floats, 0, 0));
+		  eclBulletShooters.get(danmakuNum).addChange(num,new ChangeTask(way==0, mode, inta, intb, 0, 0, floatr, floats, 0, 0));
 	}
 
 	private void _610(int danmakuNum, int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr,
