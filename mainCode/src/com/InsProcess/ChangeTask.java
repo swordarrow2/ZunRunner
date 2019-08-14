@@ -1,6 +1,6 @@
 package com.InsProcess;
 
-public class ChangeTask {
+public class ChangeTask implements Cloneable{
     public boolean singleMode;
     public int mode;
     public int a;
@@ -23,9 +23,11 @@ public class ChangeTask {
         n = floatn;
         r = floatr;
         s = floats;
-    }
+	  }
 
-    public ChangeTask copy() {
-        return new ChangeTask(singleMode, mode, a, b, c, d, m, n, r, s);
-    }
+	@Override
+	public ChangeTask clone() throws CloneNotSupportedException {
+		return (ChangeTask)super.clone();
+	  }
+	
 }

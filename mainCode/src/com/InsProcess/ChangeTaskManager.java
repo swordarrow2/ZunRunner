@@ -21,11 +21,19 @@ public class ChangeTaskManager {
     public void addChange(int way, int mode, int inta, int intb, int intc, int intd, float floatr, float floats, float floatm, float floatn) {
         taskList[nowTask++] = new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatm, floatn, floatr, floats);
     }
-
+	
+	public void addChange(ChangeTask task){
+	  taskList[nowTask++]=task;
+	}
+	
+	public void end(){
+	  nowTask=0;
+	}
     public void update() {
         ChangeTask task = taskList[nowTask];
         if (task != null) {
             doTask(task);
+		//	throw new NullPointerException(task.mode+"");
         }
     }
 
@@ -34,6 +42,7 @@ public class ChangeTaskManager {
             case 1: // 1<<0
                 break;
             case 2: // 1<<1
+			++nowTask;
                 break;
             case 4: // 1<<2
                 break;
@@ -79,6 +88,8 @@ public class ChangeTaskManager {
                     FightScreen.instence.groupNormal.addActor(bullet.image);
                     FightScreen.instence.groupHighLight.removeActor(bullet.image);
                 }
+				++nowTask;
+				//throw new NullPointerException("jhhh");
                 break;
             case 2097152: // 1<<21
                 break;

@@ -84,11 +84,10 @@ public class Enemy extends BaseGameObject implements Cloneable{
     }
 
     public void hit(float bulletDamage) {
+		hp -= bulletDamage / 7;
         if (hp < 1) {
             kill();
-        } else {
-            hp -= bulletDamage / 7;
-        }
+        } 
     }
 
     public void moveTo(float x, float y) {

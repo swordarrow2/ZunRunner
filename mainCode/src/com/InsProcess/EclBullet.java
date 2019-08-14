@@ -41,13 +41,17 @@ public class EclBullet extends BaseBullet {
     
     private ChangeTaskManager changeTaskManager;
 
-    public static void create(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
-        ObjectPools.eclBulletPool.obtain().init(centerX , centerY, offsetX, offsetY, form, color, directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection);
+    public static void create(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection,ChangeTask[] tasks) {
+        ObjectPools.eclBulletPool.obtain().init(centerX , centerY, offsetX, offsetY, form, color, directionAngle - 1.5707963267948966f, speed, voiceOnShoot, voiceOnChangeDirection,tasks);
     }
 
-    public void init(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection) {
+    public void init(float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection,ChangeTask[] tasks) {
         super.init(); 
         changeTaskManager=new ChangeTaskManager(this);
+		for(ChangeTask ct:tasks){
+		  changeTaskManager.addChange(ct);
+		}
+		changeTaskManager.end();
         this.directionAngle = directionAngle;
         this.speed = speed;
         this.voiceOnShoot = voiceOnShoot;

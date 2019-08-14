@@ -15,6 +15,7 @@ import com.meng.TaiHunDanmaku.task.Task;
 import com.meng.TaiHunDanmaku.task.TaskMoveTo;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.InsProcess.*;
 
 /**
  * @author Administrator th10_sub_t
@@ -1260,6 +1261,7 @@ EclManager.nextSub=EclManager.getSubPack("BossCard1").setManager(enemy);
 	}
 
 	private void _611(int danmakuNum, int way, int mode, int inta, int intb, float floatr, float floats) {
+	  eclBulletShooters.get(danmakuNum).addChange(new ChangeTask(way==0,mode,inta,intb,0,0,floatr,floats,0,0));
 	}
 
 	private void _612(int danmakuNum, int way, int mode, int inta, int intb, int intc, int intd, float floatr,

@@ -5,6 +5,7 @@ import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
 
 import java.util.Random;
+import java.util.*;
 
 public class EclBulletShooter implements Cloneable {
 
@@ -31,6 +32,8 @@ public class EclBulletShooter implements Cloneable {
 	private float allAngleDivide2;// 弹幕总角度/2
 	private float overlapSpeedSub;
 
+	private ArrayList<ChangeTask> taskList=new ArrayList<>();
+	
 	public EclBulletShooter init(Enemy enemy) {
 		this.enemy = enemy;
 		center = enemy.objectCenter;
@@ -38,6 +41,11 @@ public class EclBulletShooter implements Cloneable {
 		return this;
 	}
 
+	public EclBulletShooter addChange(ChangeTask ct){
+	  taskList.add(ct);
+	  return this;
+	}
+	
 	public EclBulletShooter setCenter(float x, float y) {
 		center = new Vector2(x, y);
 		return this;
@@ -111,7 +119,7 @@ public class EclBulletShooter implements Cloneable {
 	public void shoot() {
 		if (way == 1 && overlap == 1) {
 			EclBullet.create(center.x, center.y, offsetX, offsetY, form, color, directionAngle, speed, voiceOnShoot,
-					voiceOnChange);
+							 voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 		} else {
 			switch (style) {
 			case 0:
@@ -172,7 +180,7 @@ public class EclBulletShooter implements Cloneable {
 			for (int i = 0; i < way; ++i) {
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+						baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 				tmpangle += directionAngleSub;
 			}
 			baseSpeed -= overlapSpeedSub;
@@ -192,7 +200,7 @@ public class EclBulletShooter implements Cloneable {
 			for (int i = 0; i < way; ++i) {
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 				tmpangle += directionAngleSub;
 			}
 			baseSpeed -= overlapSpeedSub;
@@ -212,7 +220,7 @@ public class EclBulletShooter implements Cloneable {
 			for (int i = 0; i < way; ++i) {
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 				tmpangle += directionAngleSub;
 			}
 			baseSpeed -= overlapSpeedSub;
@@ -234,7 +242,7 @@ public class EclBulletShooter implements Cloneable {
 						+ (random.nextFloat() * directionAngleSub * (random.nextBoolean() ? 1 : -1));
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 			}
 			baseSpeed -= overlapSpeedSub;
 		}
@@ -248,7 +256,7 @@ public class EclBulletShooter implements Cloneable {
 				float tmpangle = random.nextFloat() * 6.283185307179586f;
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 			}
 		}
 	}
@@ -262,7 +270,7 @@ public class EclBulletShooter implements Cloneable {
 						+ (random.nextFloat() * directionAngleSub * (random.nextBoolean() ? 1 : -1));
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 			}
 		}
 	}
@@ -280,7 +288,7 @@ public class EclBulletShooter implements Cloneable {
 			for (int i = 0; i < way; ++i) {
 				disVect.setAngleRad(tmpangle);
 				EclBullet.create(center.x + disVect.x, center.y + disVect.y, offsetX, offsetY, form, color, tmpangle,
-						baseSpeed, voiceOnShoot, voiceOnChange);
+								 baseSpeed, voiceOnShoot, voiceOnChange,taskList.toArray(new ChangeTask[taskList.size()]));
 				tmpangle += directionAngleSub;
 			}
 			baseSpeed -= overlapSpeedSub;
