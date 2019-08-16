@@ -28,8 +28,8 @@ public class EclManager {
         // toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
 
 		FightScreen.instence.boss = new Enemy();
-		FightScreen.instence.boss.init(new Vector2(275, 450), 10, 700, new Task[] { new TaskMoveTo(0+ GameMain.width / 2f, GameMain.height -128) });
-        toAddSubs.add(getSubPack("BossCard4").setManager(FightScreen.instence.boss));
+		FightScreen.instence.boss.init(new Vector2(275, 450), 10, 7000, new Task[] { new TaskMoveTo(0+ GameMain.width / 2f, GameMain.height -128) });
+        toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
 		FightScreen.instence.onBoss=true;
        // System.out.println(toString());
     }

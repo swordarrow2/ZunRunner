@@ -5,6 +5,8 @@ import com.InsProcess.EclBullet;
 import com.badlogic.gdx.math.*;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.ReimuShoot;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.SubPlanePersuationNeedle;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.FixLaser;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.ShootLaser;
 
 public final class ObjectPools {
 
@@ -14,6 +16,18 @@ public final class ObjectPools {
 		@Override
 		protected EclBullet newObject() {
 			return new EclBullet();
+		}
+	};
+	
+	public static Pool<ShootLaser> shootLaserPool=new Pool<ShootLaser>(1024){
+		protected ShootLaser newObject() {
+			return new ShootLaser();
+		}
+	};
+	
+	public static Pool<FixLaser> fixLaserPool=new Pool<FixLaser>(1024){
+		protected FixLaser newObject() {
+			return new FixLaser();
 		}
 	};
 

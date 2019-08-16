@@ -47,7 +47,8 @@ public class ChangeTaskManager {
     }
 
     private void doTask(ChangeTask task) {
-        switch (task.mode) {
+    	System.out.println("mode:"+task.mode);
+    	switch (task.mode) {
             case 1: // 1<<0
                 break;
             case 2: // 1<<1
@@ -82,6 +83,16 @@ public class ChangeTaskManager {
             case 4096: // 1<<12
                 break;
             case 8192: // 1<<13
+                eclBulletShooter = new EclBulletShooter().init(bullet.enemy);
+                eclBulletShooter.setFormAndColor(task.b, task.c);
+                if (task.r != -999999.0f) {
+                    eclBulletShooter.setDirection(task.r);
+                }
+                if (task.s != -999999.0f) {
+                    eclBulletShooter.setDirectionSub(task.s);
+                }
+                break;
+            case 16384: // 1<<14
                 eclBulletShooter.setFormAndColor(task.a, task.b);
                 if (task.c == 1) {
                     bullet.kill();
@@ -92,8 +103,6 @@ public class ChangeTaskManager {
                 if (task.s != -999999.0f) {
                     eclBulletShooter.setDirectionSub(task.s);
                 }
-                break;
-            case 16384: // 1<<14
                 break;
             case 32768: // 1<<15
                 break;
@@ -136,6 +145,9 @@ public class ChangeTaskManager {
             case 134217728: // 1<<27
                 eclBulletShooter = new EclBulletShooter().init(bullet.enemy);
                 eclBulletShooter.setFormAndColor(task.b, task.c);
+                if (task.d == 1) {
+                    bullet.kill();
+                }
                 if (task.r != -999999.0f) {
                     eclBulletShooter.setDirection(task.r);
                 }

@@ -1259,6 +1259,7 @@ public class EclSub implements Cloneable {
 
     private void _610(int danmakuNum, int num, int way, int mode, int inta, int intb, int intc, int intd, float floatr,
                       float floats, float floatm, float floatn) {
+        eclBulletShooters.get(danmakuNum).addChange(num, new ChangeTask(way == 0, mode, inta, intb, intc, intd, floatr, floats, floatm, floatn));
     }
 
     private void _611(int danmakuNum, int way, int mode, int inta, int intb, float floatr, float floats) {

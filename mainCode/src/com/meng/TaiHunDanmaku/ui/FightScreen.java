@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseMyBullet;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.ReflexAndThrough;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.ShootLaser;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MapleEnemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
@@ -108,6 +109,7 @@ public class FightScreen extends ScreenAdapter {
         BaseMyBullet.updateAll();
         //  EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
         EclBullet.updateAll();
+        ShootLaser.updateAll();
         MyPlane.instance.update();
         gameMain.spriteBatch.end();
         for (ReflexAndThrough reflexAndThrough : reflexAndThroughs) {

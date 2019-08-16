@@ -1,8 +1,13 @@
 package com.InsProcess;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.ShootLaser;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
+import com.meng.TaiHunDanmaku.helpers.ResourcesManager;
+import com.meng.TaiHunDanmaku.ui.FightScreen;
 
 import java.util.Random;
 import java.util.*;
@@ -137,10 +142,17 @@ public class EclBulletShooter implements Cloneable {
         return this;
     }
 
-    public void shoot() {
+    public void shoot() {     
+    	ShootLaser.create( enemy, center.x,center.y, 50, 5, directionAngle, speed, 0, 0,new ChangeTask[0]);
+    	
+    	if(1==1){
+ 	   return;
+    }
         if (way == 1 && overlap == 1) {
             EclBullet.create(enemy, center.x, center.y, offsetX, offsetY, form, color, directionAngle, speed, voiceOnShoot, voiceOnChange, taskList);
         } else {
+     //   	way=1;
+        	System.out.println("style:"+style);
             switch (style) {
                 case 0:
                     createBullets01();
