@@ -2,6 +2,7 @@ package com.InsProcess;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.ShootLaser;
 import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
@@ -14,6 +15,7 @@ import java.util.*;
 
 public class EclBulletShooter implements Cloneable {
 
+	public boolean isLaser=false;
     private Enemy enemy;
 
     public Vector2 center;
@@ -39,6 +41,11 @@ public class EclBulletShooter implements Cloneable {
 
     private ChangeTask[] taskList = new ChangeTask[16];
     private int taskFlag = 0;
+    
+    private float laserCreateLenght;
+    private float laserFinalLength;
+    
+    private int taskToJump=0;
 
     public EclBulletShooter init(Enemy enemy) {
         this.enemy = enemy;
@@ -47,6 +54,16 @@ public class EclBulletShooter implements Cloneable {
         return this;
     }
 
+    public EclBulletShooter setLaserCreateLenght(float laserCreateLenght) {
+		this.laserCreateLenght = laserCreateLenght;
+		return this;
+	}
+    
+    public EclBulletShooter setLaserFinalLength(float laserFinalLength) {
+		this.laserFinalLength = laserFinalLength;
+		return this;
+	}
+    
     public EclBulletShooter addChange(ChangeTask ct) {
         taskList[taskFlag++] = ct;
         return this;
@@ -136,6 +153,11 @@ public class EclBulletShooter implements Cloneable {
         voiceOnChange = onChange;
         return this;
     }
+    
+    public EclBulletShooter setNowTask(int now){
+    	taskToJump=now;
+    	return this;
+    }
 
     public EclBulletShooter setDis(int dis) {// 以boss为半径为dis的圆形边上发弹
         disVect = new Vector2(0, dis);
@@ -143,16 +165,15 @@ public class EclBulletShooter implements Cloneable {
     }
 
     public void shoot() {     
-    	ShootLaser.create( enemy, center.x,center.y, 50, 5, directionAngle, speed, 0, 0,new ChangeTask[0]);
-    	
-    	if(1==1){
- 	   return;
-    }
+    	if(isLaser){ 
+    	//	System.out.println("laser:enemy"+enemy+" center:"+center+" clength:"+laserCreateLenght+" flength:"+laserFinalLength+" dir:"+directionAngle+" speed:"+speed+" jmp:"+taskToJump);
+        	ShootLaser.create( enemy,ResourcesManager.textures.get("bullet" + ((5 << 4) + color)), center.x,center.y, laserCreateLenght,laserFinalLength, 5, directionAngle, speed, 0, 0,new ChangeTask[0],taskToJump);
+        	return;
+    	}
         if (way == 1 && overlap == 1) {
             EclBullet.create(enemy, center.x, center.y, offsetX, offsetY, form, color, directionAngle, speed, voiceOnShoot, voiceOnChange, taskList);
         } else {
-     //   	way=1;
-        	System.out.println("style:"+style);
+        //	System.out.println("way:"+way);
             switch (style) {
                 case 0:
                     createBullets01();

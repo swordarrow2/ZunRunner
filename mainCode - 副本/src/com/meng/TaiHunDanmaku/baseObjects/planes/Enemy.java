@@ -84,11 +84,10 @@ public class Enemy extends BaseGameObject implements Cloneable{
     }
 
     public void hit(float bulletDamage) {
+		hp -= bulletDamage / 7;
         if (hp < 1) {
             kill();
-        } else {
-            hp -= bulletDamage / 7;
-        }
+        } 
     }
 
     public void moveTo(float x, float y) {
@@ -128,13 +127,13 @@ public class Enemy extends BaseGameObject implements Cloneable{
     @Override
     public void kill() {
         super.kill();
-        image.remove();
-        toDelete.add(this);
-        isKilled = true;
+      //  image.remove();
+     //   toDelete.add(this);
+      //  isKilled = true;
         FightScreen.instence.reflexAndThroughs.clear();
-        if (FightScreen.instence.onBoss) {
-            FightScreen.instence.boss = null;
-        }
+      //  if (FightScreen.instence.onBoss) {
+     //       FightScreen.instence.boss = null;
+      //  }
     }
 
     @Override

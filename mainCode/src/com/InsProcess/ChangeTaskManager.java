@@ -7,7 +7,7 @@ public class ChangeTaskManager {
 
     private EclBullet bullet;
     private ChangeTask[] taskList = new ChangeTask[16];
-    private int nowTask = 0;
+    public int nowTask = 0;
     private int holdingTime = 0;
     private EclBulletShooter eclBulletShooter;
 
@@ -47,7 +47,6 @@ public class ChangeTaskManager {
     }
 
     private void doTask(ChangeTask task) {
-    	System.out.println("mode:"+task.mode);
     	switch (task.mode) {
             case 1: // 1<<0
                 break;
@@ -93,16 +92,24 @@ public class ChangeTaskManager {
                 }
                 break;
             case 16384: // 1<<14
-                eclBulletShooter.setFormAndColor(task.a, task.b);
-                if (task.c == 1) {
-                    bullet.kill();
-                }
-                if (task.r != -999999.0f) {
-                    eclBulletShooter.setDirection(task.r);
-                }
-                if (task.s != -999999.0f) {
-                    eclBulletShooter.setDirectionSub(task.s);
-                }
+                if(eclBulletShooter.isLaser){
+                	eclBulletShooter.setFormAndColor(task.a, task.b);
+                	eclBulletShooter.setNowTask(task.c);
+                	eclBulletShooter.shoot();
+               // 	System.out.println("laser shoot");
+                } else {
+                	eclBulletShooter.setFormAndColor(task.a, task.b);
+                    if (task.c == 1) {
+                        bullet.kill();
+                    }
+                    if (task.r != -999999.0f) {
+                        eclBulletShooter.setDirection(task.r);
+                    }
+                    if (task.s != -999999.0f) {
+                        eclBulletShooter.setDirectionSub(task.s);
+                    }
+                    eclBulletShooter.shoot();
+				}
                 break;
             case 32768: // 1<<15
                 break;
@@ -144,9 +151,18 @@ public class ChangeTaskManager {
                 break;
             case 134217728: // 1<<27
                 eclBulletShooter = new EclBulletShooter().init(bullet.enemy);
+                eclBulletShooter.setCenter(bullet.objectCenter.x, bullet.objectCenter.y);
                 eclBulletShooter.setFormAndColor(task.b, task.c);
+                if (task.r !=-999999.0f) {
+                eclBulletShooter.setDirectionAndSub(task.r, 0);
+                } else {
+					eclBulletShooter.setDirectionAndSub(bullet.directionAngle, 0);
+				}
+                eclBulletShooter.setSpeed(task.s+bullet.speed, 0);
+                eclBulletShooter.setLaserCreateLenght(task.m);
+                eclBulletShooter.setLaserFinalLength(task.n);
                 if (task.d == 1) {
-                    bullet.kill();
+                    bullet.waitKill();
                 }
                 if (task.r != -999999.0f) {
                     eclBulletShooter.setDirection(task.r);
@@ -154,6 +170,7 @@ public class ChangeTaskManager {
                 if (task.s != -999999.0f) {
                     eclBulletShooter.setDirectionSub(task.s);
                 }
+                eclBulletShooter.isLaser=true;
                 break;
             case 268435456: // 1<<28
                 break;

@@ -1,7 +1,7 @@
 package com.meng.TaiHunDanmaku.baseObjects.bullets;
 
+import com.InsProcess.EclBullet;
 import com.badlogic.gdx.math.*;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.EnemyBullet;
 
 public class ReflexAndThrough {
     private Rectangle rectangle;
@@ -26,11 +26,11 @@ public class ReflexAndThrough {
     }
 
     public void update() {
-        for (EnemyBullet baseBullet : EnemyBullet.instances) {
+      /*  for (EclBullet baseBullet : EclBullet.instances) {
             if (rectangle.contains(baseBullet.objectCenter)) {
                 switch (position) {
                     case Top:
-                        if (baseBullet.reflexCount > 0 && baseBullet.reflexTopCount > 0) {
+                        if (baseBullet.refelxCount > 0 && baseBullet.reflexTopCount > 0) {
                             --baseBullet.reflexTopCount;
                             --baseBullet.reflexCount;
                             baseBullet.objectCenter.y -= baseBullet.velocity.y;
@@ -84,7 +84,7 @@ public class ReflexAndThrough {
                 }
 
             }
-        }
+        }*/
     }
 
     public enum Position {

@@ -9,14 +9,16 @@ import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
 import com.meng.TaiHunDanmaku.task.Task;
 import com.meng.TaiHunDanmaku.task.TaskMoveTo;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
+import com.meng.TaiHunDanmaku.ui.GameMain;
 
 public class EclManager {
     public static HashSet<EclSub> runningSubs = new HashSet<>();
     public static HashSet<EclSub> toAddSubs = new HashSet<>();
     public static HashSet<EclSub> toDeleteSubs = new HashSet<>();
     public static HashSet<EclSub> onPauseSubs = new HashSet<>();
+    public static EclSub nextSub;
 
-    public HashSet<EclSubPack> subPacks = new HashSet<>();
+    public static HashSet<EclSubPack> subPacks = new HashSet<>();
 
     public EclManager(String baseFileName) {
         new EclFile(this, baseFileName);
@@ -25,12 +27,24 @@ public class EclManager {
     public void start() {
         // toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
 
-        FightScreen.instence.boss = new Enemy();
-        FightScreen.instence.boss.init(new Vector2(275, 450), 10, 7000, new Task[]{new TaskMoveTo(193, 250)});
-        toAddSubs.add(getSubPack("BossCard7").setManager(FightScreen.instence.boss));
+		FightScreen.instence.boss = new Enemy();
+		FightScreen.instence.boss.init(new Vector2(  GameMain.width / 2f, GameMain.height -128), 10, 7000, new Task[] { new TaskMoveTo( GameMain.width / 2f, GameMain.height -128) });
+        toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
+		FightScreen.instence.onBoss=true;
+       // System.out.println(toString());
     }
 
     public static void updateAll() {
+        if(FightScreen.instence.onBoss){
+        	if(FightScreen.instence.boss==null||FightScreen.instence.boss.hp<0){
+        		runningSubs.clear();
+        		FightScreen.instence.boss.hp=700;
+        		if(nextSub!=null){
+        		runningSubs.add(nextSub);
+        		}
+        		nextSub=null;
+        	}
+        }
         for (EclSub runningSub : runningSubs) {
             runningSub.update();
         }
@@ -41,7 +55,7 @@ public class EclManager {
         toDeleteSubs.clear();
     }
 
-    public EclSub getSubPack(String name) {
+    public static EclSub getSubPack(String name) {
         for (EclSubPack sp : subPacks) {
             if (sp.subName.equals(name)) {
                 return sp.sub;
@@ -55,7 +69,7 @@ public class EclManager {
         // for (EclSubPack f : subPacks) {
         //     sb.append(f.toString()).append("\n");
         //  }
-        return getSubPack("MainSub00").toString();
+        return getSubPack("BossCard4_at").toString();
     }
 
 }

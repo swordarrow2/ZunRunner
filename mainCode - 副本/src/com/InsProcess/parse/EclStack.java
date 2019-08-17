@@ -6,36 +6,37 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
 
-public class EclStack implements Cloneable{
+public class EclStack implements Cloneable {
 
     private final int maxDepth = 32;
     private int depth = 0;
     private int[] stack = new int[maxDepth];
+    private boolean[] stackIsInt = new boolean[maxDepth];
     private int[] varArray;
-    private static HashMap<Integer, Integer> values = new HashMap<>();
-    private RandomXS128 random=new RandomXS128();
+    private HashMap<Integer, Integer> values = new HashMap<>();
+    private RandomXS128 random = new RandomXS128();
 
     @Override
-    public EclStack clone() throws CloneNotSupportedException { 
-    	EclStack stack=(EclStack) super.clone();
-    	stack.values=(HashMap<Integer, Integer>) values.clone();
-    	return stack;
+    public EclStack clone() throws CloneNotSupportedException {
+        EclStack stack = (EclStack) super.clone();
+        stack.values = (HashMap<Integer, Integer>) values.clone();
+        return stack;
     }
-    
+
     public void initVarSize(int size, int[] bs) {
         if (size != 0) {
-        	size/=4;
+            size /= 4;
             varArray = new int[size];
-            if(bs.length>0){
-            	for (int i =0; i < bs.length; ++i) {
-            		varArray[i] = bs[i];
-            	}
+            if (bs.length > 0) {
+                for (int i = 0; i < bs.length; ++i) {
+                    varArray[i] = bs[i];
+                }
             }
         }
         values.put(-9949, 0);
         values.put(-9948, 0);
         values.put(-9947, 1);
-        //	values.put(-9985,0);
+        // values.put(-9985,0);
         values.put(-971246592, 0);
     }
 
@@ -48,8 +49,8 @@ public class EclStack implements Cloneable{
             return varArray[i / 4];
         } else {
             switch (i) {
-            case -1:
-            case -2:
+                case -1:
+                case -2:
                     return popInt();
                 case -9904:
                 case -9907:
@@ -195,13 +196,14 @@ public class EclStack implements Cloneable{
                 default:
                     throw new NullPointerException("unexpect value:" + Float.intBitsToFloat(intBytes) + " bytes:" + intBytes);
             }
-            throw new NullPointerException("unexpect value:" + intBytes);
+            throw new NullPointerException("unexpect value:" + Float.intBitsToFloat(intBytes) + " bytes:" + intBytes);
         }
     }
 
     public void putGlobal(int key, int value) {
         if (key >= 0) {
             varArray[key / 4] = value;
+            stackIsInt[key / 4] = true;
         } else {
             values.put(key, value);
         }
@@ -211,6 +213,7 @@ public class EclStack implements Cloneable{
         int value = Float.floatToIntBits(v);
         if (key >= 0) {
             varArray[key / 4] = value;
+            stackIsInt[key / 4] = false;
         } else {
             values.put(key, value);
         }
@@ -220,6 +223,7 @@ public class EclStack implements Cloneable{
         if (depth == maxDepth - 1) {
             throw new RuntimeException("stack full");
         }
+        stackIsInt[depth] = true;
         stack[depth++] = n;
     }
 
@@ -227,6 +231,7 @@ public class EclStack implements Cloneable{
         if (depth == maxDepth - 1) {
             throw new RuntimeException("stack full");
         }
+        stackIsInt[depth] = false;
         stack[depth++] = Float.floatToIntBits(n);
     }
 
@@ -234,14 +239,23 @@ public class EclStack implements Cloneable{
         if (depth == 0) {
             throw new RuntimeException("stack blank");
         }
-        return stack[--depth];
+        if (stackIsInt[--depth]) {
+            return stack[depth];
+        } else {
+            return Float.floatToIntBits(stack[depth]);
+        }
     }
 
     public float popFloat() {
         if (depth == 0) {
             throw new RuntimeException("stack blank");
         }
-        return Float.intBitsToFloat(stack[--depth]);
+
+        if (stackIsInt[--depth]) {
+            return stack[depth];
+        } else {
+            return Float.intBitsToFloat(stack[depth]);
+        }
     }
 
     public int peekInt() {

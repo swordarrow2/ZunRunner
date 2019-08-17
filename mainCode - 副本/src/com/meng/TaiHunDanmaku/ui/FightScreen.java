@@ -1,18 +1,29 @@
 package com.meng.TaiHunDanmaku.ui;
 
+import java.util.HashSet;
+
 import com.InsProcess.EclBullet;
-import com.InsProcess.parse.*;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.viewport.*;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.*;
-import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.*;
-import com.meng.TaiHunDanmaku.baseObjects.planes.*;
-import com.meng.TaiHunDanmaku.control.*;
-import java.util.*;
+import com.InsProcess.parse.EclManager;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.BaseMyBullet;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.ReflexAndThrough;
+import com.meng.TaiHunDanmaku.baseObjects.bullets.enemy.ShootLaser;
+import com.meng.TaiHunDanmaku.baseObjects.planes.Enemy;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MapleEnemy;
+import com.meng.TaiHunDanmaku.baseObjects.planes.MyPlane;
+import com.meng.TaiHunDanmaku.control.PlayerInputProcessor;
 
 public class FightScreen extends ScreenAdapter {
     public static FightScreen instence;
@@ -96,9 +107,9 @@ public class FightScreen extends ScreenAdapter {
         EclManager.updateAll();
         Enemy.updateAll();
         BaseMyBullet.updateAll();
-        EnemyBullet.updateAll();
-      //  EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
+        //  EclBullet.create(96, 144, 0, 0, 5, 2, 0, 1, 0, 0);
         EclBullet.updateAll();
+        ShootLaser.updateAll();
         MyPlane.instance.update();
         gameMain.spriteBatch.end();
         for (ReflexAndThrough reflexAndThrough : reflexAndThroughs) {

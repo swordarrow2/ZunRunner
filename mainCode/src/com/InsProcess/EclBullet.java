@@ -16,12 +16,12 @@ import com.meng.TaiHunDanmaku.ui.GameMain;
 
 public class EclBullet extends BaseBullet {
     public Enemy enemy;
-    private float directionAngle;
+    public float directionAngle;
     public float speed;
-    private float acceleration;
-    private float accelerationAngle;
-    private int voiceOnShoot;
-    private int voiceOnChangeDirection;
+    public float acceleration;
+    public float accelerationAngle;
+    public int voiceOnShoot;
+    public int voiceOnChangeDirection;
     public int refelxCount = 0;
     public boolean reflexTop = false;
     public boolean reflexBottom = false;
@@ -41,13 +41,17 @@ public class EclBullet extends BaseBullet {
     private static LinkedBlockingQueue<EclBullet> toDelete = new LinkedBlockingQueue<>();
     private static LinkedBlockingQueue<EclBullet> toAdd = new LinkedBlockingQueue<>();
 
-    private ChangeTaskManager changeTaskManager;
+    public ChangeTaskManager changeTaskManager;
 
     private float speedSub;
     private float targetSpeed;
 
     private float dirSub;
     private float targetDir;
+    
+    private int waitTime=0;
+    private boolean enableWait=false;
+    
 
     public static void create(Enemy enemy, float centerX, float centerY, float offsetX, float offsetY, int form, int color, float directionAngle, float speed, int voiceOnShoot, int voiceOnChangeDirection, ChangeTask[] tasks) {
         ObjectPools.eclBulletPool.obtain().init(enemy, centerX, centerY, offsetX, offsetY, form, color, directionAngle, speed, voiceOnShoot, voiceOnChangeDirection, tasks);
@@ -87,6 +91,8 @@ public class EclBullet extends BaseBullet {
         targetSpeed = 0;
         dirSub = 0;
         targetDir = 0;
+        enableWait=false;
+    	waitTime=1;
     }
 
     public void setTargetSpeed(float targetSpeed, int frame) {
@@ -134,9 +140,18 @@ public class EclBullet extends BaseBullet {
         toDelete.add(this);
         image.remove();
     }
+    
+    public void waitKill(){
+    	enableWait=true;
+    }
 
     @Override
     public void update() {
+    	if(enableWait){
+    		if(waitTime--<0){
+    			kill();
+    		}
+    	}
         velocity.add(accelerationWithAngle);
         objectCenter.add(velocity);
         changeTaskManager.update();
