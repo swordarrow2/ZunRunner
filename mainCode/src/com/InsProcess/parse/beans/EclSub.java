@@ -1506,14 +1506,27 @@ public class EclSub implements Cloneable {
                 boolean[] isInt11 = new boolean[ins.param_count - 1];
                 for (int i = 0; i < intBytes11.length; ++i) {
                     int type = ins.readInt();
-                    if (type == 26985) {
+                    switch (type) {
+					case 26985: //0x69 0x69
                         isInt11[i] = true;
-                    } else if (type == 26214) {
-                        isInt11[i] = false;
-                    } else {
-                        throw new RuntimeException("unexpect value:" + type);
-                    }
-                    intBytes11[i] = ins.readInt();
+                        intBytes11[i] = ins.readInt();
+						break; 
+						case 26214://0x66 0x66
+	                        isInt11[i] = false;
+	                        intBytes11[i] =ins.readInt();
+	                        break;
+	                        case 26217://0x69 0x66
+	                            isInt11[i] = true;
+		                        intBytes11[i] = (int) ins.readFloat();
+		                        break;
+		                        case 26982://0x66 0x69
+			                        isInt11[i] = false;
+			                        intBytes11[i] = Float.floatToIntBits(ins.readInt());
+			                        break;
+			                        default:
+			                        	throw new RuntimeException("unexpect value:"+type);
+		                        	
+					}
                 }
                 _11(subName11, intBytes11, isInt11, ins.param_mask);
                 break;
@@ -1535,14 +1548,26 @@ public class EclSub implements Cloneable {
                 boolean[] isInt15 = new boolean[ins.param_count - 1];
                 for (int i = 0; i < intBytes15.length; ++i) {
                     int type = ins.readInt();
-                    if (type == 26985) {
+                    switch (type) {
+					case 26985: //0x69 0x69
                         isInt15[i] = true;
-                    } else if (type == 26214) {
-                        isInt15[i] = false;
-                    } else {
-                        throw new RuntimeException("unexpect value:" + type);
-                    }
-                    intBytes15[i] = ins.readInt();
+                        intBytes15[i] = ins.readInt();
+						break; 
+						case 26214://0x66 0x66
+	                        isInt15[i] = false;
+	                        intBytes15[i] =ins.readInt();
+	                        break;
+	                        case 26217://0x69 0x66
+	                            isInt15[i] = true;
+		                        intBytes15[i] = (int) ins.readFloat();
+		                        break;
+		                        case 26982://0x66 0x69
+			                        isInt15[i] = false;
+			                        intBytes15[i] = Float.floatToIntBits(ins.readInt());
+			                        break;
+			                        default:
+			                        	throw new RuntimeException("unexpect value:"+type);
+					}
                 }
                 _15(subName15, intBytes15, isInt15, ins.param_mask);
                 break;

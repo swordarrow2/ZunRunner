@@ -167,7 +167,7 @@ public class EclBulletShooter implements Cloneable {
     public void shoot() {     
     	if(isLaser){ 
     	//	System.out.println("laser:enemy"+enemy+" center:"+center+" clength:"+laserCreateLenght+" flength:"+laserFinalLength+" dir:"+directionAngle+" speed:"+speed+" jmp:"+taskToJump);
-        	ShootLaser.create( enemy,ResourcesManager.textures.get("bullet" + ((5 << 4) + color)), center.x,center.y, laserCreateLenght,laserFinalLength, 5, directionAngle, speed, 0, 0,new ChangeTask[0],taskToJump);
+        	ShootLaser.create(enemy,ResourcesManager.textures.get("bullet" + ((5 << 4) + color)), center.x,center.y, laserFinalLength,laserFinalLength, 5, directionAngle, speed, 0, 0,new ChangeTask[0],taskToJump);
         	return;
     	}
         if (way == 1 && overlap == 1) {

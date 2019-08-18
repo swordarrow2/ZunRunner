@@ -151,7 +151,7 @@ public class ChangeTaskManager {
                 break;
             case 134217728: // 1<<27
                 eclBulletShooter = new EclBulletShooter().init(bullet.enemy);
-                eclBulletShooter.setCenter(bullet.objectCenter.x, bullet.objectCenter.y);
+                eclBulletShooter.setCenter(bullet.objectCenter.x-2.5f, bullet.objectCenter.y-2.5f);
                 eclBulletShooter.setFormAndColor(task.b, task.c);
                 if (task.r !=-999999.0f) {
                 eclBulletShooter.setDirectionAndSub(task.r, 0);

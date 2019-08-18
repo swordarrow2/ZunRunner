@@ -93,20 +93,22 @@ public class ShootLaser extends EclBullet {
 		this.width = width;
 		degrees = (float) Math.toDegrees(directionAngle);
 		this.speed = speed;
-		velocity = new Vector2(0, speed).rotate(degrees);
+		//velocity = new Vector2(0, speed).rotate(degrees);
 
 		begin1.setColor(color);
 		mid1.setColor(color);
-		begin1.setOrigin(begin1.getWidth() / 2, begin1.getHeight() / 2);
-		mid1.setOrigin(mid1.getWidth() / 2, begin1.getHeight() / 2 - begin1.getHeight());
-		// mid1.setSize(mid1.getWidth(), length);
-		begin1.setPosition(objectCenter.x - begin1.getHeight() / 2, objectCenter.y - begin1.getHeight() / 2);
-		mid1.setPosition(begin1.getX(), begin1.getY() + begin1.getHeight());
+		begin1.setOrigin(begin1.getWidth() / 2, begin1.getWidth() / 2);
+		mid1.setOrigin(mid1.getWidth() / 2, mid1.getWidth() / 2);
+		begin1.setPosition(objectCenter.x, objectCenter.y);
+		mid1.setPosition((float) (objectCenter.x - mid1.getHeight() * Math.cos(Math.toRadians(degrees + 90))),
+				(float) (objectCenter.y - mid1.getHeight() * Math.sin(Math.toRadians(degrees + 90))));
 		begin1.setRotation(degrees);
 		mid1.setRotation(degrees);
 
+
 		FightScreen.instence.groupHighLight.addActor(begin1);
 		FightScreen.instence.groupHighLight.addActor(mid1);
+
 
 		p1 = new Vector2(begin1.getX() + begin1.getOriginX(), begin1.getY() + begin1.getOriginY());
 		p2 = new Vector2(
