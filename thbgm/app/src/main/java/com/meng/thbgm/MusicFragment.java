@@ -58,8 +58,8 @@ public class MusicFragment extends ListFragment {
                 musicInfo.channels == 2 ? AudioFormat.CHANNEL_CONFIGURATION_STEREO : AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 musicInfo.bitsPerSample == 16 ? AudioFormat.ENCODING_PCM_16BIT : AudioFormat.ENCODING_PCM_8BIT, bufsize, AudioTrack.MODE_STATIC);
         trackplayer.write(data, 0, data.length);
-        // 1 frame = bitsPerSample * channels
-        int frameLength = musicInfo.bitsPerSample * musicInfo.channels;
+        // 1 frame = bytesPerSample * channels
+        int frameLength = musicInfo.bitsPerSample / 8 * musicInfo.channels;
         int startFrame = musicInfo.repeatStart / frameLength;
         int endFrame = musicInfo.length / frameLength;
         Toast.makeText(getActivity(), "fileOffset:" + musicInfo.start + " len:" + musicInfo.length + " loopAtMusicOffset:" + musicInfo.repeatStart + "(" + (1f * (startFrame / endFrame * 100)) + "%)", Toast.LENGTH_LONG).show();
