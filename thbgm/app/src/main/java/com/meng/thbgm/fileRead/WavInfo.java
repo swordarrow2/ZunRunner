@@ -1,4 +1,4 @@
-package com.meng.thbgm;
+package com.meng.thbgm.fileRead;
 
 public class WavInfo {
 
