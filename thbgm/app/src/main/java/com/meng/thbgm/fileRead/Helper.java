@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.io.*;
 
 public class Helper {
     public static byte[] readWavPcm(WavInfo info, InputStream stream) throws IOException {
@@ -56,15 +57,10 @@ public class Helper {
         return new WavInfo(channels, rate, dataSize);
     }
 
-    public static void readFile(byte[] bytes, int start) {
-        try {
-            RandomAccessFile randomAccessFile = new RandomAccessFile(Environment.getExternalStorageDirectory() + "/thbgm.dat", "r");
+    public static void readFile(byte[] bytes, int start) throws Exception {
+            RandomAccessFile randomAccessFile = new RandomAccessFile(Environment.getExternalStorageDirectory() + "/thbgm.dat", "rw");
             randomAccessFile.seek(start);
             randomAccessFile.read(bytes, start, bytes.length);
             randomAccessFile.close();
-        } catch (Exception e) {
-         //   Log.e("thbgm",e);
-            e.printStackTrace();
-        }
     }
 }

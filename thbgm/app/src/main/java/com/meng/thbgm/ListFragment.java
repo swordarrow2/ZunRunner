@@ -1,17 +1,21 @@
 package com.meng.thbgm;
 
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.app.*;
+import android.content.*;
+import android.media.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
+import com.meng.thbgm.fileRead.*;
+import java.io.*;
 
 public class ListFragment extends android.app.ListFragment {
 
     boolean dualPane; // 是否在一屏上同时显示列表和详细内容
     int curCheckPosition = 0; // 当前选择的索引位置
-
+	AudioTrack trackplayer;
+	
+	
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -29,6 +33,37 @@ public class ListFragment extends android.app.ListFragment {
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); // 设置列表为单选模式
             showDetails(curCheckPosition); // 显示详细内容
         }
+		
+		TH10fmt th10fmt = new TH10fmt(new File(Environment.getExternalStorageDirectory() + "/thbgm.fmt"));
+        th10fmt.load();
+        int start = th10fmt.musicInfos[0].start;
+        int end = th10fmt.musicInfos[0].end;
+        int si = end - start + 1;
+        
+        //根据采样率，采样精度，单双声道来得到frame的大小。
+		int bufsize =5* AudioTrack.getMinBufferSize(th10fmt.musicInfos[0].rate,//每秒8K个点
+												  AudioFormat.CHANNEL_CONFIGURATION_STEREO,//双声道
+												  AudioFormat.ENCODING_PCM_16BIT);//一个采样点16比特-2个字节
+        //注意，按照数字音频的知识，这个算出来的是一秒钟buffer的大小。
+        //创建AudioTrack
+		byte[] data = new byte[bufsize];
+        Toast.makeText(getActivity(),data.length+"",Toast.LENGTH_LONG).show();
+        try {
+			Helper.readFile(data, start);
+		  } catch (Exception e) {
+			Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+		  }
+		trackplayer = new AudioTrack(AudioManager.STREAM_MUSIC, th10fmt.musicInfos[0].rate,
+												AudioFormat.CHANNEL_CONFIGURATION_STEREO,
+												AudioFormat.ENCODING_PCM_16BIT,
+												bufsize,
+												AudioTrack.MODE_STATIC);
+		//Toast.makeText(getActivity(),""+data[58]+data[29]+data[550]+data[2958],Toast.LENGTH_SHORT).show();
+        trackplayer.write(data, 0, data.length);//往track中写数据
+
+		//   trackplayer.stop();//停止播放
+		//    trackplayer.release();//释放底层资源。
+		
     }
 
     // 重写onSaveInstanceState()方法，保存当前选中的列表项的索引值
@@ -41,7 +76,9 @@ public class ListFragment extends android.app.ListFragment {
     // 重写onListItemClick()方法
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        showDetails(position); // 调用showDetails()方法显示详细内容
+		trackplayer.play();//开始
+		Toast.makeText(getActivity(),"play",Toast.LENGTH_SHORT).show();
+	//  showDetails(position); // 调用showDetails()方法显示详细内容
     }
 
     void showDetails(int index) {
