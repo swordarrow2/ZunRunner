@@ -64,7 +64,11 @@ public class THfmt {
                     for (int i = 0; i < names.length; ++i) {
                         if (music.equals(names[i])) {
                             str = br.readLine();
-                            names[i] = str.substring(str.lastIndexOf(" ") + 1);
+                            if (str.indexOf("  ") == -1) {
+                                names[i] = str.substring(str.indexOf(" ") + 1);
+                            } else {
+                                names[i] = str.substring(str.indexOf("  ") + 2);
+                            }
                             break;
                         }
                     }
