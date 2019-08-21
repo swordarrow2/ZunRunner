@@ -15,8 +15,8 @@ public class ListFragment extends android.app.ListFragment {
 
     private boolean dualPane; // 是否在一屏上同时显示列表和详细内容
     private int curCheckPosition = 0; // 当前选择的索引位置
-    private AudioTrack trackplayer;
-    private TH10fmt th10fmt;
+    private AudioTrack trackplayer=null;
+    private TH10fmt th10fmt=null;
 
 
     @Override
@@ -46,17 +46,19 @@ public class ListFragment extends android.app.ListFragment {
     // 重写onListItemClick()方法
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        TH10fmt.MusicInfo musicInfo = th10fmt.musicInfos[1];
-        int start = musicInfo.start;
-        int bufsize = musicInfo.end - start;
-        bufsize <<= 2;
-        byte[] data = new byte[bufsize];
-        Helper.readFile(data, start);
-        trackplayer = new AudioTrack(AudioManager.STREAM_MUSIC, musicInfo.rate, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT, bufsize, AudioTrack.MODE_STATIC);
-        trackplayer.write(data, 0, data.length);//往track中写数据
-        //   trackplayer.stop();//停止播放
-        //    trackplayer.release();//释放底层资源。
-        trackplayer.play();//开始
+        if(trackplayer==null){
+            TH10fmt.MusicInfo musicInfo = th10fmt.musicInfos[1];
+            int start = musicInfo.start;
+            int bufsize = musicInfo.end - start;
+            bufsize <<= 2;
+            byte[] data = new byte[bufsize];
+            Helper.readFile(data, start);
+            trackplayer = new AudioTrack(AudioManager.STREAM_MUSIC, musicInfo.rate, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT, bufsize, AudioTrack.MODE_STATIC);
+            trackplayer.write(data, 0, data.length);//往track中写数据
+            //   trackplayer.stop();//停止播放
+            //    trackplayer.release();//释放底层资源。
+            trackplayer.play();//开始
+        }
         //  showDetails(position); // 调用showDetails()方法显示详细内容
     }
 
