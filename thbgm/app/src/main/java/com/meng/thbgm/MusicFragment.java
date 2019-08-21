@@ -32,10 +32,10 @@ public class MusicFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        File fmt=new File(MainActivity.mainFloder + name + "/thbgm.fmt");
+        File fmt = new File(MainActivity.mainFloder + name + "/thbgm.fmt");
         thfmt = new THfmt(fmt);
         thfmt.load();
-        Toast.makeText(getActivity(),fmt.getAbsolutePath(),Toast.LENGTH_LONG).show();
+        //    Toast.makeText(getActivity(), fmt.getAbsolutePath(), Toast.LENGTH_LONG).show();
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_checked, thfmt.names));
     }
@@ -58,11 +58,12 @@ public class MusicFragment extends ListFragment {
                 musicInfo.channels == 2 ? AudioFormat.CHANNEL_CONFIGURATION_STEREO : AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 musicInfo.bitsPerSample == 16 ? AudioFormat.ENCODING_PCM_16BIT : AudioFormat.ENCODING_PCM_8BIT, bufsize, AudioTrack.MODE_STATIC);
         trackplayer.write(data, 0, data.length);
-        int bufferSizeInBytes = musicInfo.rate * musicInfo.channels * musicInfo.bitsPerSample;
-        int startMs = (musicInfo.repeatStart + musicInfo.start) / bufferSizeInBytes * 1000;
-        int endMs = musicInfo.length / bufferSizeInBytes * 1000;
-        Toast.makeText(getActivity(),musicInfo.start+"  "+musicInfo.length+"  loopAt:"+(1f*(musicInfo.repeatStart + musicInfo.start)/musicInfo.length*100)+"%",Toast.LENGTH_LONG).show();
-        trackplayer.setLoopPoints(startMs,endMs, 1000);
+        // 1 frame = bitsPerSample * channels
+        int frameLength = musicInfo.bitsPerSample * musicInfo.channels;
+        int startFrame = musicInfo.repeatStart / frameLength;
+        int endFrame = musicInfo.length / frameLength;
+        Toast.makeText(getActivity(), "fileOffset:" + musicInfo.start + " len:" + musicInfo.length + " loopAtMusicOffset:" + musicInfo.repeatStart + "(" + (1f * (startFrame / endFrame * 100)) + "%)", Toast.LENGTH_LONG).show();
+        trackplayer.setLoopPoints(startFrame, endFrame, 1000);
         trackplayer.play();
     }
 }
