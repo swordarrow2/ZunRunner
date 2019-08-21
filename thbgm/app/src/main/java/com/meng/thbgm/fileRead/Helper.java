@@ -1,22 +1,14 @@
 package com.meng.thbgm.fileRead;
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.io.*;
 
 public class Helper {
-    public static byte[] readWavPcm(WavInfo info, InputStream stream) throws IOException {
-        byte[] data = new byte[info.getDataSize()];
-        stream.read(data, 0, data.length);
-        return data;
-    }
-
     private static final String RIFF_HEADER = "RIFF";
     private static final String WAVE_HEADER = "WAVE";
     private static final String FMT_HEADER = "fmt ";
@@ -57,10 +49,23 @@ public class Helper {
         return new WavInfo(channels, rate, dataSize);
     }
 
-    public static void readFile(byte[] bytes, int start) throws Exception {
-            RandomAccessFile randomAccessFile = new RandomAccessFile(Environment.getExternalStorageDirectory() + "/thbgm.dat", "rw");
-            randomAccessFile.seek(start);
-            randomAccessFile.read(bytes, start, bytes.length);
-            randomAccessFile.close();
+    public static byte[] readWavPcm(WavInfo info, InputStream stream) throws IOException {
+        byte[] data = new byte[info.getDataSize()];
+        stream.read(data, 0, data.length);
+        return data;
     }
+
+    public static byte[] readFile(byte[] data, int offset) {
+        RandomAccessFile randomAccessFile;
+        try {
+            randomAccessFile = new RandomAccessFile(Environment.getExternalStorageDirectory() + "/thbgm.dat", "r");
+            randomAccessFile.seek(offset);
+            randomAccessFile.readFully(data);
+            randomAccessFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
 }
