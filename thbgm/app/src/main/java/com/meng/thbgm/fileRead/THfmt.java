@@ -3,12 +3,13 @@ package com.meng.thbgm.fileRead;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class TH10fmt {
+public class THfmt {
     private int position = 0;
     private byte[] fileByte;
     public MusicInfo[] musicInfos;
+    public String[] names;
 
-    public TH10fmt(File file) {
+    public THfmt(File file) {
         if (!file.exists()) {
             throw new RuntimeException("file not found:" + file.getAbsolutePath());
         }
@@ -20,6 +21,7 @@ public class TH10fmt {
             throw new RuntimeException("read file failed:" + file.getAbsolutePath());
         }
         musicInfos = new MusicInfo[(int) (file.length() / 52)];
+        names = new String[musicInfos.length];
     }
 
     public void load() {
@@ -29,13 +31,17 @@ public class TH10fmt {
             musicInfo.start = readInt();
             musicInfo.unknown1 = readInt();
             musicInfo.repeatStart = readInt();
-            musicInfo.end = readInt();
+            musicInfo.length = readInt();
             musicInfo.format = readShort();
             musicInfo.channels = readShort();
             musicInfo.rate = readInt();
-            musicInfo.unknown2 = readInt();
-            musicInfo.unknown3 = readInt();
-            musicInfo.zero = readInt();
+            musicInfo.avgBytesPerSec = readInt();
+            musicInfo.blockAlign = readShort();
+            musicInfo.bitsPerSample = readShort();
+            musicInfo.cbSize = readShort();
+            musicInfo.pad = readShort();
+            String name = new String(musicInfo.name);
+            names[i] = name.substring(0, name.indexOf(0));
             musicInfos[i] = musicInfo;
         }
     }
@@ -45,14 +51,16 @@ public class TH10fmt {
         public int start;
         public int unknown1;
         public int repeatStart;
-        public int end;
+        public int length;
         public short format;
         public short channels;
         public int rate;
-        public int unknown2;
-        public int unknown3;
-        public int zero;
-        public int beanSize = 52;
+        public int avgBytesPerSec;
+        public short blockAlign;
+        public short bitsPerSample;
+        public short cbSize;
+        public short pad;
+    //    public int beanSize = 52;
     }
 
     private short readShort() {

@@ -1,18 +1,20 @@
 package com.meng.thbgm;
 
-import android.*;
-import android.app.*;
-import android.content.pm.*;
-import android.os.*;
-import android.widget.*;
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
 
 public class MainActivity extends Activity {
+
+    public static String mainFloder = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView tv = new TextView(this);
-        tv.setText("fffff");
-        setContentView(tv);
+        mainFloder = Environment.getExternalStorageDirectory() + "/thbgm/";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
@@ -26,7 +28,9 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
-            setContentView(R.layout.main); // 设置使用的布局内容
+            if (mainFloder.equals("")) {
+                setContentView(R.layout.main);
+            }
         }
     }
 }
