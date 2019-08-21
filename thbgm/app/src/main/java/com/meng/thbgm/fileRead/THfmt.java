@@ -50,16 +50,11 @@ public class THfmt {
             names[i] = name.substring(0, name.indexOf(0));
             musicInfos[i] = musicInfo;
         }
-        FileInputStream fis = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null; //用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
         try {
-            String str = "";
-            String str1 = "";
-            fis = new FileInputStream(new File(fmt.getParent() + "/musiccmt.txt"));
-            isr = new InputStreamReader(fis,"shift_jis");
-            br = new BufferedReader(isr);
-
+            String str;
+            FileInputStream fis = new FileInputStream(new File(fmt.getParent() + "/musiccmt.txt"));
+            InputStreamReader isr = new InputStreamReader(fis, "shift_jis");
+            BufferedReader br = new BufferedReader(isr); //用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
             while ((str = br.readLine()) != null) {
                 if (str.startsWith("@bgm/")) {
                     String music = str.substring(5);
@@ -73,21 +68,8 @@ public class THfmt {
                     }
                 }
             }
-            // 当读取的一行不为空时,把读到的str的值赋给str1
-            System.out.println(str1);// 打印出str1
-        } catch (FileNotFoundException e) {
-            System.out.println("找不到指定文件");
-        } catch (IOException e) {
-            System.out.println("读取文件失败");
-        } finally {
-            try {
-                br.close();
-                isr.close();
-                fis.close();
-                // 关闭的时候最好按照先后顺序关闭最后开的先关闭所以先关s,再关n,最后关m
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

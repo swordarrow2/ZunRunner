@@ -1,11 +1,15 @@
 package com.meng.thbgm;
 
 import android.app.ListFragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,7 +19,7 @@ import com.meng.thbgm.fileRead.THfmt;
 
 import java.io.File;
 
-public class MusicFragment extends ListFragment {
+public class MusicFragment extends ListFragment implements AdapterView.OnItemLongClickListener {
 
     public String name;
     public AudioTrack trackplayer = null;
@@ -38,7 +42,9 @@ public class MusicFragment extends ListFragment {
         //    Toast.makeText(getActivity(), fmt.getAbsolutePath(), Toast.LENGTH_LONG).show();
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_checked, thfmt.names));
+        getListView().setOnItemLongClickListener(this);
     }
+
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -65,5 +71,14 @@ public class MusicFragment extends ListFragment {
         Toast.makeText(getActivity(), "fileOffset:" + musicInfo.start + " len:" + musicInfo.length + " loopAtMusicOffset:" + musicInfo.repeatStart + "(" + (1f * (startFrame / endFrame * 100)) + "%)", Toast.LENGTH_LONG).show();
         trackplayer.setLoopPoints(startFrame, endFrame, 1000);
         trackplayer.play();
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("text", thfmt.names[position]);
+        clipboardManager.setPrimaryClip(clipData);
+        Toast.makeText(getActivity(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+        return false;
     }
 }
