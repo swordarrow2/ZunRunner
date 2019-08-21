@@ -58,11 +58,13 @@ public class THfmt {
             while ((str = br.readLine()) != null) {
                 if (str.startsWith("@bgm/")) {
                     String music = str.substring(5);
-                    music += ".wav";
+                    if (!music.endsWith(".wav")) {
+                        music += ".wav";
+                    }
                     for (int i = 0; i < names.length; ++i) {
                         if (music.equals(names[i])) {
                             str = br.readLine();
-                            names[i] = str.substring(str.indexOf("  ") + 2);
+                            names[i] = str.substring(str.lastIndexOf(" ") + 1);
                             break;
                         }
                     }
