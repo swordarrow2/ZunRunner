@@ -68,7 +68,7 @@ public class MusicFragment extends ListFragment implements AdapterView.OnItemLon
         int frameLength = musicInfo.bitsPerSample / 8 * musicInfo.channels;
         int startFrame = musicInfo.repeatStart / frameLength;
         int endFrame = musicInfo.length / frameLength;
-        Toast.makeText(getActivity(), "fileOffset:" + musicInfo.start + " len:" + musicInfo.length + " loopAtMusicOffset:" + musicInfo.repeatStart + "(" + (1f * (startFrame / endFrame * 100)) + "%)", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "fileOffset:" + musicInfo.start + " len:" + musicInfo.length + " loopAtMusicOffset:" + musicInfo.repeatStart + "(" + (1f * startFrame / endFrame * 100) + "%)", Toast.LENGTH_LONG).show();
         trackplayer.setLoopPoints(startFrame, endFrame, 1000);
         trackplayer.play();
     }
@@ -79,6 +79,6 @@ public class MusicFragment extends ListFragment implements AdapterView.OnItemLon
         ClipData clipData = ClipData.newPlainText("text", thfmt.names[position]);
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(getActivity(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
-        return false;
+        return true;
     }
 }
