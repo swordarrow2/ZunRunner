@@ -1,0 +1,774 @@
+:maxPower:            	4
+:totalOffset:         	10
+:(deleted):           	3.00000000
+:(deleted):           	6.00000000
+:(deleted):           	28.00000000
+:normalSpeed:         	4.50000000
+:forcedSpeed:         	2.00000000
+:normalDiagonalSpeed: 	3.18198061
+:forcedDiagonalSpeed: 	1.41421354
+:maxPowerLevel:       	4
+:unknown1:            	0
+:powerVar:            	40
+:maxDamage:            	60
+:unknown:             	0	0	0	0	0	
+
+		:powerPosN
+  ~Power 1
+0.00000000	-40.00000000
+  ~Power 2
+0.00000000	-40.00000000
+0.00000000	40.00000000
+  ~Power 3
+0.00000000	-40.00000000
+-32.00000000	32.00000000
+32.00000000	32.00000000
+  ~Power 4
+0.00000000	-40.00000000
+0.00000000	40.00000000
+-40.00000000	0.00000000
+40.00000000	0.00000000
+
+		:powerPosF
+  ~Power 1
+0.00000000	-30.00000000
+  ~Power 2
+-16.00000000	-24.00000000
+16.00000000	-24.00000000
+  ~Power 3
+-24.00000000	-0.00000000
+24.00000000	-0.00000000
+0.00000000	-30.00000000
+  ~Power 4
+-32.00000000	-0.00000000
+32.00000000	-0.00000000
+-13.00000000	-30.00000000
+13.00000000	-30.00000000
+
+		:shots
+	  @shots 1
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	16
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	16
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+:end
+	  @shots 2
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	2
+~delay:   	0
+~power:   	12
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+:end
+	  @shots 3
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	2
+~delay:   	0
+~power:   	10
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	2
+~delay:   	0
+~power:   	10
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+:end
+	  @shots 4
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	2
+~delay:   	0
+~power:   	9
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	2
+~delay:   	0
+~power:   	9
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 5
+~rate:    	2
+~delay:   	0
+~power:   	9
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	3
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+:end
+	  @shots 5
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	2
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	2
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 5
+~rate:    	2
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	3
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+  :shot 6
+~rate:    	2
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	16.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	4
+~unknown2:	4
+~ANM:     	1
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	5	0	0	6	0	0	0	0	0	0	0	0	
+:end
+	  @shots 6
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	16
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	16
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+:end
+	  @shots 7
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	3
+~delay:   	0
+~power:   	11
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+:end
+	  @shots 8
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+:end
+	  @shots 9
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 5
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	3
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+:end
+	  @shots 10
+  :shot 1
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	-10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	0
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 2
+~rate:    	3
+~delay:   	0
+~power:   	14
+~pos:     	10.00000000	-8.00000000
+~hitBox:  	48.00000000	16.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	0
+~unknown2:	0
+~ANM:     	0
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	0	0	0	5	0	0	0	0	0	0	0	0	
+  :shot 3
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	24.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 4
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	4.00000000
+~unknown1:	0
+~option:  	1
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	1	0	0	0	0	0	0	0	0	0	0	
+  :shot 5
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	24.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 6
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	4.00000000
+~unknown1:	0
+~option:  	2
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	1	0	0	0	0	0	0	0	0	0	0	
+  :shot 7
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	24.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	12.00000000
+~unknown1:	0
+~option:  	3
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+  :shot 8
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	4.00000000
+~unknown1:	0
+~option:  	3
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	1	0	0	0	0	0	0	0	0	0	0	
+  :shot 9
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	24.00000000
+~unknown1:	0
+~option:  	4
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	0	0	0	0	0	0	0	0	0	0	0	
+:end
+
+  :shot 10
+~rate:    	3
+~delay:   	0
+~power:   	8
+~pos:     	0.00000000	0.00000000
+~hitBox:  	48.00000000	6.00000000
+~angle:   	-1.57079637
+~speed:   	4.00000000
+~unknown1:	0
+~option:  	4
+~unknown2:	4
+~ANM:     	2
+~SE:      	-1
+~unknown3:	0
+~deleted: 	0
+~flags:   	4	1	0	0	0	0	0	0	0	0	0	0	
+:end
