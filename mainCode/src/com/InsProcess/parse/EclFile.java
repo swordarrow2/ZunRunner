@@ -92,7 +92,7 @@ public class EclFile {
                 new EclFile(eclManager, s);
             }
         }
-        Collections.addAll(eclManager.subPacks, subPacks);
+        Collections.addAll(EclManager.subPacks, subPacks);
     }
 
     private EclIncludeList onLoadEclList() {

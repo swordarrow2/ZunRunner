@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.meng.anm.THANM;
 import com.meng.sht.ShtFile;
 import com.badlogic.gdx.Files;
 
@@ -15,8 +16,9 @@ import com.badlogic.gdx.Files;
  */
 public class Launcher {  
 	public static void main(String[] args) {
-		  GameMain.baseEclPath = "F:\\project\\ZunRunner\\ecl\\";
-		  GameMain.baseShtPath = "F:\\project\\ZunRunner\\sht\\";
+		  GameMain.baseEclPath = "F:\\project\\ZunRunner\\2un\\ecl\\";
+		  GameMain.baseShtPath = "F:\\project\\ZunRunner\\2un\\sht\\";
+		  GameMain.baseAnmPath = "F:\\project\\ZunRunner\\2un\\anm\\";
 	        /*  GameMain.baseEclPath = "F:\\project\\ZunRunner\\subed\\";*/
 	        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 	        config.title = "SJF";
@@ -26,8 +28,8 @@ public class Launcher {
 	        config.resizable = true;
 	        config.foregroundFPS = 60;
 	        config.addIcon("textures/beammid2.png", Files.FileType.Internal);
-	        new LwjglApplication(new GameMain(), config);
-	       // System.out.println(new ShtFile("pl03.sht"));
+	       // new LwjglApplication(new GameMain(), config);
+	        System.out.println(new THANM("pl00.anm").toString());
 	        // new zunRunner() ;
 	        //  EclFile eclFile=new EclFile("st06bs.ecl");
 	        //  System.out.println(eclFile.toString());
