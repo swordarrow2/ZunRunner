@@ -115,30 +115,19 @@ public class EclFile {
         moveToNextInt();
         return eclIncludeList;
     }
-
+    
     private short readShort() {
-        short s = readShort(position);
-        position += 2;
-        return s;
+        return (short) (fileByte[position++] & 0xff | (fileByte[position++] & 0xff) << 8);
     }
 
     private int readInt() {
-        int i = readInt(position);
-        position += 4;
-        return i;
+        return (fileByte[position++] & 0xff) | (fileByte[position++] & 0xff) << 8 | (fileByte[position++] & 0xff) << 16 | (fileByte[position++] & 0xff) << 24;
     }
 
     private byte readByte(int pos) {
         return fileByte[pos];
     }
 
-    private short readShort(int pos) {
-        return (short) (fileByte[pos] & 0xff | (fileByte[pos + 1] & 0xff) << 8);
-    }
-
-    private int readInt(int pos) {
-        return (fileByte[pos] & 0xff) | (fileByte[pos + 1] & 0xff) << 8 | (fileByte[pos + 2] & 0xff) << 16 | (fileByte[pos + 3] & 0xff) << 24;
-    }
 
     private void moveToNextInt() {
         if ((position & 0b11) == 0) {

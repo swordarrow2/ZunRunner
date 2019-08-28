@@ -1,5 +1,7 @@
 package com.meng.TaiHunDanmaku.baseObjects.planes;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
@@ -8,6 +10,7 @@ import com.meng.TaiHunDanmaku.helpers.Data;
 import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.meng.sht.ShtFile;
 
 public class MyPlane extends BaseGameObject {
 
@@ -20,11 +23,13 @@ public class MyPlane extends BaseGameObject {
     public boolean slow = false;
     private AnimationManager animationManager;
     private SubPlaneReimu subPlane1, subPlane2, subPlane3, subPlane4;
-
+    public ShtFile shtFile;
     private GameMain gameMain;
+    public int power=4;
 
     public void init(GameMain gameMain) {
         super.init();
+        shtFile=new ShtFile("pl02.sht");
         instance = this;
         this.gameMain = gameMain;
         animation = new JudgeCircleAnimation();
@@ -38,10 +43,11 @@ public class MyPlane extends BaseGameObject {
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexMyPlane);
         animationManager = new AnimationManager(this, 5);
-        subPlane4 = new SubPlaneReimu().init(this, 4);
-        subPlane3 = new SubPlaneReimu().init(this, 3);
-        subPlane2 = new SubPlaneReimu().init(this, 2);
-        subPlane1 = new SubPlaneReimu().init(this, 1);
+		ArrayList<Vector2> list=shtFile.subPlanePositions;
+        subPlane4 = new SubPlaneReimu().init(this, 4, list.get(p4n4),list.get(p4s4));
+        subPlane3 = new SubPlaneReimu().init(this, 3,list.get(p4n3),list.get(p4s3));
+        subPlane2 = new SubPlaneReimu().init(this, 2,list.get(p4n2),list.get(p4s2));
+        subPlane1 = new SubPlaneReimu().init(this, 1,list.get(p4n1),list.get(p4s1));
     }
 
     @Override
@@ -83,7 +89,7 @@ public class MyPlane extends BaseGameObject {
         if (existTime % 3 == 1) {
             ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x + 8, objectCenter.y + 32), mainShooterVelocity);
             ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x - 8, objectCenter.y + 32), mainShooterVelocity);
-        }
-    }
+		}
+	}
 
 }
