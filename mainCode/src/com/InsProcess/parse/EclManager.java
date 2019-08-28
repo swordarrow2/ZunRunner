@@ -29,9 +29,9 @@ public class EclManager {
 
 		FightScreen.instence.boss = new Enemy();
 		FightScreen.instence.boss.init(new Vector2(  GameMain.width / 2f, GameMain.height -128), 10, 7000, new Task[] { new TaskMoveTo( GameMain.width / 2f, GameMain.height -128) });
-        toAddSubs.add(getSubPack("BossCard3").setManager(FightScreen.instence.boss));
+        toAddSubs.add(getSubPack("BossCard1").setManager(FightScreen.instence.boss));
 		FightScreen.instence.onBoss=true;
-        System.out.println(toString());
+        //System.out.println(toString());
     }
 
     public static void updateAll() {

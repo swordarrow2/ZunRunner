@@ -10,6 +10,7 @@ import com.meng.TaiHunDanmaku.helpers.Data;
 import com.meng.TaiHunDanmaku.helpers.ObjectPools;
 import com.meng.TaiHunDanmaku.ui.FightScreen;
 import com.meng.TaiHunDanmaku.ui.GameMain;
+import com.meng.sht.Shooter;
 import com.meng.sht.ShtFile;
 
 public class MyPlane extends BaseGameObject {
@@ -18,18 +19,21 @@ public class MyPlane extends BaseGameObject {
 
     private JudgeCircleAnimation animation = null;
     private JudgeCircleAnimation2 animation2 = null;
-    private Vector2 mainShooterVelocity = new Vector2(0, 47);
     private float playerLastX = 270;
     public boolean slow = false;
     private AnimationManager animationManager;
     private SubPlaneReimu subPlane1, subPlane2, subPlane3, subPlane4;
     public ShtFile shtFile;
     private GameMain gameMain;
+    
+	private Shooter[] normalShooters;
+	private Shooter[] slowShooters;
+	
     public int power=4;
 
     public void init(GameMain gameMain) {
         super.init();
-        shtFile=new ShtFile("pl02.sht");
+        shtFile=new ShtFile("pl00.sht");
         instance = this;
         this.gameMain = gameMain;
         animation = new JudgeCircleAnimation();
@@ -40,14 +44,14 @@ public class MyPlane extends BaseGameObject {
         objectCenter.set(GameMain.width / 2, 80);
         image.setSize(30, 46);
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        powerInc();
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexMyPlane);
         animationManager = new AnimationManager(this, 5);
-		ArrayList<Vector2> list=shtFile.subPlanePositions;
-        subPlane4 = new SubPlaneReimu().init(this, 4, list.get(p4n4),list.get(p4s4));
-        subPlane3 = new SubPlaneReimu().init(this, 3,list.get(p4n3),list.get(p4s3));
-        subPlane2 = new SubPlaneReimu().init(this, 2,list.get(p4n2),list.get(p4s2));
-        subPlane1 = new SubPlaneReimu().init(this, 1,list.get(p4n1),list.get(p4s1));
+        subPlane4 = new SubPlaneReimu().init(this, 4);
+        subPlane3 = new SubPlaneReimu().init(this, 3);
+        subPlane2 = new SubPlaneReimu().init(this, 2);
+        subPlane1 = new SubPlaneReimu().init(this, 1);
     }
 
     @Override
@@ -85,10 +89,54 @@ public class MyPlane extends BaseGameObject {
         subPlane1.update();
     }
 
+    private void powerInc() {
+		int shooterInThis = 0;
+		Shooter[] s = shtFile.shootersList.get( power+1);
+		ArrayList<Shooter> shooters = new ArrayList<>();
+		for (Shooter sh : s) {
+			if (sh.option == 0) {
+				++shooterInThis;
+				shooters.add(sh);
+			}
+		}
+		normalShooters = new Shooter[shooterInThis];
+		for (int i = 0; i < normalShooters.length; ++i) {
+			normalShooters[i] = shooters.get(i);
+		}
+		s = shtFile.shootersList.get(power +shtFile.playerArg.maxPower+1);
+		shooters.clear();
+		shooterInThis = 0;
+		for (Shooter sh : s) {
+			if (sh.option == 0) {
+				++shooterInThis;
+				shooters.add(sh);
+			}
+		}
+		slowShooters = new Shooter[shooterInThis];
+		for (int i = 0; i < slowShooters.length; ++i) {
+			slowShooters[i] = shooters.get(i);
+		} 
+	}
+    
+    
     private void shoot() {
-        if (existTime % 3 == 1) {
-            ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x + 8, objectCenter.y + 32), mainShooterVelocity);
-            ObjectPools.reimuShootPool.obtain().init(new Vector2(objectCenter.x - 8, objectCenter.y + 32), mainShooterVelocity);
+
+		if(slow){ 
+			for (Shooter shooter : slowShooters) {
+				if (existTime % shooter.rate == 0) {
+					ObjectPools.reimuShootPool.obtain().init(
+							new Vector2(objectCenter.x - shooter.pos.x, objectCenter.y - shooter.pos.y), shooter.power,
+							new Vector2(-shooter.speed, 0).rotateRad(shooter.angle),shooter.ANM);
+				}
+			}
+		}else { 
+			for (Shooter shooter : normalShooters) {
+				if (existTime % shooter.rate == 0) {
+					ObjectPools.reimuShootPool.obtain().init(
+							new Vector2(objectCenter.x - shooter.pos.x, objectCenter.y - shooter.pos.y), shooter.power,
+							new Vector2(-shooter.speed, 0).rotateRad(shooter.angle),shooter.ANM);
+				}
+			}
 		}
 	}
 

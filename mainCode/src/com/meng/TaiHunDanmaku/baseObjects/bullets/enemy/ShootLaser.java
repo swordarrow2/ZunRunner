@@ -128,7 +128,6 @@ public class ShootLaser extends EclBullet {
 		if (objectCenter.x < -(5 + finalLength) || objectCenter.x > GameMain.width + 5 + finalLength
 				|| objectCenter.y < -(5 + finalLength) || objectCenter.y > GameMain.height + 5 + finalLength) {
 			kill();
-			System.out.println(objectCenter);
 			return;
 		} else {
 			judge();

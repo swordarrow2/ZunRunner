@@ -48,5 +48,6 @@ public class AnimationManager{
             curFrameNumber=animFrom+5;
         }
         myPlane.image.setDrawable(ResourcesManager.textures.get("reimu"+curFrameNumber));
+       // myPlane.image.setDrawable(ResourcesManager.playerDrawabls.get(curFrameNumber));
     }
 }
