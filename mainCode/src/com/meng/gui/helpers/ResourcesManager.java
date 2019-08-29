@@ -18,7 +18,7 @@ public final class ResourcesManager {
 	public static HashMap<Integer, Drawable> playerDrawabls = new HashMap<>();
 
 	public static void Load() {
-		 loadAnm("th15_reisen.anm", "pl00");
+		 loadAnm("th15_sanae.anm", "pl00");
 		 loadAnm("st06enm.anm", "chunhu");
 		 loadAnm("bullet.anm", "bullet");
 	}

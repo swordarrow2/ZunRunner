@@ -15,12 +15,11 @@ import com.meng.zunRunner.anm.AnmFile;
 public class PicScreen extends ScreenAdapter {
     private PicMain gameMain;
     private Stage stage;
-    private FitViewport fitViewport = new FitViewport(PicMain.width, PicMain.height);
+    private FitViewport fitViewport;
     private AnmBean anmBean;
 
     @Override
     public void show() {
-        stage = new Stage(fitViewport, gameMain.spriteBatch);
         anmBean = new AnmFile("th15_reisen.anm").anmBeans.get(0);
         int[] rgbaArray;
         switch (anmBean.thtx.format) {
@@ -39,8 +38,11 @@ public class PicScreen extends ScreenAdapter {
             default:
                 throw new RuntimeException("pic:" + anmBean.picName + " unexpect value:" + anmBean.thtx.format);
         }
-
-        Pixmap p = new Pixmap(anmBean.thtx.w, anmBean.thtx.h, Format.RGBA8888);
+		PicMain.width=anmBean.thtx.w;
+		PicMain.height=anmBean.thtx.h;
+		fitViewport = new FitViewport(PicMain.width, PicMain.height);
+        stage = new Stage(fitViewport, gameMain.spriteBatch);
+		Pixmap p = new Pixmap(anmBean.thtx.w, anmBean.thtx.h, Format.RGBA8888);
         for (int i = 0; i < rgbaArray.length; i++) {
             p.drawPixel(i % anmBean.thtx.w, i / anmBean.thtx.w, rgbaArray[i]);
         }

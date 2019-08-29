@@ -33,7 +33,7 @@ public class MyPlaneReimu extends BaseGameObject {
 
     public void init(GameMain gameMain) {
         super.init();
-        shtFile=new ShtFile("th15_reisen.sht");
+        shtFile=new ShtFile("th15_sanae.sht");
         instance = this;
         this.gameMain = gameMain;
         animation = new JudgeCircleAnimation();
