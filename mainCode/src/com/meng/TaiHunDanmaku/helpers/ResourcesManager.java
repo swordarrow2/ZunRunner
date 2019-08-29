@@ -17,7 +17,7 @@ public final class ResourcesManager {
 	public static HashMap<Integer, Drawable> playerDrawabls = new HashMap<>();
 
 	public static void Load() {
-		loadMyPlane("pl00");
+	//	loadMyPlane("pl00");
 		loadEnemy("enemy");
 		loadBullets("bullet1");
 		loadBoss("chunhu");

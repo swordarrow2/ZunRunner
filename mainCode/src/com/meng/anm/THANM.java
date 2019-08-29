@@ -22,7 +22,7 @@ public class THANM {
 			throw new RuntimeException(e.toString());
 		}
 		do {
-		//	System.out.println("pos:" + position);
+			//System.out.println("pos:" + position);
 			AnmPart anmPart = new AnmPart();
 			if (anmParts.size() > 0) {
 				AnmPart tmPart = anmParts.get(anmParts.size() - 1);
@@ -72,7 +72,7 @@ public class THANM {
 				sprite.h = readFloat();
 				anmPart.sprite_ts[i] = sprite;
 			}
-			anmPart.scripts = new ArrayList[anmPart.header.scripts];
+		/* anmPart.scripts = new ArrayList[anmPart.header.scripts];
 			for (int i = 0; i < anmPart.scripts.length; ++i) {
 				ArrayList<AnmIns> inses = new ArrayList<>();
 				if (i < anmInsOffset.length - 2) {
@@ -82,8 +82,8 @@ public class THANM {
 						anmIns.length = readShort();
 						anmIns.time = readShort();
 						anmIns.param_mask = readShort();
-				//		System.out.println("id:" + anmIns.type);
-				//		System.out.println("anmIns.length - 8:" + (anmIns.length - 8));
+						System.out.println("id:" + anmIns.type);
+						System.out.println("anmIns.length - 8:" + (anmIns.length - 8));
 						anmIns.data = new byte[anmIns.length - 8];
 						readByteArray(anmIns.data);
 						if (anmIns.type == 200 || anmIns.type == 1 || anmIns.type == 7) {
@@ -121,7 +121,9 @@ public class THANM {
 					}
 				}
 				anmPart.scripts[i] = inses;
-			}
+			}*/
+			position=anmPart.header.thtxoffset+anmPart.start;
+		//	System.out.println("thtx:"+anmPart.header.thtxoffset+" "+anmPart.start);
 			anmPart.thtx = new THTX();
 			readByteArray(anmPart.thtx.magic);
 		//	System.out.println(new String(anmPart.thtx.magic));

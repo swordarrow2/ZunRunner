@@ -26,8 +26,8 @@ public class GameMain extends Game {
         spriteBatch = new SpriteBatch();
         ResourcesManager.Load();
         bitmapFont = new BitmapFont(Gdx.files.internal("font/font.fnt"));
-        bitmapFont.setColor(Color.GREEN);
-        setScreen(new FightScreen(this));
+        bitmapFont.setColor(Color.RED);
+        setScreen(new PicScreen(this));
 	  }
 
     @Override
