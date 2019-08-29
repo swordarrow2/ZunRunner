@@ -1,11 +1,10 @@
 package com.meng.zunRunner.ecl;
 
-import java.io.*;
 import java.util.Collections;
 
 import com.meng.zunRunner.ecl.beans.EclHeader;
 import com.meng.zunRunner.ecl.beans.EclIncludeList;
-import com.meng.gui.ui.*;
+import com.badlogic.gdx.Gdx;
 import com.meng.zunRunner.ecl.beans.*;
 
 public class EclFile {
@@ -21,14 +20,7 @@ public class EclFile {
     public EclFile(EclManager eclManager, String fileName) {
         name = fileName;
         this.eclManager = eclManager;
-        File ecl = new File(GameMain.baseEclPath + fileName);
-        fileByte = new byte[(int) ecl.length()];
-        try {
-            FileInputStream fin = new FileInputStream(ecl);
-            fin.read(fileByte);
-        } catch (Exception e) {
-            throw new RuntimeException(e.toString());
-        }
+        fileByte = Gdx.files.internal("ecl/" + fileName).readBytes();
         eclHeader = new EclHeader();
         eclHeader.magic = readMagic();
         eclHeader.unknown1 = readShort();
@@ -64,7 +56,7 @@ public class EclFile {
         String[] names = new String(subNameData).split(String.valueOf((char) 0));
         for (int i = 0; i < subPacks.length; ++i) {
             subPacks[i].subName = names[i];
-      //      System.out.println(names[i]+" :"+subPacks[i].position);
+            //      System.out.println(names[i]+" :"+subPacks[i].position);
         }
         moveToNextInt();
         int subPackLenSub1 = subPacks.length - 1;
@@ -93,6 +85,7 @@ public class EclFile {
             }
         }
         Collections.addAll(EclManager.subPacks, subPacks);
+        fileByte = null;
     }
 
     private EclIncludeList onLoadEclList() {
@@ -115,7 +108,7 @@ public class EclFile {
         moveToNextInt();
         return eclIncludeList;
     }
-    
+
     private short readShort() {
         return (short) (fileByte[position++] & 0xff | (fileByte[position++] & 0xff) << 8);
     }

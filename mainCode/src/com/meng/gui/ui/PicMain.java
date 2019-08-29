@@ -12,8 +12,6 @@ public class PicMain extends Game {
 	public SpriteBatch spriteBatch;
 	public BitmapFont bitmapFont;
 	public static String baseEclPath = null;
-	public static String baseShtPath = null;
-	public static String baseAnmPath = null;
 
 	public static int width = 512;
 	public static int height = 512;
