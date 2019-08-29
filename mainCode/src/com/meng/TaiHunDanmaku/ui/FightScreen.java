@@ -37,6 +37,7 @@ public class FightScreen extends ScreenAdapter {
     public Group groupHighLight;
     public HashSet<ReflexAndThrough> reflexAndThroughs;
     private FitViewport fitViewport;
+    private Pixmap p;
     private final Actor changeBlend1 = new Actor() {
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -64,7 +65,7 @@ public class FightScreen extends ScreenAdapter {
         groupNormal = new Group();
         groupHighLight = new Group();
         // groupHighLight.addActor(laserManager);
-        Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGB565);
+         p = new Pixmap(1, 1, Pixmap.Format.RGB565);
         p.setColor(Color.DARK_GRAY);
         p.fill();
         Image bg = new Image(new Texture(p));

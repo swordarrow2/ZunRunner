@@ -8,7 +8,9 @@ import com.meng.TaiHunDanmaku.ui.GameMain;
 public class Main {
 
     public static void main(String[] args) {
-        GameMain.baseEclPath = "F:\\project\\ZunRunner\\ecl\\";
+          GameMain.baseEclPath = "F:\\project\\ZunRunner\\2un\\ecl\\";
+          GameMain.baseShtPath = "F:\\project\\ZunRunner\\2un\\sht\\";
+          GameMain.baseAnmPath = "F:\\project\\ZunRunner\\2un\\anm\\";
         /*  GameMain.baseEclPath = "F:\\project\\ZunRunner\\subed\\";*/
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "SJF";

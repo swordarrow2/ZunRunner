@@ -11,7 +11,9 @@ public class MainActivity extends  AndroidApplication {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		GameMain.baseEclPath="/storage/emulated/0/AppProjects/ZunRunner/ecl/";
+		  GameMain.baseEclPath = "/storage/emulated/0/AppProjects/ZunRunner/2un/ecl/";
+		  GameMain.baseShtPath = "/storage/emulated/0/AppProjects/ZunRunner/2un/sht/";
+		  GameMain.baseAnmPath = "/storage/emulated/0/AppProjects/ZunRunner/2un/anm/";
         setContentView(initializeForView(new GameMain(), new AndroidApplicationConfiguration()));
 	//  StringBuilder sb=new StringBuilder();
 		EclManager ecl=new EclManager("st06.ecl");

@@ -105,7 +105,7 @@ public class ShtFile {
         		 shooters[shooterFlag]=shooter;
         	 }
         	 if(i<sizeSub1){
-        		 int split=readInt();
+        		 readInt(); //split bytes
         	 }
         	 shootersList.add(shooters);
          }

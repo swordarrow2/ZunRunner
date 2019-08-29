@@ -47,7 +47,7 @@ public class AnimationManager{
         if(curFrameNumber>animTo){
             curFrameNumber=animFrom+5;
         }
-        myPlane.image.setDrawable(ResourcesManager.textures.get("reimu"+curFrameNumber));
+        myPlane.image.setDrawable(ResourcesManager.textures.get("pl00"+curFrameNumber));
        // myPlane.image.setDrawable(ResourcesManager.playerDrawabls.get(curFrameNumber));
     }
 }

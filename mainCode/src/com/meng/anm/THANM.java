@@ -134,77 +134,10 @@ public class THANM {
 			readByteArray(anmPart.thtx.data);
 			anmParts.add(anmPart);
 
-			int[] argbArray = null;
-			switch (anmPart.thtx.format) {
-			case 1:
-				argbArray = argb8888ToRgba8888(anmPart.thtx.data);
-				break;
-			case 3:
-				argbArray = rgb565ToRgba8888(anmPart.thtx.data);
-				break;
-			case 5:
-				argbArray = argb4444ToRgba8888(anmPart.thtx.data);
-				break;
-			case 7:
-				argbArray = gray8ToRgba8888(anmPart.thtx.data);
-				break;
-			default:
-				throw new RuntimeException("pic:" + anmPart.picName + " unexpect value:" + anmPart.thtx.format);
-			}
-
-			// Pixmap pixmap = new Pixmap(256, 256, Format.RGBA8888);
-			// for (int i = 0; i < rgbaArray.length; i++) {
-			// pixmap.drawPixel(i % 256, i / 256, rgbaArray[i]);
-			// }
-			// FightScreen.p = pixmap;
-
 		//	argb8888ToFile(argbArray, anmPart.thtx.w, anmPart.thtx.h, anmPart.picName);
 
 		} while (anmParts.get(anmParts.size() - 1).header.nextoffset != 0);
 	}
-
-	private int[] argb4444ToRgba8888(byte[] data) {
-		int[] argbArray = new int[data.length / 2];
-		for (int i = 0; i < argbArray.length; ++i) {
-			int px = readShort(data, i * 2);
-			int a = (px >> 12 & 0b1111) * 16;
-			int r = (px >> 8 & 0b1111) * 16;
-			int g = (px >> 4 & 0b1111) * 16;
-			int b = (px >> 0 & 0b1111) * 16;
-			argbArray[i] = (a << 24) | (r << 16) | (g << 8) | (b << 0);
-		}
-		return argbArray;
-	}
-
-	private int[] rgb565ToRgba8888(byte[] data) {
-		int[] argbArray = new int[data.length / 2];
-		for (int i = 0; i < argbArray.length; ++i) {
-			int px = readShort(data, i * 2);
-			int r = (px >> 11 & 0b11111) * 8;
-			int g = (px >> 5 & 0b111111) * 4;
-			int b = (px >> 0 & 0b11111) * 8;
-			int a = 0xff;
-			argbArray[i] = (a << 24) | (r << 16) | (g << 8) | (b << 0);
-		}
-		return argbArray;
-	}
-
-	private int[] argb8888ToRgba8888(byte[] data) {
-		int[] argbArray = new int[data.length / 4];
-		for (int i = 0; i < argbArray.length; ++i) {
-			argbArray[i] = readInt(data, i * 4);
-		}
-		return argbArray;
-	}
-
-	private int[] gray8ToRgba8888(byte[] data) {
-		int[] argbArray = new int[data.length];
-		for (int i = 0; i < argbArray.length; ++i) {
-			argbArray[i] = data[i] << 24 | 0x00FFFFFF;
-		}
-		return argbArray;
-	}
-
 
 	@Override
 	public String toString() {
@@ -213,15 +146,6 @@ public class THANM {
 			// stringBuilder.append(anmPart.toString()).append("\n\n\n\n");
 		}
 		return stringBuilder.toString();
-	}
-	
-	private int readShort(byte[] data, int pos) {
-		return (data[pos] & 0xff) | (data[pos + 1] & 0xff) << 8;
-	}
-
-	private int readInt(byte[] data, int pos) {
-		return (data[pos] & 0xff) | (data[pos + 1] & 0xff) << 8 | (data[pos + 2] & 0xff) << 16
-				| (data[pos + 3] & 0xff) << 24;
 	}
 
 	private byte readByte() {

@@ -28,8 +28,8 @@ public class Launcher {
 	        config.resizable = true;
 	        config.foregroundFPS = 60;
 	        config.addIcon("textures/beammid2.png", Files.FileType.Internal);
-	       // new LwjglApplication(new GameMain(), config);
-	        System.out.println(new THANM("pl00.anm").toString());
+	        new LwjglApplication(new GameMain(), config);
+	      //  System.out.println(new THANM("pl00.anm").toString());
 	        // new zunRunner() ;
 	        //  EclFile eclFile=new EclFile("st06bs.ecl");
 	        //  System.out.println(eclFile.toString());
