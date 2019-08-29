@@ -10,7 +10,7 @@ public class AnmPart {
 	public AnmInsOffset[] anmInsOffsets;
 	public String picName;
 	public Sprite[] sprite_ts;
-	//public ArrayList<AnmIns>[] scripts;
+	public ArrayList<AnmIns>[] scripts;
 	public THTX thtx;
 
 	int FORMAT_BGRA8888 = 1;
@@ -25,12 +25,12 @@ public class AnmPart {
 		for (Sprite sprite : sprite_ts) {
 			stringBuilder.append(sprite.toString()).append("\n");
 		}
-	//	stringBuilder.append("anmIns:");
-	//	for (ArrayList<AnmIns> list : scripts) {
-	//		for (AnmIns anmIns : list) {
-	//			stringBuilder.append(anmIns.toString()).append("\n");
-	//		}
-	//	}
+		stringBuilder.append("anmIns:");
+		for (ArrayList<AnmIns> list : scripts) {
+			for (AnmIns anmIns : list) {
+				stringBuilder.append(anmIns.toString()).append("\n");
+			}
+		}
 		stringBuilder.append("thtx:");
 		stringBuilder.append(thtx.toString());
 		return stringBuilder.toString();

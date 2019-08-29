@@ -22,13 +22,13 @@ public class THANM {
 			throw new RuntimeException(e.toString());
 		}
 		do {
-			//System.out.println("pos:" + position);
+			// System.out.println("pos:" + position);
 			AnmPart anmPart = new AnmPart();
 			if (anmParts.size() > 0) {
 				AnmPart tmPart = anmParts.get(anmParts.size() - 1);
 				anmPart.start = tmPart.header.nextoffset + tmPart.start;
 			}
-		//	System.out.println("start:" + anmPart.start);
+			// System.out.println("start:" + anmPart.start);
 			anmPart.header = new AnmHeader();
 			anmPart.header.version = readInt();
 			anmPart.header.sprites = readShort();
@@ -46,7 +46,8 @@ public class THANM {
 			anmPart.header.lowresscale = readShort();
 			anmPart.header.nextoffset = readInt();
 			readIntArray(anmPart.header.zero2);
-		//	System.out.println("anmPart.header.sprites:" + anmPart.header.sprites);
+			// System.out.println("anmPart.header.sprites:" +
+			// anmPart.header.sprites);
 			anmPart.spriteOffset = new int[anmPart.header.sprites];
 			for (int i = 0; i < anmPart.spriteOffset.length; ++i) {
 				anmPart.spriteOffset[i] = readInt();
@@ -72,61 +73,50 @@ public class THANM {
 				sprite.h = readFloat();
 				anmPart.sprite_ts[i] = sprite;
 			}
-		/* anmPart.scripts = new ArrayList[anmPart.header.scripts];
+			anmPart.scripts = new ArrayList[anmPart.header.scripts];
 			for (int i = 0; i < anmPart.scripts.length; ++i) {
 				ArrayList<AnmIns> inses = new ArrayList<>();
 				if (i < anmInsOffset.length - 2) {
 					while (position < anmInsOffset[i + 1].offset + anmPart.start) {
 						AnmIns anmIns = new AnmIns();
 						anmIns.type = readShort();
-						anmIns.length = readShort();
-						anmIns.time = readShort();
-						anmIns.param_mask = readShort();
-						System.out.println("id:" + anmIns.type);
-						System.out.println("anmIns.length - 8:" + (anmIns.length - 8));
-						anmIns.data = new byte[anmIns.length - 8];
-						readByteArray(anmIns.data);
-						if (anmIns.type == 200 || anmIns.type == 1 || anmIns.type == 7) {
-							boolean b1 = readInt() == 0x0000ffff;
-							boolean b2 = readInt() == 0x00000000;
-							if (!(b1 && b2)) {
-								position -= 8;
-							}
-							// readInt();// FF FF 00 00
-							// readInt();// 00 00 00 00
-							// unknown
+						if (anmIns.type == -1) {
+							position+=6;
+						} else {
+							anmIns.length = readShort();
+							anmIns.time = readShort();
+							anmIns.param_mask = readShort();
+							System.out.println("id:" + anmIns.type);
+							System.out.println("anmIns.length - 8:" + (anmIns.length - 8));
+							anmIns.data = new byte[anmIns.length - 8];
+							readByteArray(anmIns.data);
+							inses.add(anmIns);
 						}
-						inses.add(anmIns);
 					}
 				} else {
 					while (position < anmPart.header.thtxoffset + anmPart.start) {
 						AnmIns anmIns = new AnmIns();
 						anmIns.type = readShort();
-						anmIns.length = readShort();
-						anmIns.time = readShort();
-						anmIns.param_mask = readShort();
-						anmIns.data = new byte[anmIns.length - 8];
-						readByteArray(anmIns.data);
-						if (anmIns.type == 200 || anmIns.type == 1 || anmIns.type == 7) {
-							boolean b1 = readInt() != 0x0000ffff;
-							boolean b2 = readInt() != 0x00000000;
-							if (b1 && b2) {
-								position -= 8;
-							}
-							// readInt();// FF FF 00 00
-							// readInt();// 00 00 00 00
-							// unknown
+						if (anmIns.type == -1) {
+							position+=6;
+						} else {
+							anmIns.length = readShort();
+							anmIns.time = readShort();
+							anmIns.param_mask = readShort();
+							anmIns.data = new byte[anmIns.length - 8];
+							readByteArray(anmIns.data);
+							inses.add(anmIns);
 						}
-						inses.add(anmIns);
 					}
 				}
 				anmPart.scripts[i] = inses;
-			}*/
-			position=anmPart.header.thtxoffset+anmPart.start;
-		//	System.out.println("thtx:"+anmPart.header.thtxoffset+" "+anmPart.start);
+			}
+			position = anmPart.header.thtxoffset + anmPart.start;
+			// System.out.println("thtx:"+anmPart.header.thtxoffset+"
+			// "+anmPart.start);
 			anmPart.thtx = new THTX();
 			readByteArray(anmPart.thtx.magic);
-		//	System.out.println(new String(anmPart.thtx.magic));
+			// System.out.println(new String(anmPart.thtx.magic));
 			anmPart.thtx.zero = readShort();
 			anmPart.thtx.format = readShort();
 			anmPart.thtx.w = readShort();
@@ -136,7 +126,8 @@ public class THANM {
 			readByteArray(anmPart.thtx.data);
 			anmParts.add(anmPart);
 
-		//	argb8888ToFile(argbArray, anmPart.thtx.w, anmPart.thtx.h, anmPart.picName);
+			// argb8888ToFile(argbArray, anmPart.thtx.w, anmPart.thtx.h,
+			// anmPart.picName);
 
 		} while (anmParts.get(anmParts.size() - 1).header.nextoffset != 0);
 	}

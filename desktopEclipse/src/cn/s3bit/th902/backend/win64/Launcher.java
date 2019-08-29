@@ -18,7 +18,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		GameMain.baseEclPath = "F:\\project\\ZunRunner\\2un\\th15\\ecl\\";
 		GameMain.baseShtPath = "F:\\project\\ZunRunner\\2un\\th15\\sht\\";
-		GameMain.baseAnmPath = "F:\\project\\ZunRunner\\2un\\th15\\anm\\";
+		GameMain.baseAnmPath = "F:\\project\\ZunRunner\\2un\\th16\\anm\\";
 		/* GameMain.baseEclPath = "F:\\project\\ZunRunner\\subed\\"; */
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "SJF";
