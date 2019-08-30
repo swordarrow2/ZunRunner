@@ -5,12 +5,14 @@ import android.widget.*;
 import com.badlogic.gdx.backends.android.*;
 import com.meng.gui.ui.*;
 import com.meng.zunRunner.ecl.*;
+import com.meng.gui.helpers.*;
 
 public class MainActivity extends  AndroidApplication {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		ResourcesManager.pathBase="/storage/emulated/0/AppProjects/ZunRunner/2un/";
         boolean showPic = true;
         if (!showPic) {
         setContentView(initializeForView(new PicMain(), new AndroidApplicationConfiguration()));

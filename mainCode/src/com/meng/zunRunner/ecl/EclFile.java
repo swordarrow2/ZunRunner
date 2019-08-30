@@ -17,7 +17,7 @@ public class EclFile {
 
     public EclFile(EclManager eclManager, String fileName) {
         this.eclManager = eclManager;
-        ByteReader byteReader=new ByteReader(Gdx.files.absolute(ResourcesManager.pathBase + "helper/" + fileName).readBytes());
+        ByteReader byteReader=new ByteReader(Gdx.files.absolute(ResourcesManager.pathBase + "ecl/" + fileName).readBytes());
         eclHeader = new EclHeader();
         byteReader.readArray(eclHeader.magic);
         eclHeader.unknown1 = byteReader.readShort();

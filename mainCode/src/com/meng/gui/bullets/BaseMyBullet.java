@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.meng.gui.helpers.*;
+import com.meng.gui.planes.*;
 
 
 public abstract class BaseMyBullet extends BaseBullet {
@@ -64,7 +65,9 @@ public abstract class BaseMyBullet extends BaseBullet {
             if (!(e instanceof MapleEnemy)) {
                 if (((Circle) e.getJudgeCircle()).overlaps(judgeCircle)) {
                     e.hit(damage);
-                    kill();
+                    if(!MyPlaneReimu.instance.slow){
+					  kill();
+					  }
                 }
             }
         }

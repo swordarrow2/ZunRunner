@@ -172,7 +172,7 @@ public class SubPlaneReimu extends BaseGameObject {
 		} else {
 			nowPosition.set(myPlaneReimu.objectCenter.x - normalPos.x, myPlaneReimu.objectCenter.y - normalPos.y);
 		}
-		objectCenter.add(nowPosition.sub(objectCenter).scl(0.5f));
+		objectCenter.add(nowPosition.sub(objectCenter).scl(0.3f));
 		// image.setDrawable(getDrawable());
 		//image.setRotation(getRotationDegree());
 		image.setPosition(objectCenter.x, objectCenter.y, Align.center);

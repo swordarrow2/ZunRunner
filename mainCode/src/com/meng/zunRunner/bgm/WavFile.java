@@ -10,7 +10,7 @@ public class WavFile {
 	private FmtFile fmtFile;
 
     
-	public WavFile(String fileName, FmtFile fmtFile) {
+	public WavFile(String fileName, final FmtFile fmtFile) {
 		this.fmtFile = fmtFile;
 		fileHandle = Gdx.files.absolute("F:\\111111111111\\th10\\1111.wav");
 		Music music = Gdx.audio.newMusic(fileHandle);

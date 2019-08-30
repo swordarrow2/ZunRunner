@@ -73,7 +73,7 @@ public class MyPlaneReimu extends BaseGameObject {
 	@Override
 	public void update() {
 		super.update();
-		slow=true;
+		//slow=true;
 		animFlag++;
 		objectCenter = new Vector2(MathUtils.clamp(objectCenter.x, 10, GameMain.width - 10),
 				MathUtils.clamp(objectCenter.y, 10, GameMain.height - 10));
