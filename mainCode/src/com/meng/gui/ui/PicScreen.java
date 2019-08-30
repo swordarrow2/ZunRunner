@@ -4,12 +4,12 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.meng.zunRunner.anm.beans.Sprite;
 import com.meng.insLogic.helper.DataHelper;
-import com.meng.zunRunner.anm.AnmBean;
+import com.meng.zunRunner.anm.beans.AnmBean;
 import com.meng.zunRunner.anm.AnmFile;
 
 public class PicScreen extends ScreenAdapter {
@@ -20,7 +20,7 @@ public class PicScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        anmBean = new AnmFile("effect.anm").anmBeans.get(3);
+        anmBean = new AnmFile("th15_reimu.anm").anmBeans.get(0);
         int[] rgbaArray;
         switch (anmBean.thtx.format) {
             case 1:
@@ -47,9 +47,10 @@ public class PicScreen extends ScreenAdapter {
             p.drawPixel(i % anmBean.thtx.w, i / anmBean.thtx.w, rgbaArray[i]);
         }
         Image bg = new Image(new Texture(p));
-        // bg.setBounds(0, 0, GameMain.width, GameMain.height);
         bg.setBounds(0, 0, anmBean.thtx.w, anmBean.thtx.h);
         stage.addActor(bg);
+//        FmtFile fmtFile=new FmtFile("th10.fmt");
+//        WavFile wavFile=new WavFile("", fmtFile);
         super.show();
     }
 
@@ -67,8 +68,8 @@ public class PicScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.draw();
         gameMain.spriteBatch.begin();
-        com.meng.zunRunner.anm.Sprite[] sprites = anmBean.sprites;
-        for (com.meng.zunRunner.anm.Sprite sprite : sprites) {
+        Sprite[] sprites = anmBean.sprites;
+        for (Sprite sprite : sprites) {
             gameMain.bitmapFont.draw(gameMain.spriteBatch, sprite.id + "", sprite.x, anmBean.thtx.h - sprite.y);
         }
         gameMain.spriteBatch.end();

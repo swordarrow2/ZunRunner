@@ -13,6 +13,8 @@ import com.meng.gui.helpers.Data;
 import com.meng.gui.helpers.ObjectPools;
 import com.meng.gui.helpers.ResourcesManager;
 import com.meng.gui.ui.FightScreen;
+import com.meng.insLogic.helper.ChangeTask;
+import com.meng.insLogic.helper.ChangeTaskManager;
 
 public class EclBullet extends BaseBullet {
     public Enemy enemy;

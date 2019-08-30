@@ -5,6 +5,7 @@ import com.meng.gui.bullets.laser.ShootLaser;
 import com.meng.gui.planes.Enemy;
 import com.meng.gui.planes.MyPlaneReimu;
 import com.meng.gui.helpers.ResourcesManager;
+import com.meng.insLogic.helper.ChangeTask;
 
 import java.util.Random;
 

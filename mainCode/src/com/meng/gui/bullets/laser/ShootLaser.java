@@ -3,8 +3,8 @@ package com.meng.gui.bullets.laser;
 import java.util.HashSet;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.meng.insLogic.ChangeTask;
-import com.meng.insLogic.ChangeTaskManager;
+import com.meng.insLogic.helper.ChangeTask;
+import com.meng.insLogic.helper.ChangeTaskManager;
 import com.meng.insLogic.EclBullet;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.*;

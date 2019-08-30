@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.meng.zunRunner.anm.beans.Sprite;
 import com.meng.insLogic.helper.DataHelper;
-import com.meng.zunRunner.anm.AnmBean;
+import com.meng.zunRunner.anm.beans.AnmBean;
 import com.meng.zunRunner.anm.AnmFile;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public final class ResourcesManager {
 				pixmap.drawPixel(i % anmPart.thtx.w, i / anmPart.thtx.w, rgbaArray[i]);
 			}
 			Texture texture = new Texture(pixmap);
-			for (com.meng.zunRunner.anm.Sprite sprite : anmPart.sprites) {
+			for (Sprite sprite : anmPart.sprites) {
 				textures.put(spriteName + sprite.id, new TextureRegionDrawable(
 						new TextureRegion(texture, (int) sprite.x, (int) sprite.y, (int) sprite.w, (int) sprite.h)));
 			}

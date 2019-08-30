@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.meng.insLogic.helper.ChangeTask;
 import com.meng.insLogic.EclBulletShooter;
 import com.meng.insLogic.helper.MathHelper;
 import com.meng.zunRunner.ecl.EclFile;
@@ -15,7 +16,6 @@ import com.meng.gui.task.Task;
 import com.meng.gui.task.TaskMoveTo;
 import com.meng.gui.ui.FightScreen;
 import com.meng.gui.ui.GameMain;
-import com.meng.insLogic.*;
 
 /**
  * @author Administrator th10_sub_t

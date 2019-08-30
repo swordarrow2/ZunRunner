@@ -10,7 +10,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		boolean showPic = true; 
 		ResourcesManager.pathBase="F:\\project\\ZunRunner\\2un\\";
-		if (!showPic) {  
+		if (showPic) {  
 			LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 			config.title = "SJF";
 			config.width = PicMain.width;
