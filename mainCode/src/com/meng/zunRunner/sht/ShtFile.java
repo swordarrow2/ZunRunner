@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.meng.gui.helpers.ResourcesManager;
 import com.meng.gui.ui.GameMain;
 
 public class ShtFile {
@@ -40,7 +41,7 @@ public class ShtFile {
     }
 
     public ShtFile(String fileName) {
-        fileByte = Gdx.files.internal("sht/" + fileName).readBytes();
+        fileByte = Gdx.files.absolute(ResourcesManager.pathBase+"sht/" + fileName).readBytes();
         playerArg.maxPower = readShort();
         playerArg.totalOffset = readShort();
         playerArg.hitBox = readFloat();

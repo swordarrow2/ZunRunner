@@ -11,9 +11,6 @@ public abstract class BaseBullet extends BaseGameObject {
     @Override
     public void init() {
         super.init();
-        size = getSize();
-        image.setSize(size.x, size.y);
-        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         existTime = 0;
     }
 
@@ -22,7 +19,6 @@ public abstract class BaseBullet extends BaseGameObject {
         super.update();
         image.setRotation(getRotationDegree());
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
-        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         judgeCircle.setPosition(objectCenter);
         if (judgeCircle.x < -5 || judgeCircle.x > GameMain.width + 5 || judgeCircle.y < -5 || judgeCircle.y > GameMain.height + 5) {
             kill();
@@ -41,5 +37,4 @@ public abstract class BaseBullet extends BaseGameObject {
 
     public abstract float getRotationDegree();
 
-    public abstract Vector2 getSize();
 }

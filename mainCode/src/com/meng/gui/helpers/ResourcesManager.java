@@ -16,11 +16,13 @@ public final class ResourcesManager {
 	public static HashMap<String, Drawable> textures = new HashMap<String, Drawable>();
 	public static HashMap<String, Drawable> flipedTextures = new HashMap<String, Drawable>();
 	public static HashMap<Integer, Drawable> playerDrawabls = new HashMap<>();
-
+	public static String pathBase=null;
+	
 	public static void Load() {
-		 loadAnm("th15_sanae.anm", "pl00");
+		 loadAnm("th15_reisen.anm", "pl00");
 		 loadAnm("st06enm.anm", "chunhu");
 		 loadAnm("bullet.anm", "bullet");
+		 loadAnm("effect.anm", "effect");
 	}
 
 	private static void loadAnm(String anmName, String spriteName) {

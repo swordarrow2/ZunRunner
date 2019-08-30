@@ -47,14 +47,14 @@ public class SubPlaneReimu extends BaseGameObject {
 	public SubPlaneReimu init(MyPlaneReimu myPlaneReimu, int num) {
 		super.init();
 		this.bianHao = num;
-		this.myPlaneReimu = myPlaneReimu;
-		size = getSize();
+		this.myPlaneReimu = myPlaneReimu; 
 		objectCenter = myPlaneReimu.objectCenter.cpy();
-		image.setDrawable(ResourcesManager.textures.get(TextureNameManager.ReimuSubPlane));
+		image.setDrawable(ResourcesManager.textures.get("pl0033"));
 		//image.setDrawable(ResourcesManager.playerDrawabls.get(53));
-		image.setSize(size.x, size.y);
-		image.setRotation(getRotationDegree());
-		image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
+        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        image.setPosition(objectCenter.x, objectCenter.y, Align.center);
+        image.setRotation(0);
 		powerInc();
 		FightScreen.instence.groupNormal.addActor(image);
 		image.setZIndex(Data.zIndexMyPlane);
@@ -115,7 +115,6 @@ public class SubPlaneReimu extends BaseGameObject {
 			break;
 		case 3:
 			switch (bianHao) {
-			 
 			case 3:
 				normalPos = myPlaneReimu.shtFile.subPlanePositions.get(p3n3);
 				slowPos = myPlaneReimu.shtFile.subPlanePositions.get(p3s3);
@@ -173,9 +172,9 @@ public class SubPlaneReimu extends BaseGameObject {
 		} else {
 			nowPosition.set(myPlaneReimu.objectCenter.x - normalPos.x, myPlaneReimu.objectCenter.y - normalPos.y);
 		}
-		objectCenter.add(nowPosition.sub(objectCenter).scl(0.2f));
+		objectCenter.add(nowPosition.sub(objectCenter).scl(0.5f));
 		// image.setDrawable(getDrawable());
-		image.setRotation(getRotationDegree());
+		//image.setRotation(getRotationDegree());
 		image.setPosition(objectCenter.x, objectCenter.y, Align.center);
 		image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
 		shoot();

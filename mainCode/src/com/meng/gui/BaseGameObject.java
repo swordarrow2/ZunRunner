@@ -11,7 +11,6 @@ public abstract class BaseGameObject {
     public int animFlag = 0;
     public Vector2 velocity = new Vector2();
     public int existTime = 0;
-    public Vector2 size = new Vector2();
 
     public void update() {
         ++existTime;

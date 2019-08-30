@@ -20,7 +20,7 @@ public class PicScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        anmBean = new AnmFile("th15_reisen.anm").anmBeans.get(0);
+        anmBean = new AnmFile("effect.anm").anmBeans.get(3);
         int[] rgbaArray;
         switch (anmBean.thtx.format) {
             case 1:

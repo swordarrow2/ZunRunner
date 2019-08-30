@@ -5,6 +5,7 @@ import java.util.Collections;
 import com.meng.zunRunner.ecl.beans.EclHeader;
 import com.meng.zunRunner.ecl.beans.EclIncludeList;
 import com.badlogic.gdx.Gdx;
+import com.meng.gui.helpers.ResourcesManager;
 import com.meng.zunRunner.ecl.beans.*;
 
 public class EclFile {
@@ -20,7 +21,7 @@ public class EclFile {
     public EclFile(EclManager eclManager, String fileName) {
         name = fileName;
         this.eclManager = eclManager;
-        fileByte = Gdx.files.internal("ecl/" + fileName).readBytes();
+        fileByte = Gdx.files.absolute(ResourcesManager.pathBase+"ecl/" + fileName).readBytes();
         eclHeader = new EclHeader();
         eclHeader.magic = readMagic();
         eclHeader.unknown1 = readShort();

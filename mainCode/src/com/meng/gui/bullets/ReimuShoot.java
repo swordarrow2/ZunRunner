@@ -1,6 +1,7 @@
 package com.meng.gui.bullets;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.meng.gui.helpers.ResourcesManager;
 import com.meng.gui.helpers.TextureNameManager;
 
@@ -10,18 +11,16 @@ public class ReimuShoot extends BaseMyBullet{
         super.init(center, velocity);
         this.damage=damage;
         image.setDrawable(ResourcesManager.textures.get(TextureNameManager.ReimuBullet));
-     //   image.setDrawable(ResourcesManager.textures.get(drawable));
+     //   image.setDrawable(ResourcesManager.textures.get(drawable)); 
+        image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
+        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        image.setPosition(objectCenter.x, objectCenter.y, Align.center);
     }
 
     @Override
     public void update(){
         super.update();
         image.toBack();
-	  }
-
-    @Override
-    public Vector2 getSize(){
-        return new Vector2(64,16);
 	  }
 	
     @Override

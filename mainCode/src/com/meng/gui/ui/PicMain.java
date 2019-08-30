@@ -23,7 +23,7 @@ public class PicMain extends Game {
 	public void create() {
 		spriteBatch = new SpriteBatch();
 		ResourcesManager.Load();
-		bitmapFont = new BitmapFont(Gdx.files.internal("font/font.fnt"));
+		bitmapFont = new BitmapFont(Gdx.files.absolute(ResourcesManager.pathBase+"font/font.fnt"));
 		bitmapFont.setColor(Color.RED);
 
 		setScreen(new PicScreen(this));

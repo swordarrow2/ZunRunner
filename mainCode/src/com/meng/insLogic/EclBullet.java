@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.meng.gui.bullets.BaseBullet;
 import com.meng.gui.planes.Enemy;
 import com.meng.gui.planes.MyPlaneReimu;
@@ -71,17 +72,10 @@ public class EclBullet extends BaseBullet {
         objectCenter.set(centerX + offsetX, centerY + offsetY);
         judgeCircle = new Circle(objectCenter, Math.min(image.getWidth(), image.getHeight()) / 3);
         image.setDrawable(ResourcesManager.textures.get("bullet" + ((form << 4) + color)));
+        image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
+        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         FightScreen.instence.groupNormal.addActor(image);
-        image.setSize(16, 16);
-        if (form == 13 || form == 14) {
-            image.setSize(14, 16);
-        }
-        if (form == 0) {
-            image.setSize(8, 8);
-        }
-        if (form == 8) {
-            image.setSize(8, 10);
-        }
         image.setZIndex(Data.zIndexEnemyBullet);
         velocity = new Vector2(0, speed).rotateRad(directionAngle);
         image.setRotation(getRotationDegree());
@@ -177,10 +171,4 @@ public class EclBullet extends BaseBullet {
     public float getRotationDegree() {
         return velocity.angle() + 270;
     }
-
-    @Override
-    public Vector2 getSize() {
-        return new Vector2(16, 16);
-    }
-
 }

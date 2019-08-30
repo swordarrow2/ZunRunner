@@ -51,6 +51,7 @@ public class Enemy extends BaseGameObject implements Cloneable{
         if (FightScreen.instence.onBoss) {
             FightScreen.instence.boss = this;
         }
+        objectName = "chunhu";
         toAdd.add(this);
         taskManager = new TaskManagerEnemyPlane(this, TaskRepeatMode.noRepeat);
         for (Task t : task) {
@@ -60,13 +61,14 @@ public class Enemy extends BaseGameObject implements Cloneable{
         isKilled = false;
         objectCenter = center;
         this.hp = hp;
-        size = getSize();
+        image.setDrawable(ResourcesManager.textures.get(objectName + 0));
         image.setRotation(0);
-        image.setSize(size.x, size.y);
+        image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
+        image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
+        image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         judgeCircle = new Circle(objectCenter, image.getWidth() / 4);
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexEnemyPlane);
-        objectName = "chunhu";
         targetPosition = center.cpy();
         this.everyAnimFrameTime = everyAnimFrameTime;
         animNum = junkoAnim;

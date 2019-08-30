@@ -26,7 +26,6 @@ public abstract class BaseMyBullet extends BaseBullet {
         toAdd.add(this);
         objectCenter.set(center);
         this.velocity.set(velocity);
-        image.setPosition(objectCenter.x, objectCenter.y, Align.center);
         judgeCircle = new Circle(objectCenter, image.getHeight() / 2 * 3); //中心、半径
         image.setRotation(getRotationDegree());
         FightScreen.instence.groupNormal.addActor(image);
