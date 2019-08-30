@@ -1,5 +1,6 @@
 package com.meng.gui.bullets;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.meng.gui.helpers.ResourcesManager;
@@ -15,6 +16,7 @@ public class ReimuShoot extends BaseMyBullet{
         image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
+        judgeCircle = new Circle(objectCenter, image.getWidth() / 2 * 3); //中心、半径
     }
 
     @Override

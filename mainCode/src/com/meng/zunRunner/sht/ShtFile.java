@@ -1,13 +1,10 @@
 package com.meng.zunRunner.sht;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.meng.gui.helpers.ResourcesManager;
-import com.meng.gui.ui.GameMain;
 
 public class ShtFile {
     public PlayerArg playerArg = new PlayerArg();
@@ -19,29 +16,8 @@ public class ShtFile {
     private int position = 0;
     private int shotStart;
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("playerArg ").append(playerArg.toString()).append("\n");
-        for (Vector2 v : subPlanePositions) {
-            stringBuilder.append(v).append(" ");
-        }
-        stringBuilder.append("\ndataOffsets ");
-        for (int i : dataOffsets) {
-            stringBuilder.append(i).append(" ");
-        }
-        stringBuilder.append("\n");
-        for (Shooter[] shooters : shootersList) {
-            for (Shooter s : shooters) {
-                stringBuilder.append(s.toString()).append(" ");
-                stringBuilder.append("\n");
-            }
-        }
-        return stringBuilder.toString();
-    }
-
     public ShtFile(String fileName) {
-        fileByte = Gdx.files.absolute(ResourcesManager.pathBase+"sht/" + fileName).readBytes();
+        fileByte = Gdx.files.absolute(ResourcesManager.pathBase + "sht/" + fileName).readBytes();
         playerArg.maxPower = readShort();
         playerArg.totalOffset = readShort();
         playerArg.hitBox = readFloat();

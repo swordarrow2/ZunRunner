@@ -1,17 +1,11 @@
 package com.meng.zunRunner.anm;
 
 public class THTX {
-	public byte[] magic = new byte[4];
-	public short zero;
-	public short format;
-	/* These may be different from the parent entry. */
-	public short w;
-	public short h;
-	public int size;
-	public byte[] data;
-
-	@Override
-	public String toString() {
-		return "format:" + format + " w:" + w + " h:" + h + " size:" + size + " dataLength:" + data.length;
-	}
+    public byte[] magic = new byte[4];
+    public short zero;
+    public short format;
+    public short w;
+    public short h;
+    public int size;
+    public byte[] data;
 }

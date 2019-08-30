@@ -11,9 +11,4 @@ public class EclHeader {
     public int zero1;
     public int sub_count;
     public int[] zero2 = new int[4];
-
-    @Override
-    public String toString() {
-        return String.format("%s,include_length:%d,include_offset:%d,sub_count:%d", new String(magic), include_length, include_offset, sub_count);
-    }
 }

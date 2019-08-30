@@ -70,11 +70,11 @@ public class EclBullet extends BaseBullet {
         this.voiceOnShoot = voiceOnShoot;
         this.voiceOnChangeDirection = voiceOnChangeDirection;
         objectCenter.set(centerX + offsetX, centerY + offsetY);
-        judgeCircle = new Circle(objectCenter, Math.min(image.getWidth(), image.getHeight()) / 3);
         image.setDrawable(ResourcesManager.textures.get("bullet" + ((form << 4) + color)));
         image.setSize(image.getDrawable().getMinWidth(), image.getDrawable().getMinHeight());
         image.setOrigin(image.getWidth() / 2, image.getHeight() / 2);
         image.setPosition(objectCenter.x, objectCenter.y, Align.center);
+        judgeCircle = new Circle(objectCenter, Math.min(image.getWidth(), image.getHeight()) / 3);
         FightScreen.instence.groupNormal.addActor(image);
         image.setZIndex(Data.zIndexEnemyBullet);
         velocity = new Vector2(0, speed).rotateRad(directionAngle);

@@ -21,7 +21,7 @@ public class EclFile {
     public EclFile(EclManager eclManager, String fileName) {
         name = fileName;
         this.eclManager = eclManager;
-        fileByte = Gdx.files.absolute(ResourcesManager.pathBase+"ecl/" + fileName).readBytes();
+        fileByte = Gdx.files.absolute(ResourcesManager.pathBase + "ecl/" + fileName).readBytes();
         eclHeader = new EclHeader();
         eclHeader.magic = readMagic();
         eclHeader.unknown1 = readShort();
@@ -138,10 +138,6 @@ public class EclFile {
         ba[2] = fileByte[position++];
         ba[3] = fileByte[position++];
         return ba;
-    }
-
-    public int getPosition() {
-        return position;
     }
 
     @Override
