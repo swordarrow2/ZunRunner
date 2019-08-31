@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/gdx-1.9.6.jar"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/gdx-backend-lwjgl-1.9.6.jar"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/gdx-tools-1.9.6.jar"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/jinput.jar"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/jlayer-1.0.1-gdx.jar"/>
+	<classpathentry kind="lib" path="F:/project/ZunRunner/desktopEclipse/libs/lwjgl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/mainCode"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

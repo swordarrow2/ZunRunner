@@ -58,6 +58,11 @@ public class MusicFragment extends ListFragment implements AdapterView.OnItemLon
         int start = musicInfo.start;
         int bufsize = musicInfo.length;
         byte[] data = new byte[bufsize];
+		
+		//File f=new File(MainActivity.mainFloder + name + "/thbgm.dat");
+		//data=new byte[(int)f.length()];
+		//start=0;
+		
         Helper.readFile(data, start, name);
         trackplayer = new AudioTrack(AudioManager.STREAM_MUSIC,
                 musicInfo.rate,
