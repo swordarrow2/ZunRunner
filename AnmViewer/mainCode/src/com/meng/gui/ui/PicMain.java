@@ -12,7 +12,6 @@ public class PicMain extends Game {
 	public static int width = 512;
 	public static int height = 512;
 	
-	public static String pathBase=null;
 	public static String anmPath=null;
 	
 	public PicMain() {
@@ -21,7 +20,7 @@ public class PicMain extends Game {
 	@Override
 	public void create() {
 		spriteBatch = new SpriteBatch();
-		bitmapFont = new BitmapFont(Gdx.files.absolute(pathBase+"font/font.fnt"));
+		bitmapFont = new BitmapFont();
 		bitmapFont.setColor(Color.RED);
 
 		setScreen(new PicScreen(this));

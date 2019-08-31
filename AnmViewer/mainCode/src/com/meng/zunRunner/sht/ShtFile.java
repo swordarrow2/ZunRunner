@@ -14,8 +14,8 @@ public class ShtFile {
 
     private int shotStart;
 
-    public ShtFile(String fileName) {
-    	ByteReader byteReader=new ByteReader(Gdx.files.absolute(PicMain.pathBase + "sht/" + fileName).readBytes());
+    public ShtFile() {
+    	ByteReader byteReader=new ByteReader(Gdx.files.absolute(PicMain.anmPath).readBytes());
         playerArg.maxPower = byteReader.readShort();
         playerArg.totalOffset = byteReader.readShort();
         playerArg.hitBox = byteReader.readFloat();
